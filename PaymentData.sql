@@ -31,7 +31,7 @@ CREATE TABLE dbo.PaymentParticipant (
   Name nvarchar(100) NULL,
   OptimisticLockField int NULL, -- Здесь и в других таблицах: специальное поле для отслеживания версий. К задаче оптимизации отношения не имеет.
   GCRecord int NULL, -- Здесь и далее: флаг удаления. Если значение отличается от Null, значит запись удалена
-  ObjectType int NULL, -- Тип платильщика. Допустимы следующие типы платильщиков: Безналичный счёт, наличный счёт, клиент, сотрудник
+  ObjectType int NULL, -- Тип платильщика. Допустимы следующие типы платильщиков: Безналичный счёт, наличный счёт, клиент, сотрудник, поставщик
   ActiveFrom datetime NULL,
   InactiveFrom datetime NULL,
   BankDetails nvarchar(399) NULL,
@@ -157,6 +157,34 @@ INSERT PaymentCategory(Oid, Name, OptimisticLockField, GCRecord, ProfitByMateria
 INSERT PaymentCategory(Oid, Name, OptimisticLockField, GCRecord, ProfitByMaterial, CostByMaterial, NotInPaymentParticipantProfit) VALUES ('2450c83a-ce38-4748-b056-f92670410ec4', N'Бонусные вознаграждения', 3, NULL, NULL, NULL, NULL)
 INSERT PaymentCategory(Oid, Name, OptimisticLockField, GCRecord, ProfitByMaterial, CostByMaterial, NotInPaymentParticipantProfit) VALUES ('69d0c922-3eea-47fb-9c22-f9c50b2846df', N'Технические переводы', 1, NULL, NULL, NULL, NULL)
 INSERT PaymentCategory(Oid, Name, OptimisticLockField, GCRecord, ProfitByMaterial, CostByMaterial, NotInPaymentParticipantProfit) VALUES ('3abdc23d-93e0-4727-92ad-faf29216496d', N'Кредит', 2, 1385438376, NULL, NULL, NULL)
+GO
+
+--
+-- Создать таблицу [dbo].[Supplier]
+-- Поставщики
+--
+PRINT (N'Создать таблицу [dbo].[Supplier]')
+GO
+CREATE TABLE dbo.Supplier (
+  Oid uniqueidentifier NOT NULL ROWGUIDCOL,
+  Contact nvarchar(100) NULL,
+  ProfitByMaterialAsPayer bit NULL, -- Если установлен данный влаг, то при расчёте баланса по материалам учитываются платежи с этм поставщиком в роли плательщика как доход
+  ProfitByMaterialAsPayee bit NULL, -- Если установлен данный влаг, то при расчёте баланса по материалам учитываются платежи с этм поставщиком в роли получателя платежа как доход
+  CostByMaterialAsPayer bit NULL, -- Если установлен данный влаг, то при расчёте баланса по материалам учитываются платежи с этм поставщиком в роли плательщика как расход
+  CONSTRAINT PK_Supplier PRIMARY KEY CLUSTERED (Oid)
+)
+ON [PRIMARY]
+GO
+
+--
+-- Создать внешний ключ [FK_Supplier_Oid] для объекта типа таблица [dbo].[Supplier]
+--
+PRINT (N'Создать внешний ключ [FK_Supplier_Oid] для объекта типа таблица [dbo].[Supplier]')
+GO
+ALTER TABLE dbo.Supplier WITH NOCHECK
+  ADD CONSTRAINT FK_Supplier_Oid FOREIGN KEY (Oid) REFERENCES dbo.PaymentParticipant (Oid) NOT FOR REPLICATION
+GO
+SET NOEXEC OFF
 GO
 
 --
