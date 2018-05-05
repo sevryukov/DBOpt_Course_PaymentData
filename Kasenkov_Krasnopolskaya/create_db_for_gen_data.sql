@@ -223,25 +223,77 @@ BEGIN
 END'
 GO
 
+
+
+PRINT (N'Create function for generate integer')
+GO
+
+EXEC sp_executesql N'CREATE OR ALTER Function dbo.genRandomInteger (@uid uniqueidentifier, @a INT, @b INT)
+RETURNS varchar(40) AS
+BEGIN
+	RETURN (ABS(Checksum(@uid))%(@b-@a) + @a)
+END'
+GO
+
+
+
+PRINT (N'Create function for generate name')
+GO
+
+EXEC sp_executesql N'CREATE OR ALTER Function dbo.genName (@uid uniqueidentifier)
+RETURNS varchar(20) AS
+BEGIN
+	DECLARE @name NVARCHAR(20)
+	DECLARE @rand_name int = ABS(Checksum(@uid)%(select count(*) from PersonName)) + 1
+	SET @name = (select name from (select ROW_NUMBER() over(ORDER BY name) as num, name from PersonName) t2 Where num=@rand_name)
+	return @name
+END'
+GO
+
+
+
+PRINT (N'Create function for generate surname')
+GO
+
+EXEC sp_executesql N'CREATE OR ALTER Function dbo.genSurname (@uid uniqueidentifier)
+RETURNS varchar(20) AS
+BEGIN
+	DECLARE @surname NVARCHAR(20)
+	DECLARE	@rand_surname int = ABS(Checksum(@uid)%(select count(*) from PersonSurname)) + 1
+	SET @surname = (select surname from (select ROW_NUMBER() over(ORDER BY surname) as num, surname from PersonSurname) t2 Where num=@rand_surname)
+	return @surname
+END'
+GO
+
+
+
+PRINT (N'Create function for generate patronymic')
+GO
+
+EXEC sp_executesql N'CREATE OR ALTER Function dbo.genPatronymic (@uid uniqueidentifier)
+RETURNS varchar(20) AS
+BEGIN
+	DECLARE @patronymic NVARCHAR(20)
+	DECLARE @rand_patronymic int = ABS(Checksum(@uid)%(select count(*) from PersonPatronymic)) + 1
+	SET @patronymic = (select patronymic from (select ROW_NUMBER() over(ORDER BY patronymic) as num, patronymic from PersonPatronymic) t2 Where num=@rand_patronymic)
+	return @patronymic
+END'
+GO
+
+
+
 PRINT (N'Create function for generate full name')
 GO
 
 EXEC sp_executesql N'CREATE OR ALTER Function dbo.genFullName (@uid1 uniqueidentifier,@uid2 uniqueidentifier,@uid3 uniqueidentifier)
 RETURNS varchar(60) AS
 BEGIN
-	DECLARE @name NVARCHAR(20)
-	DECLARE @surname NVARCHAR(20)
-	DECLARE @patronymic NVARCHAR(20)
-	DECLARE @rand_name int = ABS(Checksum(@uid1)%(select count(*) from PersonName)) + 1
-	DECLARE	@rand_surname int = ABS(Checksum(@uid2)%(select count(*) from PersonSurname)) + 1
-	DECLARE @rand_patronymic int = ABS(Checksum(@uid3)%(select count(*) from PersonPatronymic)) + 1
-
-	SET @surname = (select surname from (select ROW_NUMBER() over(ORDER BY surname) as num, surname from PersonSurname) t2 Where num=@rand_surname)
-	SET @name = (select name from (select ROW_NUMBER() over(ORDER BY name) as num, name from PersonName) t2 Where num=@rand_name)
-	SET @patronymic = (select patronymic from (select ROW_NUMBER() over(ORDER BY patronymic) as num, patronymic from PersonPatronymic) t2 Where num=@rand_patronymic)
-	return(SELECT CONCAT(@surname,'' '',@name,'' '',@patronymic))
+	return(SELECT CONCAT( dbo.genName(@uid1),'' '',dbo.genSurname(@uid2),'' '',dbo.genPatronymic(@uid3)))
 END'
 GO
+
+
+
 
 PRINT (N'Create function for generate address')
 GO
@@ -262,6 +314,9 @@ BEGIN
 END'
 GO
 
+
+
+
 PRINT (N'Create function for generate phone number')
 GO
 
@@ -271,6 +326,9 @@ BEGIN
 	RETURN CONCAT(''89'',ABS(Checksum(@uid)%1000000000))
 END'
 GO
+
+
+
 
 PRINT (N'Create function for generate balance')
 GO
@@ -282,6 +340,8 @@ BEGIN
 END'
 GO
 
+
+
 PRINT (N'Create function for generate binary value')
 GO
 
@@ -292,7 +352,7 @@ BEGIN
 END'
 GO
 
-PRINT (N'Create function for get a value from a specific column of a random row')
+/*PRINT (N'Create function for get a value from a specific column of a random row')
 GO
 
 EXEC sp_executesql N'CREATE OR ALTER Function dbo.getRandomValueFromColumn (@uid uniqueidentifier,  @nameDB nvarchar(40), @nameTable nvarchar(40), @nameColumn nvarchar(40))
@@ -305,7 +365,7 @@ BEGIN
 	exec sp_executesql @sql, @ParmDefinition, @retvalOUT=@result OUTPUT
 	RETURN (@result)
 END'
-GO
+GO*/
 
 PRINT (N'Create function for generate date')
 GO
