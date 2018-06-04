@@ -1,0 +1,2 @@
+INSERT INTO PaymentDataTemp.dbo.Payment
+SELECT TOP 1000 NEWID(), Amount, Category, Project, Justification, Comment, Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number FROM PaymentDataTemp.dbo.Payment
