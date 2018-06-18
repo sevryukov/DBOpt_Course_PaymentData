@@ -1,6 +1,5 @@
 package mypackage;
 
-import javax.servlet.ServletConfig;
 import java.sql.*;
 import java.util.Properties;
 
@@ -144,7 +143,6 @@ public class PaymentData {
     public static void insert_batch_without_trigger(int N) {
         try (Statement stmt = conn.createStatement()) {
             Statement stmt2 = conn.createStatement();
-            stmt2.execute("DISABLE TRIGGER T_Payment_AI ON Payment");
             for (int i = 0; i < N-1; ++i)
                 stmt.addBatch("INSERT INTO Payment " +
                         "(Oid, Amount, Category, Project, Justification, Comment, Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number) " +
@@ -164,6 +162,7 @@ public class PaymentData {
                         "'111'," +
                         "0," +
                         "'111')");
+            stmt2.execute("DISABLE TRIGGER T_Payment_AI ON Payment");
             stmt.executeBatch();
             stmt2.execute("ENABLE TRIGGER T_Payment_AI ON Payment");
             stmt.execute("INSERT INTO Payment " +
@@ -194,30 +193,37 @@ public class PaymentData {
     public static void main(String[] args) {
         init();
 
-        long startTime = System.nanoTime();
-        insert_one_by_one_with_trigger(1000);
-        long endTime   = System.nanoTime();
-        long totalTime = endTime - startTime;
-        System.out.println(String.format("1 by 1 with trigger: %s", totalTime));
+        final int N = 2;
+        final int nsms = 1000000;
+        int n = 10;
+        
+        long tt1b1t = 0, ttbt = 0, tt1b1 = 0, ttb = 0;
 
-        startTime = System.nanoTime();
-        insert_batch_with_trigger(1000);
-        endTime   = System.nanoTime();
-        totalTime = endTime - startTime;
-        System.out.println(String.format("Batch with trigger: %s", totalTime));
+        long startTime;
 
-        startTime = System.nanoTime();
-        insert_one_by_one_without_trigger(1000);
-        endTime   = System.nanoTime();
-        totalTime = endTime - startTime;
-        System.out.println(String.format("1 by 1 without trigger: %s", totalTime));
+        for (int i = 0; i < n; ++i) {
+            startTime = System.nanoTime();
+            insert_one_by_one_with_trigger(N);
+            tt1b1t += System.nanoTime() - startTime ;
 
-        startTime = System.nanoTime();
-        insert_batch_without_trigger(1000);
-        endTime   = System.nanoTime();
-        totalTime = endTime - startTime;
-        System.out.println(String.format("Batch without trigger: %s", totalTime));
+            startTime = System.nanoTime();
+            insert_batch_with_trigger(N);
+            ttbt += System.nanoTime() - startTime ;
 
+            startTime = System.nanoTime();
+            insert_one_by_one_without_trigger(N);
+            tt1b1 += System.nanoTime() - startTime ;
+
+            startTime = System.nanoTime();
+            insert_batch_without_trigger(N);
+            ttb += System.nanoTime() - startTime ;
+        }
+
+        System.out.println(String.format("1 by 1 with trigger: %s", tt1b1t / nsms / n));
+        System.out.println(String.format("Batch with trigger: %s", ttbt / nsms / n));
+        System.out.println(String.format("1 by 1 without trigger: %s", tt1b1 / nsms / n));
+        System.out.println(String.format("Batch without trigger: %s", ttb / nsms / n));
+        
         destroy();
     }
 }
