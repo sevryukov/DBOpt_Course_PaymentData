@@ -1,0 +1,14 @@
+SET STATISTICS TIME ON
+GO
+
+BULK INSERT dbo.Payment 
+FROM 'C:\Users\Elizaveta\Desktop\500new.csv' 
+WITH 
+( 
+FIELDTERMINATOR = ',', 
+ROWTERMINATOR = '\n',
+FIRE_TRIGGERS
+)
+
+SET STATISTICS TIME OFF
+GO
