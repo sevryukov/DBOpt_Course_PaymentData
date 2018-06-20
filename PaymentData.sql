@@ -1,6 +1,8 @@
 ﻿USE master
 GO
 
+DROP DATABASE PaymentData
+
 IF DB_NAME() <> N'master' SET NOEXEC ON
 
 --
