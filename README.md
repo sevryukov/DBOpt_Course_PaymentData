@@ -4,10 +4,15 @@
     - `insert_one_row.sql` - добавление одной записи в таблицу `Payment`
     - `insert_thousand_rows.sql` - добавление тысячи записей в таблицу `Payment`
     - `fake-data-generation-report.pdf` - отчёт о генерации начальных данных для
+    - `detailed_insert.sql` - выполнение операции `INSERT` с непосредственным вызовом вложенных функций
 - `exec-plans` - планы выполнения запросов
     - `function_CalculatePaymentParticipantBalance.sqlplan`
     - `insert_payment.sqlplan` - план запроса добавления одной строки в таблицу `Payment`
 - `insertion-test` - тест на корректность расчёта баланса
+- `indices` - создание индексов
+- `queue-insert` - создание очереди и триггера для неё
+    - `payment_insert_trigger.sql` - триггер для добавления нового `Payment`
+    - `queue_table_creation.sql` - создание таблицы очереди
 - Исходные файлы
 
 ## Использованные инструменты
