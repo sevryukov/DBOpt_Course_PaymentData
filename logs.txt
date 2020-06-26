@@ -1,0 +1,69 @@
+Number of inserted payments: 100,chunk size 1, total time: 2.7428297189762816 seconds
+Number of inserted payments: 1000,chunk size 1, total time: 32.75299849495059 seconds
+Number of inserted payments: 3000,chunk size 1, total time: 111.80267857701983 seconds
+
+Number of inserted payments: 100,chunk size 10, total time: 2.9575456570019014 seconds
+Number of inserted payments: 1000,chunk size 10, total time: 17.561859095003456 seconds
+Number of inserted payments: 3000,chunk size 10, total time: 88.7512075099512 seconds
+
+Number of inserted payments: 100,chunk size 100, total time: 3.1480982180219144 seconds
+Number of inserted payments: 1000,chunk size 100, total time: 16.950979293964338 seconds
+Number of inserted payments: 3000,chunk size 100, total time: 70.02505417802604 seconds
+
+Number of inserted payments: 100,chunk size 1, total time: 3.512080996995792 seconds
+Number of inserted payments: 1000,chunk size 1, total time: 29.011803389003035 seconds
+Number of inserted payments: 3000,chunk size 1, total time: 115.58322973601753 seconds
+
+Number of inserted payments: 100,chunk size 10, total time: 3.7355037549859844 seconds
+Number of inserted payments: 1000,chunk size 10, total time: 17.447824392002076 seconds
+Number of inserted payments: 3000,chunk size 10, total time: 73.55087014602032 seconds
+
+Number of inserted payments: 100,chunk size 100, total time: 4.23457381100161 seconds
+Number of inserted payments: 1000,chunk size 100, total time: 16.58669180999277 seconds
+Number of inserted payments: 3000,chunk size 100, total time: 69.69887145800749 seconds
+
+Number of inserted payments: 100,chunk size 1, total time: 4.194069657009095 seconds
+Number of inserted payments: 1000,chunk size 1, total time: 34.38689102901844 seconds
+Number of inserted payments: 3000,chunk size 1, total time: 116.24211251398083 seconds
+
+Number of inserted payments: 100,chunk size 10, total time: 2.873247852025088 seconds
+Number of inserted payments: 1000,chunk size 10, total time: 16.353486060979776 seconds
+Number of inserted payments: 3000,chunk size 10, total time: 73.64424542500637 seconds
+
+Number of inserted payments: 100,chunk size 100, total time: 6.448303270968609 seconds
+Number of inserted payments: 1000,chunk size 100, total time: 16.58523783000419 seconds
+Number of inserted payments: 3000,chunk size 100, total time: 71.53396112303017 seconds
+
+Number of inserted payments: 100,chunk size 1, total time: 8.454156082996633 seconds
+Number of inserted payments: 1000,chunk size 1, total time: 35.34688888100209 seconds
+Number of inserted payments: 3000,chunk size 1, total time: 112.89591619896237 seconds
+
+Number of inserted payments: 100,chunk size 10, total time: 2.947315539990086 seconds
+Number of inserted payments: 1000,chunk size 10, total time: 16.078541816968936 seconds
+Number of inserted payments: 3000,chunk size 10, total time: 70.81025854300242 seconds
+
+Number of inserted payments: 100,chunk size 100, total time: 2.978012054983992 seconds
+Number of inserted payments: 1000,chunk size 100, total time: 16.12185778300045 seconds
+Number of inserted payments: 3000,chunk size 100, total time: 74.08935962198302 seconds
+
+Number of inserted payments: 100,chunk size 1, total time: 8.452451227989513 seconds
+Number of inserted payments: 1000,chunk size 1, total time: 33.52545857505174 seconds
+Number of inserted payments: 3000,chunk size 1, total time: 117.09117084200261 seconds
+
+Number of inserted payments: 100,chunk size 10, total time: 3.648072422016412 seconds
+Number of inserted payments: 1000,chunk size 10, total time: 17.971526523993816 seconds
+Number of inserted payments: 3000,chunk size 10, total time: 74.47199227300007 seconds
+
+Number of inserted payments: 100,chunk size 100, total time: 2.2395813729963265 seconds
+Number of inserted payments: 1000,chunk size 100, total time: 15.563501472002827 seconds
+Number of inserted payments: 3000,chunk size 100, total time: 73.83632573403884 seconds
+
+(100, 1): 5.471117536793463
+(1000, 1): 33.00480807380518
+(3000, 1): 114.72302157359664
+(100, 10): 3.232337045203894
+(1000, 10): 17.08264757778961
+(3000, 10): 76.24571477939608
+(100, 100): 3.8097137455944905
+(1000, 100): 16.361653637792916
+(3000, 100): 71.83671442301711

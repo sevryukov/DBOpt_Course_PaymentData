@@ -1,0 +1,55 @@
+Number of inserted payments: 100, number of chunks: 1, number of processes 2, total time: 8.331041110039223 seconds
+Number of inserted payments: 1000, number of chunks: 1, number of processes 2, total time: 83.0766348990146 seconds
+Number of inserted payments: 3000, number of chunks: 1, number of processes 2, total time: 271.97122222499456 seconds
+Number of inserted payments: 100, number of chunks: 10, number of processes 2, total time: 5.355763505969662 seconds
+Number of inserted payments: 1000, number of chunks: 10, number of processes 2, total time: 29.94941011199262 seconds
+Number of inserted payments: 3000, number of chunks: 10, number of processes 2, total time: 137.70673024997814 seconds
+Number of inserted payments: 100, number of chunks: 100, number of processes 2, total time: 9.589843083987944 seconds
+Number of inserted payments: 1000, number of chunks: 100, number of processes 2, total time: 29.671669910021592 seconds
+Number of inserted payments: 3000, number of chunks: 100, number of processes 2, total time: 133.07007860497106 seconds
+Number of inserted payments: 100, number of chunks: 1, number of processes 2, total time: 9.28664899803698 seconds
+Number of inserted payments: 1000, number of chunks: 1, number of processes 2, total time: 88.38415955298115 seconds
+Number of inserted payments: 3000, number of chunks: 1, number of processes 2, total time: 300.9697763330187 seconds
+Number of inserted payments: 100, number of chunks: 10, number of processes 2, total time: 4.534393975045532 seconds
+Number of inserted payments: 1000, number of chunks: 10, number of processes 2, total time: 31.51079401699826 seconds
+Number of inserted payments: 3000, number of chunks: 10, number of processes 2, total time: 163.1520906650112 seconds
+Number of inserted payments: 100, number of chunks: 100, number of processes 2, total time: 8.671606139047071 seconds
+Number of inserted payments: 1000, number of chunks: 100, number of processes 2, total time: 33.76141906401608 seconds
+Number of inserted payments: 3000, number of chunks: 100, number of processes 2, total time: 119.38794391398551 seconds
+Number of inserted payments: 100, number of chunks: 1, number of processes 2, total time: 14.43132691201754 seconds
+Number of inserted payments: 1000, number of chunks: 1, number of processes 2, total time: 91.95494307001354 seconds
+Number of inserted payments: 3000, number of chunks: 1, number of processes 2, total time: 248.7439169830177 seconds
+Number of inserted payments: 100, number of chunks: 10, number of processes 2, total time: 6.257228342990857 seconds
+Number of inserted payments: 1000, number of chunks: 10, number of processes 2, total time: 27.11986962001538 seconds
+Number of inserted payments: 3000, number of chunks: 10, number of processes 2, total time: 144.62744625099003 seconds
+Number of inserted payments: 100, number of chunks: 100, number of processes 2, total time: 3.4376886049867608 seconds
+Number of inserted payments: 1000, number of chunks: 100, number of processes 2, total time: 50.29135428398149 seconds
+Number of inserted payments: 3000, number of chunks: 100, number of processes 2, total time: 148.5812697969959 seconds
+Number of inserted payments: 100, number of chunks: 1, number of processes 2, total time: 11.486418982036412 seconds
+Number of inserted payments: 1000, number of chunks: 1, number of processes 2, total time: 76.27281232201494 seconds
+Number of inserted payments: 3000, number of chunks: 1, number of processes 2, total time: 243.58598035399336 seconds
+Number of inserted payments: 100, number of chunks: 10, number of processes 2, total time: 3.444769118039403 seconds
+Number of inserted payments: 1000, number of chunks: 10, number of processes 2, total time: 32.67221724498086 seconds
+Number of inserted payments: 3000, number of chunks: 10, number of processes 2, total time: 110.76808169699507 seconds
+Number of inserted payments: 100, number of chunks: 100, number of processes 2, total time: 7.345283774018753 seconds
+Number of inserted payments: 1000, number of chunks: 100, number of processes 2, total time: 16.911216753011104 seconds
+Number of inserted payments: 3000, number of chunks: 100, number of processes 2, total time: 68.08103437797399 seconds
+Number of inserted payments: 100, number of chunks: 1, number of processes 2, total time: 7.467586763028521 seconds
+Number of inserted payments: 1000, number of chunks: 1, number of processes 2, total time: 42.16351213800954 seconds
+Number of inserted payments: 3000, number of chunks: 1, number of processes 2, total time: 177.27617730700877 seconds
+Number of inserted payments: 100, number of chunks: 10, number of processes 2, total time: 4.133535644970834 seconds
+Number of inserted payments: 1000, number of chunks: 10, number of processes 2, total time: 17.235545528004877 seconds
+Number of inserted payments: 3000, number of chunks: 10, number of processes 2, total time: 84.81528929097112 seconds
+Number of inserted payments: 100, number of chunks: 100, number of processes 2, total time: 6.637376559025142 seconds
+Number of inserted payments: 1000, number of chunks: 100, number of processes 2, total time: 15.435324391000904 seconds
+Number of inserted payments: 3000, number of chunks: 100, number of processes 2, total time: 69.81528496899409 seconds
+
+(100, 1): 10.200604553031734
+(1000, 1): 76.37041239640675
+(3000, 1): 248.50941464040662
+(100, 10): 4.745138117403258
+(1000, 10): 27.697567304398397
+(3000, 10): 128.2139276307891
+(100, 100): 7.136359632213134
+(1000, 100): 29.214196880406234
+(3000, 100): 107.78712233258412
