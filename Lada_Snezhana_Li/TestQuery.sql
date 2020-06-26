@@ -10,6 +10,25 @@ DECLARE @ManagerId UNIQUEIDENTIFIER = NEWID()
 DECLARE @ForemanId UNIQUEIDENTIFIER = NEWID()
 DECLARE @ProjectId UNIQUEIDENTIFIER = NEWID()
 
+DECLARE @balance_supplier_start INT
+DECLARE @balance_bank_start INT
+DECLARE @balance_client_start INT
+DECLARE @balance_cashbox_start INT
+
+SET @balance_supplier_start = 0
+SET @balance_bank_start = 0
+SET @balance_client_start = 0
+SET @balance_cashbox_start = 0
+
+DECLARE @bank_to_supplier  INT
+DECLARE @supplier_to_client  INT
+DECLARE @client_to_cashbox 	 INT
+DECLARE @cashbox_to_bank INT
+
+SET @bank_to_supplier = 400000
+SET @supplier_to_client = 100000
+SET @client_to_cashbox = 150000
+SET @cashbox_to_bank = 100000
 
 INSERT dbo.PaymentParticipant(Oid, Balance, Name, OptimisticLockField, GCRecord, ObjectType, ActiveFrom, InactiveFrom, BankDetails, Balance2, Balance3) 
 	VALUES (@BankId, 0, N'Тест банка', 1, NULL, 1, '2020-01-01 00:00:00.000', NULL, N'HJOX IT YO WW7', 0, 0)
@@ -87,6 +106,29 @@ PRINT 'Баланс банка: ' + CONVERT(varchar(10), @BankBalance)
 PRINT 'Баланс клиента: ' + CONVERT(varchar(10), @ClientBalance)
 PRINT 'Баланс кассы: ' + CONVERT(varchar(10), @CashboxBalance)
 PRINT 'Баланс поставщика: ' + CONVERT(varchar(10), @SupplierBalance)
+
+
+
+
+IF((@balance_supplier_start - @bank_to_supplier + @cashbox_to_bank) = @BankBalance)
+	print N'Balance of bank: True'
+ELSE
+	print N'Balance of bank: False'
+
+IF((@balance_bank_start - @supplier_to_client  + @bank_to_supplier ) = @SupplierBalance)
+	print N'Balance of supplier: True'
+ELSE
+	print N'Balance of supplier: False'
+
+IF((@balance_client_start - @client_to_cashbox  + @supplier_to_client ) = @ClientBalance)
+	print N'Balance of client: True'
+ELSE
+	print N'Balance of client: False'
+
+IF((@balance_cashbox_start - @cashbox_to_bank  + @client_to_cashbox) = @CashboxBalance)
+	print N'Balance of cashbox: True'
+ELSE
+	print N'Balance of cashbox: False'
 
 
 -- очистка 
