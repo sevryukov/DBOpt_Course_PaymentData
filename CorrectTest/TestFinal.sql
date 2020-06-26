@@ -132,7 +132,7 @@ SET @SupplierBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @Supp
 SET @ClientBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @ClientId)
 SET @CashboxBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @CashboxId)
  
-PRINT 'Баланс после первой операции'
+PRINT N'Баланс после первой операции'
 PRINT N'Баланс банка: ' + CONVERT(varchar(10), @BankBalance)
 PRINT N'Баланс клиента: ' + CONVERT(varchar(10), @ClientBalance)
 PRINT N'Баланс кассы: ' + CONVERT(varchar(10), @CashboxBalance)
@@ -149,7 +149,7 @@ SET @SupplierBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @Supp
 SET @ClientBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @ClientId)
 SET @CashboxBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @CashboxId)
  
-PRINT 'Баланс после второй операции'
+PRINT N'Баланс после второй операции'
 PRINT N'Баланс банка: ' + CONVERT(varchar(10), @BankBalance)
 PRINT N'Баланс клиента: ' + CONVERT(varchar(10), @ClientBalance)
 PRINT N'Баланс кассы: ' + CONVERT(varchar(10), @CashboxBalance)
@@ -163,7 +163,7 @@ SET @SupplierBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @Supp
 SET @ClientBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @ClientId)
 SET @CashboxBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @CashboxId)
  
-PRINT 'Баланс после третьей операции'
+PRINT N'Баланс после третьей операции'
 PRINT N'Баланс банка: ' + CONVERT(varchar(10), @BankBalance)
 PRINT N'Баланс клиента: ' + CONVERT(varchar(10), @ClientBalance)
 PRINT N'Баланс кассы: ' + CONVERT(varchar(10), @CashboxBalance)
@@ -180,7 +180,7 @@ SET @SupplierBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @Supp
 SET @ClientBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @ClientId)
 SET @CashboxBalance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @CashboxId)
  
-PRINT 'Баланс после 4 операции:'
+PRINT N'Баланс после 4 операции:'
 PRINT N'Баланс банка: ' + CONVERT(varchar(10), @BankBalance)
 PRINT N'Баланс клиента: ' + CONVERT(varchar(10), @ClientBalance)
 PRINT N'Баланс кассы: ' + CONVERT(varchar(10), @CashboxBalance)
