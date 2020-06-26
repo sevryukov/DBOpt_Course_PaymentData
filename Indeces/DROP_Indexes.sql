@@ -1,0 +1,7 @@
+DROP INDEX [iName_AccountType] ON [dbo].[AccountType]
+DROP INDEX [iProfitByMaterialAsPayer_Supplier] ON [dbo].[Supplier]
+DROP INDEX [iProfitByMaterialAsPayee_Supplier] ON [dbo].[Supplier]
+DROP INDEX [iProfitByMaterial_Supplier] ON [dbo].[PaymentCategory]
+DROP INDEX [iName_Supplier] ON [dbo].[PaymentCategory]
+DROP INDEX [iCostByMaterial_Supplier] ON [dbo].[PaymentCategory]
+DROP INDEX [iNotInPaymentParticipantProfit_Supplier] ON [dbo].[PaymentCategory]
