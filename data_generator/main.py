@@ -5,11 +5,11 @@ n_projects = 10
 n_participants = 10
 n_payments = 100
 
-driver = '{ODBC Driver 17 for SQL Server}'
-database = 'PaymentData'
-server = '95.161.97.113'
-user = 'SA'
-password = 'Sevryuk0v_BD'
+driver = ''
+database = ''
+server = ''
+user = ''
+password = ''
 
 client = SQLClient(driver, database, server, user, password)
 # client.generate_participants_records(n_participants)
