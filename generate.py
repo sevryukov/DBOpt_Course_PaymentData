@@ -232,9 +232,7 @@ def generate_payments(db_connection, faker: Faker, count: int):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Script for crawling old reddit.\n'
-        'It goes from recent post to latter.\n'
-        'Also this script checks last saved post to start from there.',
+        description='Script to fill PaymentData database.'
     )
 
     parser.add_argument(
@@ -267,7 +265,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    load_dotenv(os.path.realpath(__file__))
+    load_dotenv()
 
     server = os.getenv('MSSQL_SERVER', '.')
     database = os.getenv('MSSQL_DATABASE', 'PaymentData')
@@ -281,21 +279,21 @@ if __name__ == '__main__':
     faker = Faker(args.locale)
 
     generate_participants(db_connection=db_connection,
-                          faker=faker, count=args.participants_count)
+                          faker=faker, count=args.participants)
 
     setup_connection_through_account_type(
         db_connection=db_connection, target_table='Bank')
     setup_connection_through_account_type(
         db_connection=db_connection, target_table='Cashbox')
     setup_employees(db_connection=db_connection, faker=faker,
-                    max_count=args.participants_count)
+                    max_count=args.participants)
     setup_clients(db_connection=db_connection, faker=faker)
     setup_suppliers(db_connection=db_connection)
 
     generate_projects(db_connection=db_connection,
-                      faker=faker, count=args.projects_count)
+                      faker=faker, count=args.projects)
 
     generate_payments(db_connection=db_connection,
-                      faker=faker, count=args.payments_count)
+                      faker=faker, count=args.payments)
 
     db_connection.close()
