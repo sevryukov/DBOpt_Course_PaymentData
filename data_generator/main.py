@@ -6,10 +6,10 @@ n_participants = 10
 n_payments = 100
 
 driver = '{ODBC Driver 17 for SQL Server}'
-database = 'PaymentData'
-server = '95.161.97.113'
-user = 'SA'
-password = 'Sevryuk0v_BD'
+database = ''
+server = ''
+user = ''
+password = ''
 
 client = SQLClient(driver, database, server, user, password)
 # client.generate_participants_records(n_participants)
@@ -19,4 +19,4 @@ client = SQLClient(driver, database, server, user, password)
 # client.generate_projects_records(n_projects)
 # client.generate_cashboxes_records()
 # client.generate_banks_records()
-client.generate_payments_records(n_payments)
+# client.generate_payments_records(n_payments)
