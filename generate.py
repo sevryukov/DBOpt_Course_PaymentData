@@ -31,12 +31,10 @@ def get_oids_from(dbo_name: str, db_connection):
     return [row[0] for row in db_cursor.fetchall()]
 
 
-def generate_participants(
-    db_connection,
-    faker: Faker,
-    object_types: dict = financial_objects,
-    count=1
-):
+def generate_participants(db_connection,
+                          faker: Faker,
+                          object_types: dict = financial_objects,
+                          count=1):
     '''generates fake participants'''
     db_cursor = db_connection.cursor()
 
@@ -44,21 +42,18 @@ def generate_participants(
 
     date_format = '%Y-%m-%d %H:%M:%S'
     active_from_date = rand_datetime(
-        datetime(1970, 1, 1), now,
+        datetime(2000, 1, 1),
+        now,
     )
     inactive_from_date = rand_datetime(
-        active_from_date, now,
+        active_from_date,
+        now,
     )
 
-    values = [
-        (
-            0, faker.name(), 0, choice(list(object_types.values())),
-            active_from_date.strftime(date_format),
-            inactive_from_date.strftime(date_format),
-            faker.iban(), 0, 0
-        )
-        for _ in range(count)
-    ]
+    values = [(0, faker.name(), 0, choice(list(object_types.values())),
+               active_from_date.strftime(date_format),
+               inactive_from_date.strftime(date_format), faker.iban(), 0, 0)
+              for _ in range(count)]
     query_format = '''INSERT INTO [dbo].[PaymentParticipant]
                     VALUES (NEWID(), %d, %s, %d, Null, %d, %s, %s, %s, %d, %d)'''
     db_cursor.executemany(query_format, values)
@@ -66,21 +61,18 @@ def generate_participants(
 
 
 def setup_connection_through_account_type(
-    target_table: str, db_connection,
-    object_types: dict = financial_objects
-):
+        target_table: str,
+        db_connection,
+        object_types: dict = financial_objects):
     '''generates fake data for table with only oid and account type'''
-    account_types = get_oids_from(
-        dbo_name='[dbo].[AccountType]', db_connection=db_connection)
+    account_types = get_oids_from(dbo_name='[dbo].[AccountType]',
+                                  db_connection=db_connection)
 
     db_cursor = db_connection.cursor()
     query = f'''SELECT Oid FROM [dbo].[PaymentParticipant]
                  WHERE ObjectType = {object_types[target_table.lower()]}'''
     db_cursor.execute(query)
-    values = [
-        (oid, choice(account_types))
-        for (oid,) in db_cursor.fetchall()
-    ]
+    values = [(oid, choice(account_types)) for (oid, ) in db_cursor.fetchall()]
     query_format = f'INSERT INTO [dbo].[{target_table}] VALUES (%s, %s)'
     db_cursor.executemany(query_format, values)
     db_connection.commit()
@@ -103,11 +95,14 @@ def setup_employees(
     for oid, name in db_cursor.fetchall():
         name = name.split(' ')
         busy_until_str = rand_datetime(
-            datetime(1970, 1, 1), datetime.now(),
+            datetime(2000, 1, 1),
+            datetime.now(),
         ).strftime('%Y-%m-%d %H:%M:%S')
 
-        values.append((oid, busy_until_str, name[1], randint(
-            1000, 10000), randint(10, 100), name[0], randint(1, max_count), faker.text(255)))
+        values.append(
+            (oid, busy_until_str, name[1], randint(1000, 10000),
+             randint(10, 100), name[0], randint(1,
+                                                max_count), faker.text(255)))
 
     query_format = 'INSERT INTO [dbo].[Employee] VALUES (%s, %s, %s, %d, %d, %s, %d, Null, %s)'
     db_cursor.executemany(query_format, values)
@@ -146,10 +141,8 @@ def setup_suppliers(
     query = f'''SELECT Oid, Name FROM [dbo].[PaymentParticipant]
                  WHERE ObjectType = {object_types["supplier"]}'''
     db_cursor.execute(query)
-    values = [
-        (oid, name, getrandbits(1), getrandbits(1), getrandbits(1))
-        for oid, name in db_cursor.fetchall()
-    ]
+    values = [(oid, name, getrandbits(1), getrandbits(1), getrandbits(1))
+              for oid, name in db_cursor.fetchall()]
 
     query_format = 'INSERT INTO [dbo].[Supplier] VALUES (%s, %s, %d, %d, %d)'
     db_cursor.executemany(query_format, values)
@@ -160,10 +153,10 @@ def generate_projects(db_connection, faker: Faker, count: int):
     '''generates fake projects'''
     date_format = '%Y-%m-%d %H:%M:%S'
 
-    client_oids = get_oids_from(
-        dbo_name='[dbo].[Client]', db_connection=db_connection)
-    employee_oids = get_oids_from(
-        dbo_name='[dbo].[Employee]', db_connection=db_connection)
+    client_oids = get_oids_from(dbo_name='[dbo].[Client]',
+                                db_connection=db_connection)
+    employee_oids = get_oids_from(dbo_name='[dbo].[Employee]',
+                                  db_connection=db_connection)
 
     values = []
     for _ in range(count):
@@ -171,17 +164,19 @@ def generate_projects(db_connection, faker: Faker, count: int):
         now = datetime.now()
 
         start_date = rand_datetime(
-            datetime(1970, 1, 1), now,
+            datetime(2000, 1, 1),
+            now,
         )
         finish_date = rand_datetime(
-            start_date, now,
+            start_date,
+            now,
         )
 
-        values.append((faker.bs(), faker.address(), choice(client_oids),
-                       manager, foreman, 0, 0, 0, 0,
-                       start_date.strftime(date_format), randint(0, 10),
-                       finish_date.strftime(date_format),
-                       0, 0, 0, 0, faker.text(255), faker.text(255), getrandbits(1)))
+        values.append(
+            (faker.bs(), faker.address(), choice(client_oids), manager,
+             foreman, 0, 0, 0, 0, start_date.strftime(date_format),
+             randint(0, 10), finish_date.strftime(date_format), 0, 0, 0, 0,
+             faker.text(255), faker.text(255), getrandbits(1)))
 
     query_format = '''INSERT INTO [dbo].[Project] VALUES (NEWID(), %s, %s, %s, %s, %s, %d, Null,
                                                             %d, %d, %d, %s, %d, %s, %d, 
@@ -196,12 +191,12 @@ def generate_payments(db_connection, faker: Faker, count: int):
     '''generates fake payments'''
     date_format = '%Y-%m-%d %H:%M:%S'
 
-    category_oids = get_oids_from(
-        dbo_name='[dbo].[PaymentCategory]', db_connection=db_connection)
-    participant_oids = get_oids_from(
-        dbo_name='[dbo].[PaymentParticipant]', db_connection=db_connection)
-    project_oids = get_oids_from(
-        dbo_name='[dbo].[Project]', db_connection=db_connection)
+    category_oids = get_oids_from(dbo_name='[dbo].[PaymentCategory]',
+                                  db_connection=db_connection)
+    participant_oids = get_oids_from(dbo_name='[dbo].[PaymentParticipant]',
+                                     db_connection=db_connection)
+    project_oids = get_oids_from(dbo_name='[dbo].[Project]',
+                                 db_connection=db_connection)
 
     values = []
     for _ in range(count):
@@ -209,18 +204,19 @@ def generate_payments(db_connection, faker: Faker, count: int):
 
         now = datetime.now()
         create_date = rand_datetime(
-            datetime(1970, 1, 1), now,
+            datetime(2000, 1, 1),
+            now,
         )
         date = rand_datetime(
-            create_date, now,
+            create_date,
+            now,
         )
 
         values.append(
             (randint(100, 10**5), choice(category_oids), choice(project_oids),
-             faker.text(60), faker.text(80), date.strftime(date_format),
-             payer, payee, 0, create_date.strftime(date_format),
-             getrandbits(100), getrandbits(1), getrandbits(10))
-        )
+             faker.text(60), faker.text(80), date.strftime(date_format), payer,
+             payee, 0, create_date.strftime(date_format), getrandbits(100),
+             getrandbits(1), getrandbits(10)))
 
     query_format = '''INSERT INTO [dbo].[Payment] VALUES (NEWID(), %d, %s, %s,
                             %s, %s, %s, %s, %s, %d, Null, %s, %s, %d, %s)'''
@@ -232,8 +228,7 @@ def generate_payments(db_connection, faker: Faker, count: int):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Script to fill PaymentData database.'
-    )
+        description='Script to fill PaymentData database.')
 
     parser.add_argument(
         '--participants',
@@ -273,27 +268,34 @@ if __name__ == '__main__':
     password = os.getenv('MSSQL_PASSWORD', 'password')
 
     db_connection = pymssql.connect(
-        server=server, user=user, password=password, database=database,
+        server=server,
+        user=user,
+        password=password,
+        database=database,
     )
 
     faker = Faker(args.locale)
 
     generate_participants(db_connection=db_connection,
-                          faker=faker, count=args.participants)
+                          faker=faker,
+                          count=args.participants)
 
-    setup_connection_through_account_type(
-        db_connection=db_connection, target_table='Bank')
-    setup_connection_through_account_type(
-        db_connection=db_connection, target_table='Cashbox')
-    setup_employees(db_connection=db_connection, faker=faker,
+    setup_connection_through_account_type(db_connection=db_connection,
+                                          target_table='Bank')
+    setup_connection_through_account_type(db_connection=db_connection,
+                                          target_table='Cashbox')
+    setup_employees(db_connection=db_connection,
+                    faker=faker,
                     max_count=args.participants)
     setup_clients(db_connection=db_connection, faker=faker)
     setup_suppliers(db_connection=db_connection)
 
     generate_projects(db_connection=db_connection,
-                      faker=faker, count=args.projects)
+                      faker=faker,
+                      count=args.projects)
 
     generate_payments(db_connection=db_connection,
-                      faker=faker, count=args.payments)
+                      faker=faker,
+                      count=args.payments)
 
     db_connection.close()
