@@ -1,8 +1,15 @@
-'''TODO: doc 🔫, logging'''
+'''testing balance calculation'''
 import os
+import unittest
+import logging
+
 import pymssql
 from dotenv import load_dotenv
 
+# load env variables
+load_dotenv()
+
+# constants
 TYPES_OIDS = {
     'account_types': {
         'advance': '2126ef07-0276-4440-b71c-c353516a0946',
@@ -16,77 +23,100 @@ TYPES_OIDS = {
         'repayment_of_credit': 'ac03d0b4-8060-4e8d-bef2-6b2382500dd0',
     },
 }
+LOG_LEVEL = logging.DEBUG
+SERVER = os.getenv('MSSQL_SERVER', '.')
+DATABASE = os.getenv('MSSQL_DATABASE', 'PaymentData')
+USER = os.getenv('MSSQL_USER', 'user')
+PASSWORD = os.getenv('MSSQL_PASSWORD', 'password')
+
+# setting up logger
+logging.basicConfig(
+    filename='test_balance.log',
+    filemode='w',
+    format='%(asctime)s,%(msecs)d %(levelname)s %(message)s',
+    datefmt='%H:%M:%S',
+    level=LOG_LEVEL,
+)
+logger = logging.getLogger()
 
 
-def get_new_oid(con):
-    db_cursor = con.cursor()
+def get_new_oid(conn):
+    '''generate new id for object'''
+    db_cursor = conn.cursor()
     db_cursor.execute('SELECT NEWID()')
     return db_cursor.fetchone()[0]
 
 
-def insert_participant(con, oid, balance, number, object_type):
-    db_cursor = con.cursor()
+def insert_participant(conn, oid, number, object_type):
+    '''insert test participant into database'''
+    db_cursor = conn.cursor()
     query_format = """INSERT INTO [dbo].[PaymentParticipant]
         VALUES ('%s', %d, '%s', %d, Null, %d, '%s', '%s', '%s', %d, %d)"""
-    values = (oid, balance, f'Participant Test Name {number}', 0, object_type,
+    values = (oid, 0, f'Participant Test Name {number}', 0, object_type,
               '2020-01-01 00:00:00.000', '2022-01-01 00:00:00.000',
               f'Test Details {number}', 0, 0)
     db_cursor.execute(query_format % values)
-    con.commit()
+    # conn.commit()
 
 
-def setup_participants(con, balances):
-    oids = {
-        'bank': get_new_oid(con),
-        'cashbox': get_new_oid(con),
-        'client': get_new_oid(con),
-        'supplier': get_new_oid(con),
-        'manager': get_new_oid(con),
-        'foreman': get_new_oid(con),
+def setup_participants(conn):
+    '''insert test participants and participants info into database'''
+    participants_oids = {
+        'bank': get_new_oid(conn),
+        'cashbox': get_new_oid(conn),
+        'client': get_new_oid(conn),
+        'supplier': get_new_oid(conn),
+        'manager': get_new_oid(conn),
+        'foreman': get_new_oid(conn),
     }
 
-    db_cursor = con.cursor()
+    db_cursor = conn.cursor()
 
-    insert_participant(con, oids['bank'], balances[0], 0, 0)
+    insert_participant(conn, participants_oids['bank'], 0, 0)
     query_format = "INSERT INTO [dbo].[Bank] VALUES ('%s', '%s')"
-    values = (oids['bank'], TYPES_OIDS['account_types']['advance'])
+    values = (participants_oids['bank'],
+              TYPES_OIDS['account_types']['advance'])
     db_cursor.execute(query_format % values)
 
-    insert_participant(con, oids['cashbox'], balances[1], 1, 1)
+    insert_participant(conn, participants_oids['cashbox'], 1, 1)
     query_format = "INSERT INTO [dbo].[Cashbox] VALUES ('%s', '%s')"
-    values = (oids['cashbox'], TYPES_OIDS['account_types']['material'])
+    values = (participants_oids['cashbox'],
+              TYPES_OIDS['account_types']['material'])
     db_cursor.execute(query_format % values)
 
-    insert_participant(con, oids['client'], balances[2], 2, 3)
+    insert_participant(conn, participants_oids['client'], 2, 3)
     query_format = "INSERT INTO [dbo].[Client] VALUES ('%s', '%s', '%s', '%s')"
-    values = (oids['client'], 'TestFirstName', 'TestSurname', '(465)584-3077')
+    values = (participants_oids['client'], 'TestFirstName', 'TestSurname',
+              '(465)584-3077')
     db_cursor.execute(query_format % values)
 
-    insert_participant(con, oids['supplier'], balances[3], 3, 4)
-    query_format = "INSERT INTO [dbo].[Supplier] VALUES ('%s', '%s', %d, %d, %d)"
-    values = (oids['supplier'], 'Test Contact', 0, 0, 0)
+    insert_participant(conn, participants_oids['supplier'], 3, 4)
+    query_format = """INSERT INTO [dbo].[Supplier]
+        VALUES ('%s', '%s', %d, %d, %d)"""
+    values = (participants_oids['supplier'], 'Test Contact', 0, 0, 0)
     db_cursor.execute(query_format % values)
 
-    insert_participant(con, oids['manager'], balances[4], 4, 2)
-    query_format = """INSERT INTO [dbo].[Employee] VALUES ('%s', '%s', '%s',
-        %d, %d, '%s', %d, Null, '%s')"""
-    values = (oids['manager'], '2021-02-01 00:00:00.000', 'TestSurname', 0, 0,
-              'TestPatronymic', 0, 'TestValue')
+    insert_participant(conn, participants_oids['manager'], 4, 2)
+    query_format = """INSERT INTO [dbo].[Employee]
+        VALUES ('%s', '%s', '%s', %d, %d, '%s', %d, Null, '%s')"""
+    values = (participants_oids['manager'], '2021-02-01 00:00:00.000',
+              'TestSurname', 0, 0, 'TestPatronymic', 0, 'TestValue')
     db_cursor.execute(query_format % values)
 
-    insert_participant(con, oids['foreman'], balances[5], 5, 2)
-    query_format = """INSERT INTO [dbo].[Employee] VALUES ('%s', '%s', '%s',
-        %d, %d, '%s', %d, Null, '%s')"""
-    values = (oids['foreman'], '2021-02-01 00:00:00.000', 'TestSurname', 0, 0,
-              'TestPatronymic', 0, 'TestValue')
+    insert_participant(conn, participants_oids['foreman'], 5, 2)
+    query_format = """INSERT INTO [dbo].[Employee]
+        VALUES ('%s', '%s', '%s', %d, %d, '%s', %d, Null, '%s')"""
+    values = (participants_oids['foreman'], '2021-02-01 00:00:00.000',
+              'TestSurname', 0, 0, 'TestPatronymic', 0, 'TestValue')
     db_cursor.execute(query_format % values)
 
-    con.commit()
-    return oids
+    # conn.commit()
+    return participants_oids
 
 
-def setup_project(con, participants_oids):
-    project_oid = get_new_oid(con)
+def setup_project(conn, participants_oids):
+    '''insert test project into database'''
+    project_oid = get_new_oid(conn)
     query_format = """INSERT INTO [dbo].[Project]
         VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %d, Null, %d, %d, %d, '%s',
         %d, '%s', %d, %d, %d, %d, '%s', '%s', %d)"""
@@ -95,16 +125,32 @@ def setup_project(con, participants_oids):
               participants_oids['foreman'], 0, 0, 0, 0,
               '2021-01-01 00:00:00.000', 0, '2021-02-01 00:00:00.000', 0, 0, 0,
               0, 'Test Task', 'Test Request Task', 0)
-    db_cursor = con.cursor()
+    db_cursor = conn.cursor()
     db_cursor.execute(query_format % values)
 
-    con.commit()
+    # conn.commit()
     return project_oid
 
 
-def show_balances(con, oids):
+def make_payment(conn, amount, category_oid, project_oid, date, payer_oid,
+                 payee_oid):
+    '''insert test payment into database'''
+    payment_oid = get_new_oid(conn)
+    query_format = """INSERT INTO [dbo].[Payment] VALUES ('%s', %d, '%s',
+        '%s', '%s', '%s', '%s', '%s', '%s', %d, Null, '%s', '%s', %d, '%s')"""
+    values = (payment_oid, amount, category_oid, project_oid, 'Test Text',
+              'Test Text', date, payer_oid, payee_oid, 0, date, 0, 0, 0)
+    db_cursor = conn.cursor()
+    db_cursor.execute(query_format % values)
+
+    # conn.commit()
+    return payment_oid
+
+
+def show_balances(conn, oids):
+    '''print balances of participants'''
     balances = {}
-    db_cursor = con.cursor()
+    db_cursor = conn.cursor()
 
     for key in oids.keys():
         query = """SELECT Balance FROM [dbo].[PaymentParticipant]
@@ -112,12 +158,13 @@ def show_balances(con, oids):
         db_cursor.execute(query % oids[key])
         balances[key] = db_cursor.fetchone()[0]
 
-    print(balances)
+    logger.info(balances)
 
 
-def get_balances(con, oids):
+def get_balances(conn, oids):
+    '''return a list of participants balances'''
     balances = []
-    db_cursor = con.cursor()
+    db_cursor = conn.cursor()
 
     for key in oids.keys():
         query = """SELECT Balance FROM [dbo].[PaymentParticipant]
@@ -128,68 +175,86 @@ def get_balances(con, oids):
     return balances
 
 
-def test_balance(con, opening_balances, closing_balances):
-    # setup participants
-    participants_oids = setup_participants(con, opening_balances)
-    project_oid = setup_project(con, participants_oids)
+def calculate_balances(conn, payments_amounts):
+    '''
+    setup test participants and return their balances
+    after multiple payments
+    '''
+    logger.info('Start of a new payment group')
 
-    db_cursor = con.cursor()
-    query_format = """INSERT INTO [dbo].[Payment] VALUES (NEWID(), %d, '%s',
-        '%s', '%s', '%s', '%s', '%s', '%s', %d, Null, '%s', '%s', %d, '%s')"""
-    show_balances(con, participants_oids)
+    # setup participants and project
+    participants_oids = setup_participants(conn)
+    project_oid = setup_project(conn, participants_oids)
 
-    # TODO: make_payment()
+    # check opening balances of participants
+    show_balances(conn, participants_oids)
     # 1st payment
-    values = (400000, TYPES_OIDS['payments_types']['advance_for_materials'],
-              project_oid, 'Test Text', 'Test Text', '2021-01-02 00:00:00.000',
-              participants_oids['bank'], participants_oids['supplier'], 0,
-              '2021-01-02 00:00:00.000', 0, 0, 0)
-    db_cursor.execute(query_format % values)
-    show_balances(con, participants_oids)
+    make_payment(conn, payments_amounts[0],
+                 TYPES_OIDS['payments_types']['advance_for_materials'],
+                 project_oid, '2021-01-02 00:00:00.000',
+                 participants_oids['bank'], participants_oids['supplier'])
+    show_balances(conn, participants_oids)
     # 2nd payment
-    values = (100000, TYPES_OIDS['payments_types']['purchase_of_materials'],
-              project_oid, 'Test Text', 'Test Text', '2021-01-03 00:00:00.000',
-              participants_oids['supplier'], participants_oids['client'], 0,
-              '2021-01-03 00:00:00.000', 0, 0, 0)
-    db_cursor.execute(query_format % values)
-    show_balances(con, participants_oids)
+    make_payment(conn, payments_amounts[1],
+                 TYPES_OIDS['payments_types']['purchase_of_materials'],
+                 project_oid, '2021-01-03 00:00:00.000',
+                 participants_oids['supplier'], participants_oids['client'])
+    show_balances(conn, participants_oids)
     # 3rd payment
-    values = (150000, TYPES_OIDS['payments_types']['purchase_of_materials'],
-              project_oid, 'Test Text', 'Test Text', '2021-01-04 00:00:00.000',
-              participants_oids['client'], participants_oids['cashbox'], 0,
-              '2021-01-04 00:00:00.000', 0, 0, 0)
-    db_cursor.execute(query_format % values)
-    show_balances(con, participants_oids)
+    make_payment(conn, payments_amounts[2],
+                 TYPES_OIDS['payments_types']['purchase_of_materials'],
+                 project_oid, '2021-01-04 00:00:00.000',
+                 participants_oids['client'], participants_oids['cashbox'])
+    show_balances(conn, participants_oids)
     # 4th payment
-    values = (100000, TYPES_OIDS['payments_types']['repayment_of_credit'],
-              project_oid, 'Test Text', 'Test Text', '2021-01-05 00:00:00.000',
-              participants_oids['cashbox'], participants_oids['bank'], 0,
-              '2021-01-05 00:00:00.000', 0, 0, 0)
-    db_cursor.execute(query_format % values)
-    show_balances(con, participants_oids)
+    make_payment(conn, payments_amounts[3],
+                 TYPES_OIDS['payments_types']['repayment_of_credit'],
+                 project_oid, '2021-01-05 00:00:00.000',
+                 participants_oids['cashbox'], participants_oids['bank'])
+    show_balances(conn, participants_oids)
 
-    con.commit()
+    return get_balances(conn, participants_oids)
 
-    assert closing_balances == get_balances(con, participants_oids)
+
+class TestBalance(unittest.TestCase):
+    '''simple balance tests'''
+
+    def setUp(self):
+        self.db_connection = pymssql.connect(
+            server=SERVER,
+            user=USER,
+            password=PASSWORD,
+            database=DATABASE,
+        )
+
+        self.test_balance_data = [
+            {
+                'closing_balances': [-300000, 50000, -50000, 300000, 0, 0],
+                'payments_amounts': [400000, 100000, 150000, 100000],
+            },
+            {
+                'closing_balances': [0, 0, 0, 0, 0, 0],
+                'payments_amounts': [100000, 100000, 100000, 100000],
+            },
+        ]
+
+    def tearDown(self):
+        if self.db_connection:
+            # rollback changes
+            self.db_connection.rollback()
+            # close connection
+            self.db_connection.close()
+
+    def test_balance(self):
+        '''make payments and check balances'''
+        for data in self.test_balance_data:
+            balances = calculate_balances(
+                conn=self.db_connection,
+                payments_amounts=data['payments_amounts'],
+            )
+
+            self.assertListEqual(balances, data['closing_balances'])
 
 
 if __name__ == '__main__':
-    load_dotenv()
-
-    server = os.getenv('MSSQL_SERVER', '.')
-    database = os.getenv('MSSQL_DATABASE', 'PaymentData')
-    user = os.getenv('MSSQL_USER', 'user')
-    password = os.getenv('MSSQL_PASSWORD', 'password')
-
-    db_connection = pymssql.connect(
-        server=server,
-        user=user,
-        password=password,
-        database=database,
-    )
-
-    opening_balances = [0, 0, 0, 0, 0, 0]
-    closing_balances = [-300000, 50000, -50000, 300000, 0, 0]
-    test_balance(db_connection, opening_balances, closing_balances)
-
-    db_connection.close()
+    unittest.main()
