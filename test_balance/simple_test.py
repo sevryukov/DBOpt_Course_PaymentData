@@ -12,6 +12,7 @@ load_dotenv()
 # constants
 TYPES_OIDS = {
     'account_types': {
+        'advance_komtex': 'c14044c4-0d50-4bce-af32-0639f7738026',
         'advance': '2126ef07-0276-4440-b71c-c353516a0946',
         'material': 'f35c264e-9c7f-449b-ba68-f4e71f71e97e',
         'current': 'a126415b-734d-4d05-bf68-f888d680c5ba',
@@ -81,7 +82,7 @@ def setup_participants(conn):
     insert_participant(conn, participants_oids['cashbox'], 1, 1)
     query_format = "INSERT INTO [dbo].[Cashbox] VALUES ('%s', '%s')"
     values = (participants_oids['cashbox'],
-              TYPES_OIDS['account_types']['material'])
+              TYPES_OIDS['account_types']['current'])
     db_cursor.execute(query_format % values)
 
     insert_participant(conn, participants_oids['client'], 2, 3)
@@ -153,6 +154,8 @@ def show_balances(conn, oids):
     db_cursor = conn.cursor()
 
     for key in oids.keys():
+        if key in ['manager', 'foreman']:
+            continue
         query = """SELECT Balance FROM [dbo].[PaymentParticipant]
             WHERE Oid = '%s'"""
         db_cursor.execute(query % oids[key])
@@ -167,6 +170,8 @@ def get_balances(conn, oids):
     db_cursor = conn.cursor()
 
     for key in oids.keys():
+        if key in ['manager', 'foreman']:
+            continue
         query = """SELECT Balance FROM [dbo].[PaymentParticipant]
             WHERE Oid = '%s'"""
         db_cursor.execute(query % oids[key])
@@ -229,11 +234,11 @@ class TestBalance(unittest.TestCase):
 
         self.test_balance_data = [
             {
-                'closing_balances': [-300000, 50000, -50000, 300000, 0, 0],
+                'closing_balances': [-300000, 50000, -50000, 300000],
                 'payments_amounts': [400000, 100000, 150000, 100000],
             },
             {
-                'closing_balances': [0, 0, 0, 0, 0, 0],
+                'closing_balances': [0, 0, 0, 0],
                 'payments_amounts': [100000, 100000, 100000, 100000],
             },
         ]

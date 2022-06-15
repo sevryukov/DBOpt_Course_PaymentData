@@ -1,0 +1,12 @@
+19:12:15,294 INFO Start of a new payment group
+19:12:15,523 INFO {'bank': 0, 'cashbox': 0, 'client': 0, 'supplier': 0}
+19:12:16,286 INFO {'bank': -400000, 'cashbox': 0, 'client': 0, 'supplier': 400000}
+19:12:16,347 INFO {'bank': -400000, 'cashbox': 0, 'client': 100000, 'supplier': 300000}
+19:12:16,366 INFO {'bank': -400000, 'cashbox': 150000, 'client': -50000, 'supplier': 300000}
+19:12:16,371 INFO {'bank': -300000, 'cashbox': 50000, 'client': -50000, 'supplier': 300000}
+19:12:16,372 INFO Start of a new payment group
+19:12:16,426 INFO {'bank': 0, 'cashbox': 0, 'client': 0, 'supplier': 0}
+19:12:16,431 INFO {'bank': -100000, 'cashbox': 0, 'client': 0, 'supplier': 100000}
+19:12:16,435 INFO {'bank': -100000, 'cashbox': 0, 'client': 100000, 'supplier': 0}
+19:12:16,445 INFO {'bank': -100000, 'cashbox': 100000, 'client': 0, 'supplier': 0}
+19:12:16,450 INFO {'bank': 0, 'cashbox': 0, 'client': 0, 'supplier': 0}
