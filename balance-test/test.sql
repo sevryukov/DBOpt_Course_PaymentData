@@ -1,137 +1,140 @@
-DECLARE @bank_oid UNIQUEIDENTIFIER = 'd978ee0c-7de3-4cb6-87c3-fdb9a0eb47af'
-DECLARE @supplier_oid UNIQUEIDENTIFIER = 'e5ad52b6-8013-431a-982a-39d05deb0c44'
-DECLARE @client_oid UNIQUEIDENTIFIER = '65b6a029-2826-4a29-b261-9f99fc798ff0'
-DECLARE @cashbox_oid UNIQUEIDENTIFIER = 'f35df994-7f47-424f-b08e-8eae1ca950a1'
+
+DECLARE @bank_oid UNIQUEIDENTIFIER = 'D978EE0C-7DE3-4CB6-87C3-FDB9A0EB47AF'
+DECLARE @supplier_oid UNIQUEIDENTIFIER = 'E5AD52B6-8013-431A-982A-39D05DEB0C44'
+DECLARE @client_oid UNIQUEIDENTIFIER = '65B6A029-2826-4A29-B261-9F99FC798FF0'
+DECLARE @cashbox_oid UNIQUEIDENTIFIER = 'F35DF994-7F47-424F-B08E-8EAE1CA950A1'
 
 
 DECLARE @bank_init_balance INT
-SET @bank_init_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @bank_oid);
+SET @bank_init_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @bank_oid);
 PRINT 'Bank initial balance:'
 PRINT @bank_init_balance;
 
 DECLARE @cashbox_init_balance INT
-SET @cashbox_init_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @cashbox_oid);
+SET @cashbox_init_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @cashbox_oid);
 PRINT 'Cashbox initial balance:'
 PRINT @cashbox_init_balance;
 
 DECLARE @client_init_balance INT
-SET @client_init_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @client_oid);
+SET @client_init_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @client_oid);
 PRINT 'Client initial balance:'
 PRINT @client_init_balance;
 
 DECLARE @supplier_init_balance INT
-SET @supplier_init_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @supplier_oid);
+SET @supplier_init_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @supplier_oid);
 PRINT 'Supplier initial balance:'
 PRINT @supplier_init_balance;
 
 
-DECLARE @paymentcategory_oid UNIQUEIDENTIFIER = 'ba43961f-6903-4c1f-9f7c-2f9afd9c05a0'
-DECLARE @project_oid UNIQUEIDENTIFIER = 'a2f0d890-f490-4433-becb-ff2a1c5158c3'
+
+
+DECLARE @paymentcategory_oid UNIQUEIDENTIFIER = '0D0E2C4B-3BEE-405A-A6B3-78DC4D4ABB2C'
+DECLARE @project_oid UNIQUEIDENTIFIER = '3BA9949C-484A-4734-AB98-84D480B3EDD2'
 
 -- First payment
-INSERT dbo.Payment 
+INSERT [PaymentData].[dbo].[Payment] 
 (Oid, Amount, Category, Project, Justification, Comment, Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number)
  VALUES (
- NEWID(),38086,@paymentcategory_oid,@project_oid,NULL,
- 'Subject minute discuss leg. Budget gas until general remember stock. Final certain stop Mr fire.',
- '2021-12-27 15:43:47.000',
+ NEWID(),33855,@paymentcategory_oid,@project_oid,NULL,
+ 'Energy one word state month.',
+ '2019-12-11 07:56:10.000',
  @bank_oid,
  @supplier_oid,
  NULL,
  NULL,
- '2022-06-13 20:56:30.000',
- '20495',
+ '2022-06-14 14:12:04.000',
+ '66508',
  1,
- '91553');
+ '31022');
 
- DECLARE @paymentcategory1_oid UNIQUEIDENTIFIER = '07ea1363-fd9d-4b15-ac3e-c98407443665'
+ DECLARE @paymentcategory1_oid UNIQUEIDENTIFIER = '536199BF-9119-4659-A22B-783D05D4C715'
 
  -- Second payment
 
-INSERT dbo.Payment 
+INSERT [PaymentData].[dbo].[Payment] 
 (Oid, Amount, Category, Project, Justification, Comment,
  Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number)
  VALUES (
  NEWID(),
- 12382,
+ 19281,
  @paymentcategory1_oid,
  @project_oid,
  NULL,
- 'Those action recent southern. Public beat laugh sit throughout during save',
- '2020-06-02 05:43:16.000',
+ 'Note ground language drive company fill. Officer beat peace expect election.',
+ '2021-03-08 15:43:06.000',
  @supplier_oid,
  @client_oid,
  NULL,
  NULL,
- '2022-06-13 21:04:07.000',
- '79803',
- 0,
- '68148');
+ '2022-06-14 14:12:06.000',
+ '20704',
+ 1,
+ '34148');
 
- DECLARE @paymentcategory2_oid UNIQUEIDENTIFIER = 'f601cfb6-93ed-4087-822a-6f2fed3eeb0a'
+ DECLARE @paymentcategory2_oid UNIQUEIDENTIFIER = 'BA43961F-6903-4C1F-9F7C-2F9AFD9C05A0'
 
 -- Third payment
-INSERT dbo.Payment 
+INSERT [PaymentData].[dbo].[Payment] 
 (Oid, Amount, Category, Project, Justification, Comment,
  Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number)
  VALUES (
  NEWID(),
- 150000,
+ 42667,
  @paymentcategory2_oid,
  @project_oid,
  NULL,
- 'Important none management if huge. Early why once enjoy approach officer. Benefit sing dream guy.',
- '2021-09-21 23:11:11.000',
+ 'Same help arm deal.',
+ '2021-01-24 14:02:35.000',
  @client_oid,
  @cashbox_oid,
  NULL,
  NULL,
- '2022-06-13 21:04:15.000',
- '12589',
- 1,
- '51168');
+ '2022-06-14 14:12:06.000',
+ '16669',
+ 0,
+ '10754');
 
  -- Fourth payment
  
-DECLARE @paymentcategory3_oid UNIQUEIDENTIFIER = '7249bf2e-4d51-4a97-b62e-632ffeedc961'
+DECLARE @paymentcategory3_oid UNIQUEIDENTIFIER = 'AC03D0B4-8060-4E8D-BEF2-6B2382500DD0'
 
-INSERT dbo.Payment 
+INSERT [PaymentData].[dbo].[Payment] 
 (Oid, Amount, Category, Project, Justification, Comment,
  Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number)
  VALUES (
  NEWID(),
- 100000,
+ 66600,
  @paymentcategory3_oid,
  @project_oid,
  NULL,
- 'Entire our significant western claim fill. Know from any name exactly her politics.',
- '2021-11-29 00:41:03.000',
+ 'Guess measure trade indeed wait military. Personal care majority step how break ago professor.',
+ '2022-06-14 14:12:05.000',
  @cashbox_oid,
  @bank_oid,
  NULL,
  NULL,
- '2022-06-13 21:04:09.000',
- '53319',
+ '2022-06-14 14:12:05.000',
+ '98248',
  0,
- '48880');
+ '87362');
 
 
 DECLARE @bank_final_balance INT
-SET @bank_final_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @bank_oid);
+SET @bank_final_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @bank_oid);
 PRINT 'Bank final balance:'
 PRINT @bank_final_balance;
 
 DECLARE @cashbox_final_balance INT
-SET @cashbox_final_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @cashbox_oid);
+SET @cashbox_final_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @cashbox_oid);
 PRINT 'Cashbox final balance:'
 PRINT @cashbox_final_balance;
 
 DECLARE @client_final_balance INT
-SET @client_final_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @client_oid);
+SET @client_final_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @client_oid);
 PRINT 'Client final balance:'
 PRINT @client_final_balance;
 
 DECLARE @supplier_final_balance INT
-SET @supplier_final_balance = (SELECT Balance FROM PaymentParticipant WHERE Oid = @supplier_oid);
+SET @supplier_final_balance = (SELECT Balance FROM [PaymentData].[dbo].[PaymentParticipant] WHERE Oid = @supplier_oid);
 PRINT 'Supplier final balance:'
 PRINT @supplier_final_balance;
