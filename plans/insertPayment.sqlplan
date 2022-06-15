@@ -1,0 +1,888 @@
+<ShowPlanXML xmlns="http://schemas.microsoft.com/sqlserver/2004/07/showplan" Version="1.539" Build="15.0.4223.1">
+	<BatchSequence>
+		<Batch>
+			<Statements>
+				<StmtSimple StatementText="INSERT INTO [dbo].[Payment] ([Oid], [Amount], [Category], [Project], [Justification], [Comment], [Date], [Payer], [Payee],&#xd;&#xa;            [OptimisticLockField], [GCRecord], [CreateDate], [CheckNumber], [IsAuthorized], [Number]) &#xd;&#xa;            VALUES (NEWID(), 57562, &apos;536199BF-9119-4659-A22B-783D05D4C715&apos;, &apos;468B6713-1AEF-4681-A715-6CCB7E8B55F7&apos;, &apos;Raise picture doctor itself.&apos;, &apos;Evidence hope first necessary. Today next indicate glass garden run necessary glass.&apos;, &apos;2020-10-30T22:18:18&apos;, &apos;ECC2ED70-5F71-426A-992B-0C4F2E8E4B1F&apos;, &apos;2B484C0F-49EF-4F65-B2C2-B6443D0D9C44&apos;, &#xd;&#xa;            3, Null, &apos;2022-06-14T13:18:35&apos;, &apos;40096&apos;, 1, &apos;76998&apos;)" StatementId="1" StatementCompId="1" StatementType="INSERT" RetrievedFromCache="false" StatementSubTreeCost="0.0731566" StatementEstRows="1" SecurityPolicyApplied="false" StatementOptmLevel="TRIVIAL" QueryHash="0x6C2DF4DB7EFCF032" QueryPlanHash="0xAF69B3C70CE07E1E" CardinalityEstimationModelVersion="150" ParameterizedText="(@1 int,@2 varchar(8000),@3 varchar(8000),@4 varchar(8000),@5 varchar(8000),@6 varchar(8000),@7 varchar(8000),@8 varchar(8000),@9 int,@10 varchar(8000),@11 varchar(8000),@12 int,@13 varchar(8000))INSERT INTO [dbo].[Payment]([Oid],[Amount],[Category],[Project],[Justification],[Comment],[Date],[Payer],[Payee],[OptimisticLockField],[GCRecord],[CreateDate],[CheckNumber],[IsAuthorized],[Number]) values(newid(),@1,@2,@3,@4,@5,@6,@7,@8,@9,NULL,@10,@11,@12,@13)">
+					<StatementSetOptions QUOTED_IDENTIFIER="true" ARITHABORT="true" CONCAT_NULL_YIELDS_NULL="true" ANSI_NULLS="true" ANSI_PADDING="true" ANSI_WARNINGS="true" NUMERIC_ROUNDABORT="false">
+					</StatementSetOptions>
+					<QueryPlan CachedPlanSize="80" CompileTime="51" CompileCPU="49" CompileMemory="432">
+						<MemoryGrantInfo SerialRequiredMemory="0" SerialDesiredMemory="0" GrantedMemory="0" MaxUsedMemory="0">
+						</MemoryGrantInfo>
+						<OptimizerHardwareDependentProperties EstimatedAvailableMemoryGrant="80588" EstimatedPagesCached="20147" EstimatedAvailableDegreeOfParallelism="2" MaxCompileMemory="1526080">
+						</OptimizerHardwareDependentProperties>
+						<RelOp NodeId="1" PhysicalOp="Assert" LogicalOp="Assert" EstimateRows="1" EstimateIO="0" EstimateCPU="1.8e-07" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0731566" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+							<OutputList>
+							</OutputList>
+							<Assert StartupExpression="0">
+								<RelOp NodeId="2" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0731564" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+									<OutputList>
+										<ColumnReference Column="Expr1023">
+										</ColumnReference>
+										<ColumnReference Column="Pass1024">
+										</ColumnReference>
+										<ColumnReference Column="Expr1025">
+										</ColumnReference>
+										<ColumnReference Column="Pass1026">
+										</ColumnReference>
+										<ColumnReference Column="Expr1027">
+										</ColumnReference>
+										<ColumnReference Column="Pass1028">
+										</ColumnReference>
+										<ColumnReference Column="Expr1029">
+										</ColumnReference>
+										<ColumnReference Column="Pass1030">
+										</ColumnReference>
+									</OutputList>
+									<NestedLoops Optimized="0">
+										<DefinedValues>
+											<DefinedValue>
+												<ColumnReference Column="Expr1029">
+												</ColumnReference>
+											</DefinedValue>
+											<DefinedValue>
+												<ColumnReference Column="Pass1030">
+												</ColumnReference>
+											</DefinedValue>
+										</DefinedValues>
+										<PassThru>
+											<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Project] IS NULL">
+												<Logical Operation="IS NULL">
+													<ScalarOperator>
+														<Identifier>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+															</ColumnReference>
+														</Identifier>
+													</ScalarOperator>
+												</Logical>
+											</ScalarOperator>
+										</PassThru>
+										<OuterReferences>
+											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+											</ColumnReference>
+										</OuterReferences>
+										<ProbeColumn>
+											<ColumnReference Column="Expr1029">
+											</ColumnReference>
+										</ProbeColumn>
+										<RelOp NodeId="3" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="24" EstimatedTotalSubtreeCost="0.0698691" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+											<OutputList>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+												</ColumnReference>
+												<ColumnReference Column="Expr1023">
+												</ColumnReference>
+												<ColumnReference Column="Pass1024">
+												</ColumnReference>
+												<ColumnReference Column="Expr1025">
+												</ColumnReference>
+												<ColumnReference Column="Pass1026">
+												</ColumnReference>
+												<ColumnReference Column="Expr1027">
+												</ColumnReference>
+												<ColumnReference Column="Pass1028">
+												</ColumnReference>
+											</OutputList>
+											<NestedLoops Optimized="0">
+												<DefinedValues>
+													<DefinedValue>
+														<ColumnReference Column="Expr1027">
+														</ColumnReference>
+													</DefinedValue>
+													<DefinedValue>
+														<ColumnReference Column="Pass1028">
+														</ColumnReference>
+													</DefinedValue>
+												</DefinedValues>
+												<PassThru>
+													<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payer] IS NULL">
+														<Logical Operation="IS NULL">
+															<ScalarOperator>
+																<Identifier>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																	</ColumnReference>
+																</Identifier>
+															</ScalarOperator>
+														</Logical>
+													</ScalarOperator>
+												</PassThru>
+												<OuterReferences>
+													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+													</ColumnReference>
+												</OuterReferences>
+												<ProbeColumn>
+													<ColumnReference Column="Expr1027">
+													</ColumnReference>
+												</ProbeColumn>
+												<RelOp NodeId="4" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="40" EstimatedTotalSubtreeCost="0.0665818" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+													<OutputList>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+														</ColumnReference>
+														<ColumnReference Column="Expr1023">
+														</ColumnReference>
+														<ColumnReference Column="Pass1024">
+														</ColumnReference>
+														<ColumnReference Column="Expr1025">
+														</ColumnReference>
+														<ColumnReference Column="Pass1026">
+														</ColumnReference>
+													</OutputList>
+													<NestedLoops Optimized="0">
+														<DefinedValues>
+															<DefinedValue>
+																<ColumnReference Column="Expr1025">
+																</ColumnReference>
+															</DefinedValue>
+															<DefinedValue>
+																<ColumnReference Column="Pass1026">
+																</ColumnReference>
+															</DefinedValue>
+														</DefinedValues>
+														<PassThru>
+															<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payee] IS NULL">
+																<Logical Operation="IS NULL">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Logical>
+															</ScalarOperator>
+														</PassThru>
+														<OuterReferences>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+															</ColumnReference>
+														</OuterReferences>
+														<ProbeColumn>
+															<ColumnReference Column="Expr1025">
+															</ColumnReference>
+														</ProbeColumn>
+														<RelOp NodeId="5" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="56" EstimatedTotalSubtreeCost="0.0632945" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+															<OutputList>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																</ColumnReference>
+																<ColumnReference Column="Expr1023">
+																</ColumnReference>
+																<ColumnReference Column="Pass1024">
+																</ColumnReference>
+															</OutputList>
+															<NestedLoops Optimized="0">
+																<DefinedValues>
+																	<DefinedValue>
+																		<ColumnReference Column="Expr1023">
+																		</ColumnReference>
+																	</DefinedValue>
+																	<DefinedValue>
+																		<ColumnReference Column="Pass1024">
+																		</ColumnReference>
+																	</DefinedValue>
+																</DefinedValues>
+																<PassThru>
+																	<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Category] IS NULL">
+																		<Logical Operation="IS NULL">
+																			<ScalarOperator>
+																				<Identifier>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</Logical>
+																	</ScalarOperator>
+																</PassThru>
+																<OuterReferences>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																	</ColumnReference>
+																</OuterReferences>
+																<ProbeColumn>
+																	<ColumnReference Column="Expr1023">
+																	</ColumnReference>
+																</ProbeColumn>
+																<RelOp NodeId="6" PhysicalOp="Clustered Index Insert" LogicalOp="Insert" EstimateRows="1" EstimateIO="0.06" EstimateCPU="6e-06" AvgRowSize="71" EstimatedTotalSubtreeCost="0.0600073" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																	<OutputList>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																		</ColumnReference>
+																	</OutputList>
+																	<ScalarInsert DMLRequestSort="0">
+																		<DefinedValues>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1002">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="newid()">
+																					<Intrinsic FunctionName="newid">
+																					</Intrinsic>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1003">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(uniqueidentifier,[@2],0)">
+																					<Convert DataType="uniqueidentifier" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@2">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1004">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(uniqueidentifier,[@3],0)">
+																					<Convert DataType="uniqueidentifier" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@3">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1005">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(nvarchar(100),[@4],0)">
+																					<Convert DataType="nvarchar" Length="200" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@4">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1006">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(nvarchar(100),[@5],0)">
+																					<Convert DataType="nvarchar" Length="200" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@5">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1007">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(datetime,[@6],0)">
+																					<Convert DataType="datetime" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@6">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1008">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(uniqueidentifier,[@7],0)">
+																					<Convert DataType="uniqueidentifier" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@7">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1009">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(uniqueidentifier,[@8],0)">
+																					<Convert DataType="uniqueidentifier" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@8">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1010">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="NULL">
+																					<Const ConstValue="NULL">
+																					</Const>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1011">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(datetime,[@10],0)">
+																					<Convert DataType="datetime" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@10">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1012">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(nvarchar(100),[@11],0)">
+																					<Convert DataType="nvarchar" Length="200" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@11">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1013">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(bit,[@12],0)">
+																					<Convert DataType="bit" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@12">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1014">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="CONVERT_IMPLICIT(nvarchar(100),[@13],0)">
+																					<Convert DataType="nvarchar" Length="200" Style="0" Implicit="1">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="@13">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Convert>
+																				</ScalarOperator>
+																			</DefinedValue>
+																		</DefinedValues>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[PK_Payment]" IndexKind="Clustered" Storage="RowStore">
+																		</Object>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iCategory_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																		</Object>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iGCRecord_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																		</Object>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iPayee_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																		</Object>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iPayer_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																		</Object>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iProject_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																		</Object>
+																		<SetPredicate>
+																			<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Oid] = RaiseIfNullInsert([Expr1002]),[PaymentData].[dbo].[Payment].[Amount] = [@1],[PaymentData].[dbo].[Payment].[Category] = [Expr1003],[PaymentData].[dbo].[Payment].[Project] = [Expr1004],[PaymentData].[dbo].[Payment].[Justification] = [Expr1005],[PaymentData].[dbo].[Payment].[Comment] = [Expr1006],[PaymentData].[dbo].[Payment].[Date] = [Expr1007],[PaymentData].[dbo].[Payment].[Payer] = [Expr1008],[PaymentData].[dbo].[Payment].[Payee] = [Expr1009],[PaymentData].[dbo].[Payment].[OptimisticLockField] = [@9],[PaymentData].[dbo].[Payment].[GCRecord] = [Expr1010],[PaymentData].[dbo].[Payment].[CreateDate] = [Expr1011],[PaymentData].[dbo].[Payment].[CheckNumber] = [Expr1012],[PaymentData].[dbo].[Payment].[IsAuthorized] = [Expr1013],[PaymentData].[dbo].[Payment].[Number] = [Expr1014]">
+																				<ScalarExpressionList>
+																					<ScalarOperator>
+																						<MultipleAssign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Intrinsic FunctionName="RaiseIfNullInsert">
+																										<ScalarOperator>
+																											<Identifier>
+																												<ColumnReference Column="Expr1002">
+																												</ColumnReference>
+																											</Identifier>
+																										</ScalarOperator>
+																									</Intrinsic>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="@1">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1003">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1004">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Justification">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1005">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Comment">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1006">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Date">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1007">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1008">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1009">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="OptimisticLockField">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="@9">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="GCRecord">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1010">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="CreateDate">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1011">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="CheckNumber">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1012">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="IsAuthorized">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1013">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																							<Assign>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Number">
+																								</ColumnReference>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Column="Expr1014">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Assign>
+																						</MultipleAssign>
+																					</ScalarOperator>
+																				</ScalarExpressionList>
+																			</ScalarOperator>
+																		</SetPredicate>
+																	</ScalarInsert>
+																</RelOp>
+																<RelOp NodeId="7" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="45" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																	<OutputList>
+																	</OutputList>
+																	<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																		<DefinedValues>
+																		</DefinedValues>
+																		<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Index="[PK_PaymentCategory]" IndexKind="Clustered" Storage="RowStore">
+																		</Object>
+																		<SeekPredicates>
+																			<SeekPredicateNew>
+																				<SeekKeys>
+																					<Prefix ScanType="EQ">
+																						<RangeColumns>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Oid">
+																							</ColumnReference>
+																						</RangeColumns>
+																						<RangeExpressions>
+																							<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Category]">
+																								<Identifier>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																									</ColumnReference>
+																								</Identifier>
+																							</ScalarOperator>
+																						</RangeExpressions>
+																					</Prefix>
+																				</SeekKeys>
+																			</SeekPredicateNew>
+																		</SeekPredicates>
+																	</IndexScan>
+																</RelOp>
+															</NestedLoops>
+														</RelOp>
+														<RelOp NodeId="8" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1006" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+															<OutputList>
+															</OutputList>
+															<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																<DefinedValues>
+																</DefinedValues>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" IndexKind="Clustered" Storage="RowStore">
+																</Object>
+																<SeekPredicates>
+																	<SeekPredicateNew>
+																		<SeekKeys>
+																			<Prefix ScanType="EQ">
+																				<RangeColumns>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Column="Oid">
+																					</ColumnReference>
+																				</RangeColumns>
+																				<RangeExpressions>
+																					<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payee]">
+																						<Identifier>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																							</ColumnReference>
+																						</Identifier>
+																					</ScalarOperator>
+																				</RangeExpressions>
+																			</Prefix>
+																		</SeekKeys>
+																	</SeekPredicateNew>
+																</SeekPredicates>
+															</IndexScan>
+														</RelOp>
+													</NestedLoops>
+												</RelOp>
+												<RelOp NodeId="9" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1006" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+													<OutputList>
+													</OutputList>
+													<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+														<DefinedValues>
+														</DefinedValues>
+														<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" IndexKind="Clustered" Storage="RowStore">
+														</Object>
+														<SeekPredicates>
+															<SeekPredicateNew>
+																<SeekKeys>
+																	<Prefix ScanType="EQ">
+																		<RangeColumns>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Column="Oid">
+																			</ColumnReference>
+																		</RangeColumns>
+																		<RangeExpressions>
+																			<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payer]">
+																				<Identifier>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</RangeExpressions>
+																	</Prefix>
+																</SeekKeys>
+															</SeekPredicateNew>
+														</SeekPredicates>
+													</IndexScan>
+												</RelOp>
+											</NestedLoops>
+										</RelOp>
+										<RelOp NodeId="10" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1001" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+											<OutputList>
+											</OutputList>
+											<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+												<DefinedValues>
+												</DefinedValues>
+												<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+												</Object>
+												<SeekPredicates>
+													<SeekPredicateNew>
+														<SeekKeys>
+															<Prefix ScanType="EQ">
+																<RangeColumns>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																	</ColumnReference>
+																</RangeColumns>
+																<RangeExpressions>
+																	<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Project]">
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</RangeExpressions>
+															</Prefix>
+														</SeekKeys>
+													</SeekPredicateNew>
+												</SeekPredicates>
+											</IndexScan>
+										</RelOp>
+									</NestedLoops>
+								</RelOp>
+								<Predicate>
+									<ScalarOperator ScalarString="CASE WHEN NOT [Pass1024] AND [Expr1023] IS NULL THEN (0) ELSE CASE WHEN NOT [Pass1026] AND [Expr1025] IS NULL THEN (1) ELSE CASE WHEN NOT [Pass1028] AND [Expr1027] IS NULL THEN (2) ELSE CASE WHEN NOT [Pass1030] AND [Expr1029] IS NULL THEN (3) ELSE NULL END END END END">
+										<IF>
+											<Condition>
+												<ScalarOperator>
+													<Logical Operation="AND">
+														<ScalarOperator>
+															<Logical Operation="NOT">
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Pass1024">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Logical>
+														</ScalarOperator>
+														<ScalarOperator>
+															<Logical Operation="IS NULL">
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Expr1023">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Logical>
+														</ScalarOperator>
+													</Logical>
+												</ScalarOperator>
+											</Condition>
+											<Then>
+												<ScalarOperator>
+													<Const ConstValue="(0)">
+													</Const>
+												</ScalarOperator>
+											</Then>
+											<Else>
+												<ScalarOperator>
+													<IF>
+														<Condition>
+															<ScalarOperator>
+																<Logical Operation="AND">
+																	<ScalarOperator>
+																		<Logical Operation="NOT">
+																			<ScalarOperator>
+																				<Identifier>
+																					<ColumnReference Column="Pass1026">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</Logical>
+																	</ScalarOperator>
+																	<ScalarOperator>
+																		<Logical Operation="IS NULL">
+																			<ScalarOperator>
+																				<Identifier>
+																					<ColumnReference Column="Expr1025">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</Logical>
+																	</ScalarOperator>
+																</Logical>
+															</ScalarOperator>
+														</Condition>
+														<Then>
+															<ScalarOperator>
+																<Const ConstValue="(1)">
+																</Const>
+															</ScalarOperator>
+														</Then>
+														<Else>
+															<ScalarOperator>
+																<IF>
+																	<Condition>
+																		<ScalarOperator>
+																			<Logical Operation="AND">
+																				<ScalarOperator>
+																					<Logical Operation="NOT">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Pass1028">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Logical Operation="IS NULL">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1027">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																			</Logical>
+																		</ScalarOperator>
+																	</Condition>
+																	<Then>
+																		<ScalarOperator>
+																			<Const ConstValue="(2)">
+																			</Const>
+																		</ScalarOperator>
+																	</Then>
+																	<Else>
+																		<ScalarOperator>
+																			<IF>
+																				<Condition>
+																					<ScalarOperator>
+																						<Logical Operation="AND">
+																							<ScalarOperator>
+																								<Logical Operation="NOT">
+																									<ScalarOperator>
+																										<Identifier>
+																											<ColumnReference Column="Pass1030">
+																											</ColumnReference>
+																										</Identifier>
+																									</ScalarOperator>
+																								</Logical>
+																							</ScalarOperator>
+																							<ScalarOperator>
+																								<Logical Operation="IS NULL">
+																									<ScalarOperator>
+																										<Identifier>
+																											<ColumnReference Column="Expr1029">
+																											</ColumnReference>
+																										</Identifier>
+																									</ScalarOperator>
+																								</Logical>
+																							</ScalarOperator>
+																						</Logical>
+																					</ScalarOperator>
+																				</Condition>
+																				<Then>
+																					<ScalarOperator>
+																						<Const ConstValue="(3)">
+																						</Const>
+																					</ScalarOperator>
+																				</Then>
+																				<Else>
+																					<ScalarOperator>
+																						<Const ConstValue="NULL">
+																						</Const>
+																					</ScalarOperator>
+																				</Else>
+																			</IF>
+																		</ScalarOperator>
+																	</Else>
+																</IF>
+															</ScalarOperator>
+														</Else>
+													</IF>
+												</ScalarOperator>
+											</Else>
+										</IF>
+									</ScalarOperator>
+								</Predicate>
+							</Assert>
+						</RelOp>
+						<ParameterList>
+							<ColumnReference Column="@13" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;76998&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@12" ParameterDataType="int" ParameterCompiledValue="(1)">
+							</ColumnReference>
+							<ColumnReference Column="@11" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;40096&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@10" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;2022-06-14T13:18:35&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@9" ParameterDataType="int" ParameterCompiledValue="(3)">
+							</ColumnReference>
+							<ColumnReference Column="@8" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;2B484C0F-49EF-4F65-B2C2-B6443D0D9C44&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@7" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;ECC2ED70-5F71-426A-992B-0C4F2E8E4B1F&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@6" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;2020-10-30T22:18:18&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@5" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;Evidence hope first necessary. Today next indicate glass garden run necessary glass.&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@4" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;Raise picture doctor itself.&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@3" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;468B6713-1AEF-4681-A715-6CCB7E8B55F7&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@2" ParameterDataType="varchar(8000)" ParameterCompiledValue="&apos;536199BF-9119-4659-A22B-783D05D4C715&apos;">
+							</ColumnReference>
+							<ColumnReference Column="@1" ParameterDataType="int" ParameterCompiledValue="(57562)">
+							</ColumnReference>
+						</ParameterList>
+					</QueryPlan>
+				</StmtSimple>
+			</Statements>
+		</Batch>
+	</BatchSequence>
+</ShowPlanXML>

@@ -1,0 +1,1016 @@
+<ShowPlanXML xmlns="http://schemas.microsoft.com/sqlserver/2004/07/showplan" Version="1.539" Build="15.0.4223.1">
+	<BatchSequence>
+		<Batch>
+			<Statements>
+				<StmtSimple StatementText="update Project&#xd;&#xa;&#x9;set BalanceByMaterial = dbo.F_CalculateBalanceByMaterial(inserted.Project),&#xd;&#xa;&#x9;BalanceByWork = dbo.F_CalculateBalanceByWork(inserted.Project),&#x9;&#xd;&#xa;&#x9;Balance = dbo.F_CalculateProjectBalance(inserted.Project)&#x9;&#xd;&#xa;&#x9;from Project&#xd;&#xa;&#x9;join Inserted on Project.Oid = inserted.Project" StatementId="20" StatementCompId="9" StatementType="UPDATE" StatementSqlHandle="0x09007182434845AC4F2CC825D74417B6A41D0000000000000000000000000000000000000000000000000000" DatabaseContextSettingsId="2" ParentObjectId="1125579048" StatementParameterizationType="0" RetrievedFromCache="true" StatementSubTreeCost="0.0265727" StatementEstRows="1" SecurityPolicyApplied="false" StatementOptmLevel="FULL" QueryHash="0xE268BF91937985A0" QueryPlanHash="0xD72BD92177204CC7" StatementOptmEarlyAbortReason="GoodEnoughPlanFound" CardinalityEstimationModelVersion="150">
+					<StatementSetOptions QUOTED_IDENTIFIER="true" ARITHABORT="true" CONCAT_NULL_YIELDS_NULL="true" ANSI_NULLS="true" ANSI_PADDING="true" ANSI_WARNINGS="true" NUMERIC_ROUNDABORT="false">
+					</StatementSetOptions>
+					<QueryPlan DegreeOfParallelism="0" NonParallelPlanReason="CouldNotGenerateValidParallelPlan" CachedPlanSize="64" CompileTime="2" CompileCPU="2" CompileMemory="528">
+						<MemoryGrantInfo SerialRequiredMemory="0" SerialDesiredMemory="0" GrantedMemory="0" MaxUsedMemory="0">
+						</MemoryGrantInfo>
+						<OptimizerHardwareDependentProperties EstimatedAvailableMemoryGrant="80588" EstimatedPagesCached="20147" EstimatedAvailableDegreeOfParallelism="2" MaxCompileMemory="1522000">
+						</OptimizerHardwareDependentProperties>
+						<OptimizerStatsUsage>
+							<StatisticsInfo LastUpdate="2022-06-11T17:52:45.98" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+							</StatisticsInfo>
+						</OptimizerStatsUsage>
+						<WaitStats>
+							<Wait WaitType="RESERVED_MEMORY_ALLOCATION_EXT" WaitTimeMs="2" WaitCount="2220">
+							</Wait>
+							<Wait WaitType="MEMORY_ALLOCATION_EXT" WaitTimeMs="1" WaitCount="1679">
+							</Wait>
+						</WaitStats>
+						<QueryTimeStats ElapsedTime="37" CpuTime="37" UdfElapsedTime="37" UdfCpuTime="37">
+						</QueryTimeStats>
+						<RelOp NodeId="1" PhysicalOp="Clustered Index Insert" LogicalOp="Insert" EstimateRows="1" EstimateIO="0.01" EstimateCPU="1e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0265727" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+							<OutputList>
+							</OutputList>
+							<RunTimeInformation>
+								<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="37" ActualCPUms="37" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualEndOfScans="1" ActualExecutions="1">
+								</RunTimeCountersPerThread>
+							</RunTimeInformation>
+							<Update DMLRequestSort="0">
+								<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Storage="RowStore">
+								</Object>
+								<SetPredicate>
+									<ScalarOperator ScalarString="[STREAM].[Act] = [Act1016],[STREAM].[Oid] = [PaymentData].[dbo].[Project].[Oid],[STREAM].[Name] = [PaymentData].[dbo].[Project].[Name],[STREAM].[Address] = [PaymentData].[dbo].[Project].[Address],[STREAM].[Client] = [PaymentData].[dbo].[Project].[Client],[STREAM].[Manager] = [PaymentData].[dbo].[Project].[Manager],[STREAM].[Foreman] = [PaymentData].[dbo].[Project].[Foreman],[STREAM].[OptimisticLockField] = [PaymentData].[dbo].[Project].[OptimisticLockField],[STREAM].[GCRecord] = [PaymentData].[dbo].[Project].[GCRecord],[STREAM].[Balance] = [Expr1006],[STREAM].[BalanceByMaterial] = [Expr1004],[STREAM].[BalanceByWork] = [Expr1005],[STREAM].[PlaningStartDate] = [PaymentData].[dbo].[Project].[PlaningStartDate],[STREAM].[Status] = [PaymentData].[dbo].[Project].[Status],[STREAM].[FinishDate] = [PaymentData].[dbo].[Project].[FinishDate],[STREAM].[Area] = [PaymentData].[dbo].[Project].[Area],[STREAM].[WorkPriceRate] = [PaymentData].[dbo].[Project].[WorkPriceRate],[STREAM].[WorkersPriceRate] = [PaymentData].[dbo].[Project].[WorkersPriceRate],[STREAM].[RemainderTheAdvance] = [PaymentData].[dbo].[Project].[RemainderTheAdvance],[STREAM].[PlanfixWorkTask] = [PaymentData].[dbo].[Project].[PlanfixWorkTask],[STREAM].[PlanfixChangeRequestTask] = [PaymentData].[dbo].[Project].[PlanfixChangeRequestTask],[STREAM].[UseAnalytics] = [PaymentData].[dbo].[Project].[UseAnalytics]">
+										<ScalarExpressionList>
+											<ScalarOperator>
+												<MultipleAssign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Act">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Column="Act1016">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Oid">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Name">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Address">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Client">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Manager">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Foreman">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="OptimisticLockField">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="GCRecord">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Balance">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Column="Expr1006">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="BalanceByMaterial">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Column="Expr1004">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="BalanceByWork">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Column="Expr1005">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="PlaningStartDate">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Status">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="FinishDate">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="Area">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="WorkPriceRate">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="WorkersPriceRate">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="RemainderTheAdvance">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="PlanfixWorkTask">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="PlanfixChangeRequestTask">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+													<Assign>
+														<ColumnReference Table="[STREAM]" Column="UseAnalytics">
+														</ColumnReference>
+														<ScalarOperator>
+															<Identifier>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																</ColumnReference>
+															</Identifier>
+														</ScalarOperator>
+													</Assign>
+												</MultipleAssign>
+											</ScalarOperator>
+										</ScalarExpressionList>
+									</ScalarOperator>
+								</SetPredicate>
+								<RelOp NodeId="2" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1" EstimateIO="0" EstimateCPU="1e-07" AvgRowSize="1376" EstimatedTotalSubtreeCost="0.0165717" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+									<OutputList>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+										</ColumnReference>
+										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+										</ColumnReference>
+										<ColumnReference Column="Expr1004">
+										</ColumnReference>
+										<ColumnReference Column="Expr1005">
+										</ColumnReference>
+										<ColumnReference Column="Expr1006">
+										</ColumnReference>
+										<ColumnReference Column="Act1016">
+										</ColumnReference>
+									</OutputList>
+									<ComputeScalar>
+										<DefinedValues>
+											<DefinedValue>
+												<ColumnReference Column="Act1016">
+												</ColumnReference>
+												<ScalarOperator ScalarString="(4)">
+													<Const ConstValue="(4)">
+													</Const>
+												</ScalarOperator>
+											</DefinedValue>
+										</DefinedValues>
+										<RelOp NodeId="3" PhysicalOp="Clustered Index Insert" LogicalOp="Insert" EstimateRows="1" EstimateIO="0.01" EstimateCPU="1e-06" AvgRowSize="1372" EstimatedTotalSubtreeCost="0.0165716" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+											<OutputList>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+												</ColumnReference>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+												</ColumnReference>
+												<ColumnReference Column="Expr1004">
+												</ColumnReference>
+												<ColumnReference Column="Expr1005">
+												</ColumnReference>
+												<ColumnReference Column="Expr1006">
+												</ColumnReference>
+											</OutputList>
+											<RunTimeInformation>
+												<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="37" ActualCPUms="37" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualEndOfScans="1" ActualExecutions="1">
+												</RunTimeCountersPerThread>
+											</RunTimeInformation>
+											<Update DMLRequestSort="0">
+												<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Storage="RowStore">
+												</Object>
+												<SetPredicate>
+													<ScalarOperator ScalarString="[STREAM].[Act] = [Act1012],[STREAM].[Oid] = [PaymentData].[dbo].[Project].[Oid],[STREAM].[Name] = [PaymentData].[dbo].[Project].[Name],[STREAM].[Address] = [PaymentData].[dbo].[Project].[Address],[STREAM].[Client] = [PaymentData].[dbo].[Project].[Client],[STREAM].[Manager] = [PaymentData].[dbo].[Project].[Manager],[STREAM].[Foreman] = [PaymentData].[dbo].[Project].[Foreman],[STREAM].[OptimisticLockField] = [PaymentData].[dbo].[Project].[OptimisticLockField],[STREAM].[GCRecord] = [PaymentData].[dbo].[Project].[GCRecord],[STREAM].[Balance] = [PaymentData].[dbo].[Project].[Balance],[STREAM].[BalanceByMaterial] = [PaymentData].[dbo].[Project].[BalanceByMaterial],[STREAM].[BalanceByWork] = [PaymentData].[dbo].[Project].[BalanceByWork],[STREAM].[PlaningStartDate] = [PaymentData].[dbo].[Project].[PlaningStartDate],[STREAM].[Status] = [PaymentData].[dbo].[Project].[Status],[STREAM].[FinishDate] = [PaymentData].[dbo].[Project].[FinishDate],[STREAM].[Area] = [PaymentData].[dbo].[Project].[Area],[STREAM].[WorkPriceRate] = [PaymentData].[dbo].[Project].[WorkPriceRate],[STREAM].[WorkersPriceRate] = [PaymentData].[dbo].[Project].[WorkersPriceRate],[STREAM].[RemainderTheAdvance] = [PaymentData].[dbo].[Project].[RemainderTheAdvance],[STREAM].[PlanfixWorkTask] = [PaymentData].[dbo].[Project].[PlanfixWorkTask],[STREAM].[PlanfixChangeRequestTask] = [PaymentData].[dbo].[Project].[PlanfixChangeRequestTask],[STREAM].[UseAnalytics] = [PaymentData].[dbo].[Project].[UseAnalytics]">
+														<ScalarExpressionList>
+															<ScalarOperator>
+																<MultipleAssign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Act">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Column="Act1012">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Oid">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Name">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Address">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Client">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Manager">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Foreman">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="OptimisticLockField">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="GCRecord">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Balance">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="BalanceByMaterial">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="BalanceByWork">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="PlaningStartDate">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Status">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="FinishDate">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="Area">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="WorkPriceRate">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="WorkersPriceRate">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="RemainderTheAdvance">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="PlanfixWorkTask">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="PlanfixChangeRequestTask">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																	<Assign>
+																		<ColumnReference Table="[STREAM]" Column="UseAnalytics">
+																		</ColumnReference>
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																	</Assign>
+																</MultipleAssign>
+															</ScalarOperator>
+														</ScalarExpressionList>
+													</ScalarOperator>
+												</SetPredicate>
+												<RelOp NodeId="4" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1" EstimateIO="0" EstimateCPU="1e-07" AvgRowSize="1389" EstimatedTotalSubtreeCost="0.00657058" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+													<OutputList>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+														</ColumnReference>
+														<ColumnReference Column="Expr1004">
+														</ColumnReference>
+														<ColumnReference Column="Expr1005">
+														</ColumnReference>
+														<ColumnReference Column="Expr1006">
+														</ColumnReference>
+														<ColumnReference Column="Act1012">
+														</ColumnReference>
+													</OutputList>
+													<ComputeScalar>
+														<DefinedValues>
+															<DefinedValue>
+																<ColumnReference Column="Act1012">
+																</ColumnReference>
+																<ScalarOperator ScalarString="(3)">
+																	<Const ConstValue="(3)">
+																	</Const>
+																</ScalarOperator>
+															</DefinedValue>
+														</DefinedValues>
+														<RelOp NodeId="5" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1" EstimateIO="0" EstimateCPU="1e-07" AvgRowSize="1384" EstimatedTotalSubtreeCost="0.00657048" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+															<OutputList>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																</ColumnReference>
+																<ColumnReference Column="Expr1004">
+																</ColumnReference>
+																<ColumnReference Column="Expr1005">
+																</ColumnReference>
+																<ColumnReference Column="Expr1006">
+																</ColumnReference>
+															</OutputList>
+															<RunTimeInformation>
+																<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="37" ActualCPUms="37" ActualEndOfScans="1" ActualExecutions="1">
+																</RunTimeCountersPerThread>
+															</RunTimeInformation>
+															<ComputeScalar>
+																<DefinedValues>
+																	<DefinedValue>
+																		<ColumnReference Column="Expr1004">
+																		</ColumnReference>
+																		<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateBalanceByMaterial]([PaymentData].[dbo].[Payment].[Project])">
+																			<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateBalanceByMaterial]">
+																				<ScalarOperator>
+																					<Identifier>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</UserDefinedFunction>
+																		</ScalarOperator>
+																	</DefinedValue>
+																	<DefinedValue>
+																		<ColumnReference Column="Expr1005">
+																		</ColumnReference>
+																		<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateBalanceByWork]([PaymentData].[dbo].[Payment].[Project])">
+																			<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateBalanceByWork]">
+																				<ScalarOperator>
+																					<Identifier>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</UserDefinedFunction>
+																		</ScalarOperator>
+																	</DefinedValue>
+																	<DefinedValue>
+																		<ColumnReference Column="Expr1006">
+																		</ColumnReference>
+																		<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateProjectBalance]([PaymentData].[dbo].[Payment].[Project])">
+																			<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateProjectBalance]">
+																				<ScalarOperator>
+																					<Identifier>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</UserDefinedFunction>
+																		</ScalarOperator>
+																	</DefinedValue>
+																</DefinedValues>
+																<RelOp NodeId="6" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="1388" EstimatedTotalSubtreeCost="0.00657038" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																	<OutputList>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																		</ColumnReference>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																		</ColumnReference>
+																	</OutputList>
+																	<RunTimeInformation>
+																		<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualEndOfScans="1" ActualExecutions="1">
+																		</RunTimeCountersPerThread>
+																	</RunTimeInformation>
+																	<NestedLoops Optimized="0">
+																		<OuterReferences>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																			</ColumnReference>
+																		</OuterReferences>
+																		<RelOp NodeId="7" PhysicalOp="Inserted Scan" LogicalOp="Inserted Scan" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.0032035" EstimateCPU="7.96e-05" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																			<OutputList>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																				</ColumnReference>
+																			</OutputList>
+																			<RunTimeInformation>
+																				<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="0" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualEndOfScans="1" ActualExecutions="1">
+																				</RunTimeCountersPerThread>
+																			</RunTimeInformation>
+																			<InsertedScan>
+																				<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[PK_Payment]" IndexKind="Clustered" Storage="RowStore">
+																				</Object>
+																			</InsertedScan>
+																		</RelOp>
+																		<RelOp NodeId="8" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="1372" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1001" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																			<OutputList>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																				</ColumnReference>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																				</ColumnReference>
+																			</OutputList>
+																			<RunTimeInformation>
+																				<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="0" ActualExecutions="1">
+																				</RunTimeCountersPerThread>
+																			</RunTimeInformation>
+																			<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																				<DefinedValues>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																						</ColumnReference>
+																					</DefinedValue>
+																					<DefinedValue>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																						</ColumnReference>
+																					</DefinedValue>
+																				</DefinedValues>
+																				<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+																				</Object>
+																				<SeekPredicates>
+																					<SeekPredicateNew>
+																						<SeekKeys>
+																							<Prefix ScanType="EQ">
+																								<RangeColumns>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																									</ColumnReference>
+																								</RangeColumns>
+																								<RangeExpressions>
+																									<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Project]">
+																										<Identifier>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																											</ColumnReference>
+																										</Identifier>
+																									</ScalarOperator>
+																								</RangeExpressions>
+																							</Prefix>
+																						</SeekKeys>
+																					</SeekPredicateNew>
+																				</SeekPredicates>
+																			</IndexScan>
+																		</RelOp>
+																	</NestedLoops>
+																</RelOp>
+															</ComputeScalar>
+														</RelOp>
+													</ComputeScalar>
+												</RelOp>
+											</Update>
+										</RelOp>
+									</ComputeScalar>
+								</RelOp>
+							</Update>
+						</RelOp>
+					</QueryPlan>
+				</StmtSimple>
+			</Statements>
+		</Batch>
+	</BatchSequence>
+</ShowPlanXML>

@@ -1,0 +1,1950 @@
+<ShowPlanXML xmlns="http://schemas.microsoft.com/sqlserver/2004/07/showplan" Version="1.539" Build="15.0.4223.1">
+	<BatchSequence>
+		<Batch>
+			<Statements>
+				<StmtSimple StatementText="UPDATE [Project]&#xd;&#xa;   SET [Name] = inserted.Name&#xd;&#xa;      ,[Address] = Inserted.Address&#xd;&#xa;      ,[Client] = Inserted.Client&#xd;&#xa;      ,[Manager] = Inserted.Manager&#xd;&#xa;      ,[Foreman] = Inserted.Foreman&#xd;&#xa;      ,[OptimisticLockField] = Inserted.OptimisticLockField&#xd;&#xa;      ,[GCRecord] = Inserted.GCRecord&#xd;&#xa;      ,[Balance] = dbo.F_CalculateProjectBalance(Project.Oid)&#xd;&#xa;      ,[BalanceByMaterial] = dbo.F_CalculateBalanceByMaterial(Project.Oid)&#xd;&#xa;      ,[BalanceByWork] = dbo.F_CalculateBalanceByWork(Project.Oid)&#xd;&#xa;      ,[RemainderTheAdvance] = dbo.F_CalculateRemainderTheAdvance(Project.Oid)&#xd;&#xa;      ,[PlaningStartDate] = Inserted.PlaningStartDate&#xd;&#xa;      ,[Status] = Inserted.Status&#xd;&#xa;      ,[FinishDate] = Inserted.FinishDate&#xd;&#xa;      ,[Area] = Inserted.Area &#xd;&#xa;      ,[WorkPriceRate] = Inserted.WorkPriceRate&#xd;&#xa;      ,[WorkersPriceRate] = Inserted.WorkersPriceRate&#xd;&#xa;      ,[PlanfixWorkTask] = Inserted.PlanfixWorkTask&#xd;&#xa;      ,[PlanfixChangeRequestTask] = Inserted.PlanfixChangeRequestTask&#xd;&#xa;      ,[UseAnalytics] = inserted.UseAnalytics&#xd;&#xa;FROM Project join Inserted on Project.Oid = Inserted.Oid" StatementId="22" StatementCompId="30" StatementType="UPDATE" StatementSqlHandle="0x090055B8705BCC3E83E321483A3D0813C9E90000000000000000000000000000000000000000000000000000" DatabaseContextSettingsId="1" ParentObjectId="1077578877" StatementParameterizationType="0" RetrievedFromCache="true" StatementSubTreeCost="0.0918455" StatementEstRows="1.41421" SecurityPolicyApplied="false" StatementOptmLevel="FULL" QueryHash="0x5516729DB9148E7A" QueryPlanHash="0x6BB5F4F06393C58B" StatementOptmEarlyAbortReason="GoodEnoughPlanFound" CardinalityEstimationModelVersion="150">
+					<StatementSetOptions QUOTED_IDENTIFIER="true" ARITHABORT="true" CONCAT_NULL_YIELDS_NULL="true" ANSI_NULLS="true" ANSI_PADDING="true" ANSI_WARNINGS="true" NUMERIC_ROUNDABORT="false">
+					</StatementSetOptions>
+					<QueryPlan DegreeOfParallelism="0" MemoryGrant="1024" NonParallelPlanReason="CouldNotGenerateValidParallelPlan" CachedPlanSize="160" CompileTime="11" CompileCPU="11" CompileMemory="2720">
+						<MemoryGrantInfo SerialRequiredMemory="512" SerialDesiredMemory="544" RequiredMemory="512" DesiredMemory="544" RequestedMemory="1024" GrantWaitTime="0" MaxQueryMemory="406808" GrantedMemory="1024" MaxUsedMemory="0" LastRequestedMemory="1024" IsMemoryGrantFeedbackAdjusted="No: Accurate Grant">
+						</MemoryGrantInfo>
+						<OptimizerHardwareDependentProperties EstimatedAvailableMemoryGrant="80588" EstimatedPagesCached="20147" EstimatedAvailableDegreeOfParallelism="2" MaxCompileMemory="1500392">
+						</OptimizerHardwareDependentProperties>
+						<OptimizerStatsUsage>
+							<StatisticsInfo LastUpdate="2022-06-11T17:52:45.98" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+							</StatisticsInfo>
+						</OptimizerStatsUsage>
+						<WaitStats>
+							<Wait WaitType="MEMORY_ALLOCATION_EXT" WaitTimeMs="1" WaitCount="2060">
+							</Wait>
+						</WaitStats>
+						<QueryTimeStats ElapsedTime="30" CpuTime="30" UdfElapsedTime="29" UdfCpuTime="29">
+						</QueryTimeStats>
+						<RelOp NodeId="1" PhysicalOp="Assert" LogicalOp="Assert" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="2.5173e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0918455" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+							<OutputList>
+							</OutputList>
+							<RunTimeInformation>
+								<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+								</RunTimeCountersPerThread>
+							</RunTimeInformation>
+							<Assert StartupExpression="0">
+								<RelOp NodeId="2" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="5.91141e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="0.091843" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+									<OutputList>
+										<ColumnReference Column="Expr1041">
+										</ColumnReference>
+										<ColumnReference Column="Pass1042">
+										</ColumnReference>
+										<ColumnReference Column="Expr1043">
+										</ColumnReference>
+										<ColumnReference Column="Pass1044">
+										</ColumnReference>
+										<ColumnReference Column="Expr1045">
+										</ColumnReference>
+										<ColumnReference Column="Pass1046">
+										</ColumnReference>
+									</OutputList>
+									<RunTimeInformation>
+										<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+										</RunTimeCountersPerThread>
+									</RunTimeInformation>
+									<NestedLoops Optimized="0">
+										<DefinedValues>
+											<DefinedValue>
+												<ColumnReference Column="Expr1045">
+												</ColumnReference>
+											</DefinedValue>
+											<DefinedValue>
+												<ColumnReference Column="Pass1046">
+												</ColumnReference>
+											</DefinedValue>
+										</DefinedValues>
+										<PassThru>
+											<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Client] IS NULL">
+												<Logical Operation="IS NULL">
+													<ScalarOperator>
+														<Identifier>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+															</ColumnReference>
+														</Identifier>
+													</ScalarOperator>
+												</Logical>
+											</ScalarOperator>
+										</PassThru>
+										<OuterReferences>
+											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+											</ColumnReference>
+										</OuterReferences>
+										<ProbeColumn>
+											<ColumnReference Column="Expr1045">
+											</ColumnReference>
+										</ProbeColumn>
+										<RelOp NodeId="3" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="5.91141e-06" AvgRowSize="24" EstimatedTotalSubtreeCost="0.0883169" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+											<OutputList>
+												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+												</ColumnReference>
+												<ColumnReference Column="Expr1041">
+												</ColumnReference>
+												<ColumnReference Column="Pass1042">
+												</ColumnReference>
+												<ColumnReference Column="Expr1043">
+												</ColumnReference>
+												<ColumnReference Column="Pass1044">
+												</ColumnReference>
+											</OutputList>
+											<RunTimeInformation>
+												<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+												</RunTimeCountersPerThread>
+											</RunTimeInformation>
+											<NestedLoops Optimized="0">
+												<DefinedValues>
+													<DefinedValue>
+														<ColumnReference Column="Expr1043">
+														</ColumnReference>
+													</DefinedValue>
+													<DefinedValue>
+														<ColumnReference Column="Pass1044">
+														</ColumnReference>
+													</DefinedValue>
+												</DefinedValues>
+												<PassThru>
+													<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Manager] IS NULL">
+														<Logical Operation="IS NULL">
+															<ScalarOperator>
+																<Identifier>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																	</ColumnReference>
+																</Identifier>
+															</ScalarOperator>
+														</Logical>
+													</ScalarOperator>
+												</PassThru>
+												<OuterReferences>
+													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+													</ColumnReference>
+												</OuterReferences>
+												<ProbeColumn>
+													<ColumnReference Column="Expr1043">
+													</ColumnReference>
+												</ProbeColumn>
+												<RelOp NodeId="4" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="5.91141e-06" AvgRowSize="40" EstimatedTotalSubtreeCost="0.0847778" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+													<OutputList>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+														</ColumnReference>
+														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+														</ColumnReference>
+														<ColumnReference Column="Expr1041">
+														</ColumnReference>
+														<ColumnReference Column="Pass1042">
+														</ColumnReference>
+													</OutputList>
+													<RunTimeInformation>
+														<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+														</RunTimeCountersPerThread>
+													</RunTimeInformation>
+													<NestedLoops Optimized="0">
+														<DefinedValues>
+															<DefinedValue>
+																<ColumnReference Column="Expr1041">
+																</ColumnReference>
+															</DefinedValue>
+															<DefinedValue>
+																<ColumnReference Column="Pass1042">
+																</ColumnReference>
+															</DefinedValue>
+														</DefinedValues>
+														<PassThru>
+															<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Foreman] IS NULL">
+																<Logical Operation="IS NULL">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Logical>
+															</ScalarOperator>
+														</PassThru>
+														<OuterReferences>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+															</ColumnReference>
+														</OuterReferences>
+														<ProbeColumn>
+															<ColumnReference Column="Expr1041">
+															</ColumnReference>
+														</ProbeColumn>
+														<RelOp NodeId="5" PhysicalOp="Clustered Index Update" LogicalOp="Update" EstimateRows="1.41421" EstimateIO="0.05" EstimateCPU="7.07107e-06" AvgRowSize="55" EstimatedTotalSubtreeCost="0.0812387" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+															<OutputList>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																</ColumnReference>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																</ColumnReference>
+															</OutputList>
+															<RunTimeInformation>
+																<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="1" ActualExecutions="1">
+																</RunTimeCountersPerThread>
+															</RunTimeInformation>
+															<Update DMLRequestSort="0">
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+																</Object>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[iClient_Project]" IndexKind="NonClustered" Storage="RowStore">
+																</Object>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[iForeman_Project]" IndexKind="NonClustered" Storage="RowStore">
+																</Object>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[iGCRecord_Project]" IndexKind="NonClustered" Storage="RowStore">
+																</Object>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[iManager_Project]" IndexKind="NonClustered" Storage="RowStore">
+																</Object>
+																<SetPredicate>
+																	<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Name] = [Inserted].[Name],[PaymentData].[dbo].[Project].[Address] = [Inserted].[Address],[PaymentData].[dbo].[Project].[Client] = [Inserted].[Client],[PaymentData].[dbo].[Project].[Manager] = [Inserted].[Manager],[PaymentData].[dbo].[Project].[Foreman] = [Inserted].[Foreman],[PaymentData].[dbo].[Project].[OptimisticLockField] = [Inserted].[OptimisticLockField],[PaymentData].[dbo].[Project].[GCRecord] = [Inserted].[GCRecord],[PaymentData].[dbo].[Project].[Balance] = [Expr1005],[PaymentData].[dbo].[Project].[BalanceByMaterial] = [Expr1006],[PaymentData].[dbo].[Project].[BalanceByWork] = [Expr1007],[PaymentData].[dbo].[Project].[RemainderTheAdvance] = [Expr1008],[PaymentData].[dbo].[Project].[PlaningStartDate] = [Inserted].[PlaningStartDate],[PaymentData].[dbo].[Project].[Status] = [Inserted].[Status],[PaymentData].[dbo].[Project].[FinishDate] = [Inserted].[FinishDate],[PaymentData].[dbo].[Project].[Area] = [Inserted].[Area],[PaymentData].[dbo].[Project].[WorkPriceRate] = [Inserted].[WorkPriceRate],[PaymentData].[dbo].[Project].[WorkersPriceRate] = [Inserted].[WorkersPriceRate],[PaymentData].[dbo].[Project].[PlanfixWorkTask] = [Inserted].[PlanfixWorkTask],[PaymentData].[dbo].[Project].[PlanfixChangeRequestTask] = [Inserted].[PlanfixChangeRequestTask],[PaymentData].[dbo].[Project].[UseAnalytics] = [Inserted].[UseAnalytics]">
+																		<ScalarExpressionList>
+																			<ScalarOperator>
+																				<MultipleAssign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Name">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Name">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Address">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Address">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Client">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Manager">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Foreman">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="OptimisticLockField">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="GCRecord">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Balance">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1005">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByMaterial">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1006">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="BalanceByWork">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1007">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="RemainderTheAdvance">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1008">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlaningStartDate">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Status">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Status">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="FinishDate">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="FinishDate">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Area">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="Area">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkPriceRate">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="WorkersPriceRate">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixWorkTask">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="PlanfixChangeRequestTask">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																					<Assign>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="UseAnalytics">
+																						</ColumnReference>
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Assign>
+																				</MultipleAssign>
+																			</ScalarOperator>
+																		</ScalarExpressionList>
+																	</ScalarOperator>
+																</SetPredicate>
+																<RelOp NodeId="6" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1.41421" EstimateIO="0.013125" EstimateCPU="0.000103009" AvgRowSize="1389" EstimatedTotalSubtreeCost="0.0312316" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																	<OutputList>
+																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Name">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Address">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Client">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Manager">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Foreman">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="GCRecord">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Status">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="FinishDate">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="Area">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																		</ColumnReference>
+																		<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1005">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1006">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1007">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1008">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1037">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1038">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1039">
+																		</ColumnReference>
+																		<ColumnReference Column="Expr1040">
+																		</ColumnReference>
+																	</OutputList>
+																	<RunTimeInformation>
+																		<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+																		</RunTimeCountersPerThread>
+																	</RunTimeInformation>
+																	<ComputeScalar>
+																		<DefinedValues>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1037">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="[Expr1037]">
+																					<Identifier>
+																						<ColumnReference Column="Expr1037">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1038">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="[Expr1038]">
+																					<Identifier>
+																						<ColumnReference Column="Expr1038">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1039">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="[Expr1039]">
+																					<Identifier>
+																						<ColumnReference Column="Expr1039">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</DefinedValue>
+																			<DefinedValue>
+																				<ColumnReference Column="Expr1040">
+																				</ColumnReference>
+																				<ScalarOperator ScalarString="[Expr1040]">
+																					<Identifier>
+																						<ColumnReference Column="Expr1040">
+																						</ColumnReference>
+																					</Identifier>
+																				</ScalarOperator>
+																			</DefinedValue>
+																		</DefinedValues>
+																		<RelOp NodeId="7" PhysicalOp="Table Spool" LogicalOp="Eager Spool" EstimateRows="1.41421" EstimateIO="0.013125" EstimateCPU="0.000103009" AvgRowSize="1389" EstimatedTotalSubtreeCost="0.0312316" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																			<OutputList>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Name">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Address">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Client">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Manager">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Foreman">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="GCRecord">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Status">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="FinishDate">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="Area">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																				</ColumnReference>
+																				<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1005">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1006">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1007">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1008">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1037">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1038">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1039">
+																				</ColumnReference>
+																				<ColumnReference Column="Expr1040">
+																				</ColumnReference>
+																			</OutputList>
+																			<RunTimeInformation>
+																				<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualScans="1" ActualLogicalReads="5" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualRebinds="1" ActualRewinds="0" ActualEndOfScans="1" ActualExecutions="1">
+																				</RunTimeCountersPerThread>
+																			</RunTimeInformation>
+																			<Spool>
+																				<RelOp NodeId="8" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="1.41421e-07" AvgRowSize="1389" EstimatedTotalSubtreeCost="0.0180036" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																					<OutputList>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Name">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Address">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Client">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Manager">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Foreman">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="GCRecord">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Status">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="FinishDate">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="Area">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																						</ColumnReference>
+																						<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1005">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1006">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1007">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1008">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1037">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1038">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1039">
+																						</ColumnReference>
+																						<ColumnReference Column="Expr1040">
+																						</ColumnReference>
+																					</OutputList>
+																					<ComputeScalar>
+																						<DefinedValues>
+																							<DefinedValue>
+																								<ColumnReference Column="Expr1037">
+																								</ColumnReference>
+																								<ScalarOperator ScalarString="CASE WHEN [Expr1019] THEN (0) ELSE (1) END">
+																									<IF>
+																										<Condition>
+																											<ScalarOperator>
+																												<Identifier>
+																													<ColumnReference Column="Expr1019">
+																													</ColumnReference>
+																												</Identifier>
+																											</ScalarOperator>
+																										</Condition>
+																										<Then>
+																											<ScalarOperator>
+																												<Const ConstValue="(0)">
+																												</Const>
+																											</ScalarOperator>
+																										</Then>
+																										<Else>
+																											<ScalarOperator>
+																												<Const ConstValue="(1)">
+																												</Const>
+																											</ScalarOperator>
+																										</Else>
+																									</IF>
+																								</ScalarOperator>
+																							</DefinedValue>
+																							<DefinedValue>
+																								<ColumnReference Column="Expr1038">
+																								</ColumnReference>
+																								<ScalarOperator ScalarString="CASE WHEN [Expr1021] THEN (0) ELSE (1) END">
+																									<IF>
+																										<Condition>
+																											<ScalarOperator>
+																												<Identifier>
+																													<ColumnReference Column="Expr1021">
+																													</ColumnReference>
+																												</Identifier>
+																											</ScalarOperator>
+																										</Condition>
+																										<Then>
+																											<ScalarOperator>
+																												<Const ConstValue="(0)">
+																												</Const>
+																											</ScalarOperator>
+																										</Then>
+																										<Else>
+																											<ScalarOperator>
+																												<Const ConstValue="(1)">
+																												</Const>
+																											</ScalarOperator>
+																										</Else>
+																									</IF>
+																								</ScalarOperator>
+																							</DefinedValue>
+																							<DefinedValue>
+																								<ColumnReference Column="Expr1039">
+																								</ColumnReference>
+																								<ScalarOperator ScalarString="CASE WHEN [Expr1023] THEN (0) ELSE (1) END">
+																									<IF>
+																										<Condition>
+																											<ScalarOperator>
+																												<Identifier>
+																													<ColumnReference Column="Expr1023">
+																													</ColumnReference>
+																												</Identifier>
+																											</ScalarOperator>
+																										</Condition>
+																										<Then>
+																											<ScalarOperator>
+																												<Const ConstValue="(0)">
+																												</Const>
+																											</ScalarOperator>
+																										</Then>
+																										<Else>
+																											<ScalarOperator>
+																												<Const ConstValue="(1)">
+																												</Const>
+																											</ScalarOperator>
+																										</Else>
+																									</IF>
+																								</ScalarOperator>
+																							</DefinedValue>
+																							<DefinedValue>
+																								<ColumnReference Column="Expr1040">
+																								</ColumnReference>
+																								<ScalarOperator ScalarString="CASE WHEN [Expr1020] THEN (0) ELSE (1) END">
+																									<IF>
+																										<Condition>
+																											<ScalarOperator>
+																												<Identifier>
+																													<ColumnReference Column="Expr1020">
+																													</ColumnReference>
+																												</Identifier>
+																											</ScalarOperator>
+																										</Condition>
+																										<Then>
+																											<ScalarOperator>
+																												<Const ConstValue="(0)">
+																												</Const>
+																											</ScalarOperator>
+																										</Then>
+																										<Else>
+																											<ScalarOperator>
+																												<Const ConstValue="(1)">
+																												</Const>
+																											</ScalarOperator>
+																										</Else>
+																									</IF>
+																								</ScalarOperator>
+																							</DefinedValue>
+																						</DefinedValues>
+																						<RelOp NodeId="9" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="1.41421e-07" AvgRowSize="1373" EstimatedTotalSubtreeCost="0.0180035" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																							<OutputList>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Name">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Address">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Client">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Manager">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Foreman">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="GCRecord">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Status">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="FinishDate">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="Area">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																								</ColumnReference>
+																								<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1005">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1006">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1007">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1008">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1019">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1020">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1021">
+																								</ColumnReference>
+																								<ColumnReference Column="Expr1023">
+																								</ColumnReference>
+																							</OutputList>
+																							<ComputeScalar>
+																								<DefinedValues>
+																									<DefinedValue>
+																										<ColumnReference Column="Expr1019">
+																										</ColumnReference>
+																										<ScalarOperator ScalarString="CASE WHEN [PaymentData].[dbo].[Project].[Client] = [Inserted].[Client] THEN (1) ELSE (0) END">
+																											<IF>
+																												<Condition>
+																													<ScalarOperator>
+																														<Compare CompareOp="BINARY IS">
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Table="[Inserted]" Column="Client">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																														</Compare>
+																													</ScalarOperator>
+																												</Condition>
+																												<Then>
+																													<ScalarOperator>
+																														<Const ConstValue="(1)">
+																														</Const>
+																													</ScalarOperator>
+																												</Then>
+																												<Else>
+																													<ScalarOperator>
+																														<Const ConstValue="(0)">
+																														</Const>
+																													</ScalarOperator>
+																												</Else>
+																											</IF>
+																										</ScalarOperator>
+																									</DefinedValue>
+																									<DefinedValue>
+																										<ColumnReference Column="Expr1020">
+																										</ColumnReference>
+																										<ScalarOperator ScalarString="CASE WHEN [PaymentData].[dbo].[Project].[Manager] = [Inserted].[Manager] THEN (1) ELSE (0) END">
+																											<IF>
+																												<Condition>
+																													<ScalarOperator>
+																														<Compare CompareOp="BINARY IS">
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Table="[Inserted]" Column="Manager">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																														</Compare>
+																													</ScalarOperator>
+																												</Condition>
+																												<Then>
+																													<ScalarOperator>
+																														<Const ConstValue="(1)">
+																														</Const>
+																													</ScalarOperator>
+																												</Then>
+																												<Else>
+																													<ScalarOperator>
+																														<Const ConstValue="(0)">
+																														</Const>
+																													</ScalarOperator>
+																												</Else>
+																											</IF>
+																										</ScalarOperator>
+																									</DefinedValue>
+																									<DefinedValue>
+																										<ColumnReference Column="Expr1021">
+																										</ColumnReference>
+																										<ScalarOperator ScalarString="CASE WHEN [PaymentData].[dbo].[Project].[Foreman] = [Inserted].[Foreman] THEN (1) ELSE (0) END">
+																											<IF>
+																												<Condition>
+																													<ScalarOperator>
+																														<Compare CompareOp="BINARY IS">
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Table="[Inserted]" Column="Foreman">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																														</Compare>
+																													</ScalarOperator>
+																												</Condition>
+																												<Then>
+																													<ScalarOperator>
+																														<Const ConstValue="(1)">
+																														</Const>
+																													</ScalarOperator>
+																												</Then>
+																												<Else>
+																													<ScalarOperator>
+																														<Const ConstValue="(0)">
+																														</Const>
+																													</ScalarOperator>
+																												</Else>
+																											</IF>
+																										</ScalarOperator>
+																									</DefinedValue>
+																									<DefinedValue>
+																										<ColumnReference Column="Expr1023">
+																										</ColumnReference>
+																										<ScalarOperator ScalarString="CASE WHEN [PaymentData].[dbo].[Project].[GCRecord] = [Inserted].[GCRecord] THEN (1) ELSE (0) END">
+																											<IF>
+																												<Condition>
+																													<ScalarOperator>
+																														<Compare CompareOp="BINARY IS">
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																															<ScalarOperator>
+																																<Identifier>
+																																	<ColumnReference Table="[Inserted]" Column="GCRecord">
+																																	</ColumnReference>
+																																</Identifier>
+																															</ScalarOperator>
+																														</Compare>
+																													</ScalarOperator>
+																												</Condition>
+																												<Then>
+																													<ScalarOperator>
+																														<Const ConstValue="(1)">
+																														</Const>
+																													</ScalarOperator>
+																												</Then>
+																												<Else>
+																													<ScalarOperator>
+																														<Const ConstValue="(0)">
+																														</Const>
+																													</ScalarOperator>
+																												</Else>
+																											</IF>
+																										</ScalarOperator>
+																									</DefinedValue>
+																								</DefinedValues>
+																								<RelOp NodeId="10" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="1.41421e-07" AvgRowSize="1425" EstimatedTotalSubtreeCost="0.0180033" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																									<OutputList>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																										</ColumnReference>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																										</ColumnReference>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																										</ColumnReference>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																										</ColumnReference>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Name">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Address">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Client">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Manager">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Foreman">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="GCRecord">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Status">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="FinishDate">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="Area">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																										</ColumnReference>
+																										<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																										</ColumnReference>
+																										<ColumnReference Column="Expr1005">
+																										</ColumnReference>
+																										<ColumnReference Column="Expr1006">
+																										</ColumnReference>
+																										<ColumnReference Column="Expr1007">
+																										</ColumnReference>
+																										<ColumnReference Column="Expr1008">
+																										</ColumnReference>
+																									</OutputList>
+																									<RunTimeInformation>
+																										<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="29" ActualCPUms="29" ActualEndOfScans="1" ActualExecutions="1">
+																										</RunTimeCountersPerThread>
+																									</RunTimeInformation>
+																									<ComputeScalar>
+																										<DefinedValues>
+																											<DefinedValue>
+																												<ColumnReference Column="Expr1005">
+																												</ColumnReference>
+																												<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateProjectBalance]([PaymentData].[dbo].[Project].[Oid])">
+																													<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateProjectBalance]">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</UserDefinedFunction>
+																												</ScalarOperator>
+																											</DefinedValue>
+																											<DefinedValue>
+																												<ColumnReference Column="Expr1006">
+																												</ColumnReference>
+																												<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateBalanceByMaterial]([PaymentData].[dbo].[Project].[Oid])">
+																													<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateBalanceByMaterial]">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</UserDefinedFunction>
+																												</ScalarOperator>
+																											</DefinedValue>
+																											<DefinedValue>
+																												<ColumnReference Column="Expr1007">
+																												</ColumnReference>
+																												<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateBalanceByWork]([PaymentData].[dbo].[Project].[Oid])">
+																													<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateBalanceByWork]">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</UserDefinedFunction>
+																												</ScalarOperator>
+																											</DefinedValue>
+																											<DefinedValue>
+																												<ColumnReference Column="Expr1008">
+																												</ColumnReference>
+																												<ScalarOperator ScalarString="[PaymentData].[dbo].[F_CalculateRemainderTheAdvance]([PaymentData].[dbo].[Project].[Oid])">
+																													<UserDefinedFunction FunctionName="[PaymentData].[dbo].[F_CalculateRemainderTheAdvance]">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</UserDefinedFunction>
+																												</ScalarOperator>
+																											</DefinedValue>
+																										</DefinedValues>
+																										<RelOp NodeId="11" PhysicalOp="Stream Aggregate" LogicalOp="Aggregate" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="1.41421e-06" AvgRowSize="1408" EstimatedTotalSubtreeCost="0.0180032" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																											<OutputList>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																												</ColumnReference>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																												</ColumnReference>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																												</ColumnReference>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																												</ColumnReference>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Name">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Address">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Client">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Manager">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Foreman">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="GCRecord">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Status">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="FinishDate">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="Area">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																												</ColumnReference>
+																												<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																												</ColumnReference>
+																											</OutputList>
+																											<RunTimeInformation>
+																												<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualEndOfScans="1" ActualExecutions="1">
+																												</RunTimeCountersPerThread>
+																											</RunTimeInformation>
+																											<StreamAggregate>
+																												<DefinedValues>
+																													<DefinedValue>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([PaymentData].[dbo].[Project].[Client])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([PaymentData].[dbo].[Project].[Manager])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([PaymentData].[dbo].[Project].[Foreman])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([PaymentData].[dbo].[Project].[GCRecord])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Name">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Name])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Name">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Address">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Address])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Address">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Client">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Client])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Client">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Manager">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Manager])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Manager">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Foreman">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Foreman])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Foreman">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[OptimisticLockField])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="GCRecord">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[GCRecord])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="GCRecord">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[PlaningStartDate])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Status">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Status])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Status">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="FinishDate">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[FinishDate])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="FinishDate">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="Area">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[Area])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="Area">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[WorkPriceRate])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[WorkersPriceRate])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[PlanfixWorkTask])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[PlanfixChangeRequestTask])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																													<DefinedValue>
+																														<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																														</ColumnReference>
+																														<ScalarOperator ScalarString="ANY([Inserted].[UseAnalytics])">
+																															<Aggregate Distinct="0" AggType="ANY">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Aggregate>
+																														</ScalarOperator>
+																													</DefinedValue>
+																												</DefinedValues>
+																												<GroupBy>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																													</ColumnReference>
+																												</GroupBy>
+																												<RelOp NodeId="12" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1.41421" EstimateIO="0" EstimateCPU="5.91141e-06" AvgRowSize="1408" EstimatedTotalSubtreeCost="0.0180018" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																													<OutputList>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																														</ColumnReference>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																														</ColumnReference>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																														</ColumnReference>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																														</ColumnReference>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Name">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Address">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Client">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Manager">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Foreman">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="GCRecord">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Status">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="FinishDate">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="Area">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																														</ColumnReference>
+																														<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																														</ColumnReference>
+																													</OutputList>
+																													<RunTimeInformation>
+																														<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualEndOfScans="1" ActualExecutions="1">
+																														</RunTimeCountersPerThread>
+																													</RunTimeInformation>
+																													<NestedLoops Optimized="0">
+																														<OuterReferences>
+																															<ColumnReference Table="[Inserted]" Column="Oid">
+																															</ColumnReference>
+																														</OuterReferences>
+																														<RelOp NodeId="13" PhysicalOp="Sort" LogicalOp="Sort" EstimateRows="1.41421" EstimateIO="0.0112613" EstimateCPU="0.000102459" AvgRowSize="1356" EstimatedTotalSubtreeCost="0.0146473" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																															<OutputList>
+																																<ColumnReference Table="[Inserted]" Column="Oid">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Name">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Address">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Client">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Manager">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Foreman">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="GCRecord">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Status">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="FinishDate">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="Area">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																																</ColumnReference>
+																																<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																																</ColumnReference>
+																															</OutputList>
+																															<MemoryFractions Input="1" Output="1">
+																															</MemoryFractions>
+																															<RunTimeInformation>
+																																<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="0" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRebinds="1" ActualRewinds="0" ActualEndOfScans="1" ActualExecutions="1" InputMemoryGrant="1024" OutputMemoryGrant="640" UsedMemoryGrant="0">
+																																</RunTimeCountersPerThread>
+																															</RunTimeInformation>
+																															<Sort Distinct="0">
+																																<OrderBy>
+																																	<OrderByColumn Ascending="1">
+																																		<ColumnReference Table="[Inserted]" Column="Oid">
+																																		</ColumnReference>
+																																	</OrderByColumn>
+																																</OrderBy>
+																																<RelOp NodeId="14" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1.41421" EstimatedRowsRead="1.41421" EstimateIO="0.003125" EstimateCPU="0.000158556" AvgRowSize="1356" EstimatedTotalSubtreeCost="0.00328356" TableCardinality="2" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																	<OutputList>
+																																		<ColumnReference Table="[Inserted]" Column="Oid">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Name">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Address">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Client">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Manager">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Foreman">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="GCRecord">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Status">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="FinishDate">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="Area">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																																		</ColumnReference>
+																																		<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																																		</ColumnReference>
+																																	</OutputList>
+																																	<RunTimeInformation>
+																																		<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="1" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="1" ActualExecutions="1">
+																																		</RunTimeCountersPerThread>
+																																	</RunTimeInformation>
+																																	<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																		<DefinedValues>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Oid">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Name">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Address">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Client">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Manager">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Foreman">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="OptimisticLockField">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="GCRecord">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="PlaningStartDate">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Status">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="FinishDate">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="Area">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="WorkPriceRate">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="WorkersPriceRate">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="PlanfixWorkTask">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="PlanfixChangeRequestTask">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																			<DefinedValue>
+																																				<ColumnReference Table="[Inserted]" Column="UseAnalytics">
+																																				</ColumnReference>
+																																			</DefinedValue>
+																																		</DefinedValues>
+																																		<Object Table="[Inserted]" Storage="RowStore">
+																																		</Object>
+																																		<SeekPredicates>
+																																			<SeekPredicateNew>
+																																				<SeekKeys>
+																																					<Prefix ScanType="EQ">
+																																						<RangeColumns>
+																																							<ColumnReference Table="[Inserted]" Column="Act">
+																																							</ColumnReference>
+																																						</RangeColumns>
+																																						<RangeExpressions>
+																																							<ScalarOperator ScalarString="(4)">
+																																								<Const ConstValue="(4)">
+																																								</Const>
+																																							</ScalarOperator>
+																																						</RangeExpressions>
+																																					</Prefix>
+																																				</SeekKeys>
+																																			</SeekPredicateNew>
+																																		</SeekPredicates>
+																																	</IndexScan>
+																																</RelOp>
+																															</Sort>
+																														</RelOp>
+																														<RelOp NodeId="15" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="75" EstimatedTotalSubtreeCost="0.00334859" TableCardinality="1001" Parallel="0" EstimateRebinds="0.189207" EstimateRewinds="0.225006" EstimatedExecutionMode="Row">
+																															<OutputList>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																</ColumnReference>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																																</ColumnReference>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																																</ColumnReference>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																																</ColumnReference>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																																</ColumnReference>
+																															</OutputList>
+																															<RunTimeInformation>
+																																<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="0" ActualExecutions="1">
+																																</RunTimeCountersPerThread>
+																															</RunTimeInformation>
+																															<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																<DefinedValues>
+																																	<DefinedValue>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																		</ColumnReference>
+																																	</DefinedValue>
+																																	<DefinedValue>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																																		</ColumnReference>
+																																	</DefinedValue>
+																																	<DefinedValue>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																																		</ColumnReference>
+																																	</DefinedValue>
+																																	<DefinedValue>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																																		</ColumnReference>
+																																	</DefinedValue>
+																																	<DefinedValue>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="GCRecord">
+																																		</ColumnReference>
+																																	</DefinedValue>
+																																</DefinedValues>
+																																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+																																</Object>
+																																<SeekPredicates>
+																																	<SeekPredicateNew>
+																																		<SeekKeys>
+																																			<Prefix ScanType="EQ">
+																																				<RangeColumns>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																																					</ColumnReference>
+																																				</RangeColumns>
+																																				<RangeExpressions>
+																																					<ScalarOperator ScalarString="[Inserted].[Oid]">
+																																						<Identifier>
+																																							<ColumnReference Table="[Inserted]" Column="Oid">
+																																							</ColumnReference>
+																																						</Identifier>
+																																					</ScalarOperator>
+																																				</RangeExpressions>
+																																			</Prefix>
+																																		</SeekKeys>
+																																	</SeekPredicateNew>
+																																</SeekPredicates>
+																															</IndexScan>
+																														</RelOp>
+																													</NestedLoops>
+																												</RelOp>
+																											</StreamAggregate>
+																										</RelOp>
+																									</ComputeScalar>
+																								</RelOp>
+																							</ComputeScalar>
+																						</RelOp>
+																					</ComputeScalar>
+																				</RelOp>
+																			</Spool>
+																		</RelOp>
+																	</ComputeScalar>
+																</RelOp>
+															</Update>
+														</RelOp>
+														<RelOp NodeId="16" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00353292" TableCardinality="187" Parallel="0" EstimateRebinds="0.225006" EstimateRewinds="0.189207" EstimatedExecutionMode="Row">
+															<OutputList>
+															</OutputList>
+															<RunTimeInformation>
+																<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="0" ActualExecutions="1">
+																</RunTimeCountersPerThread>
+															</RunTimeInformation>
+															<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																<DefinedValues>
+																</DefinedValues>
+																<Object Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Index="[PK_Employee]" IndexKind="Clustered" Storage="RowStore">
+																</Object>
+																<SeekPredicates>
+																	<SeekPredicateNew>
+																		<SeekKeys>
+																			<Prefix ScanType="EQ">
+																				<RangeColumns>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Column="Oid">
+																					</ColumnReference>
+																				</RangeColumns>
+																				<RangeExpressions>
+																					<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Foreman]">
+																						<Identifier>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Foreman">
+																							</ColumnReference>
+																						</Identifier>
+																					</ScalarOperator>
+																				</RangeExpressions>
+																			</Prefix>
+																		</SeekKeys>
+																	</SeekPredicateNew>
+																</SeekPredicates>
+															</IndexScan>
+														</RelOp>
+													</NestedLoops>
+												</RelOp>
+												<RelOp NodeId="17" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00353292" TableCardinality="187" Parallel="0" EstimateRebinds="0.225006" EstimateRewinds="0.189207" EstimatedExecutionMode="Row">
+													<OutputList>
+													</OutputList>
+													<RunTimeInformation>
+														<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="0" ActualExecutions="1">
+														</RunTimeCountersPerThread>
+													</RunTimeInformation>
+													<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+														<DefinedValues>
+														</DefinedValues>
+														<Object Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Index="[PK_Employee]" IndexKind="Clustered" Storage="RowStore">
+														</Object>
+														<SeekPredicates>
+															<SeekPredicateNew>
+																<SeekKeys>
+																	<Prefix ScanType="EQ">
+																		<RangeColumns>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Column="Oid">
+																			</ColumnReference>
+																		</RangeColumns>
+																		<RangeExpressions>
+																			<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Manager]">
+																				<Identifier>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Manager">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</RangeExpressions>
+																	</Prefix>
+																</SeekKeys>
+															</SeekPredicateNew>
+														</SeekPredicates>
+													</IndexScan>
+												</RelOp>
+											</NestedLoops>
+										</RelOp>
+										<RelOp NodeId="18" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00351986" TableCardinality="196" Parallel="0" EstimateRebinds="0.225006" EstimateRewinds="0.189207" EstimatedExecutionMode="Row">
+											<OutputList>
+											</OutputList>
+											<RunTimeInformation>
+												<RunTimeCountersPerThread Thread="0" ActualRows="1" Batches="0" ActualExecutionMode="Row" ActualElapsedms="0" ActualCPUms="0" ActualScans="0" ActualLogicalReads="2" ActualPhysicalReads="0" ActualReadAheads="0" ActualLobLogicalReads="0" ActualLobPhysicalReads="0" ActualLobReadAheads="0" ActualRowsRead="1" ActualEndOfScans="0" ActualExecutions="1">
+												</RunTimeCountersPerThread>
+											</RunTimeInformation>
+											<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="1" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+												<DefinedValues>
+												</DefinedValues>
+												<Object Database="[PaymentData]" Schema="[dbo]" Table="[Client]" Index="[PK_Client]" IndexKind="Clustered" Storage="RowStore">
+												</Object>
+												<SeekPredicates>
+													<SeekPredicateNew>
+														<SeekKeys>
+															<Prefix ScanType="EQ">
+																<RangeColumns>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Client]" Column="Oid">
+																	</ColumnReference>
+																</RangeColumns>
+																<RangeExpressions>
+																	<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Client]">
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</RangeExpressions>
+															</Prefix>
+														</SeekKeys>
+													</SeekPredicateNew>
+												</SeekPredicates>
+											</IndexScan>
+										</RelOp>
+									</NestedLoops>
+								</RelOp>
+								<Predicate>
+									<ScalarOperator ScalarString="CASE WHEN NOT [Pass1042] AND [Expr1041] IS NULL THEN (0) ELSE CASE WHEN NOT [Pass1044] AND [Expr1043] IS NULL THEN (1) ELSE CASE WHEN NOT [Pass1046] AND [Expr1045] IS NULL THEN (2) ELSE NULL END END END">
+										<IF>
+											<Condition>
+												<ScalarOperator>
+													<Logical Operation="AND">
+														<ScalarOperator>
+															<Logical Operation="NOT">
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Pass1042">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Logical>
+														</ScalarOperator>
+														<ScalarOperator>
+															<Logical Operation="IS NULL">
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Expr1041">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Logical>
+														</ScalarOperator>
+													</Logical>
+												</ScalarOperator>
+											</Condition>
+											<Then>
+												<ScalarOperator>
+													<Const ConstValue="(0)">
+													</Const>
+												</ScalarOperator>
+											</Then>
+											<Else>
+												<ScalarOperator>
+													<IF>
+														<Condition>
+															<ScalarOperator>
+																<Logical Operation="AND">
+																	<ScalarOperator>
+																		<Logical Operation="NOT">
+																			<ScalarOperator>
+																				<Identifier>
+																					<ColumnReference Column="Pass1044">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</Logical>
+																	</ScalarOperator>
+																	<ScalarOperator>
+																		<Logical Operation="IS NULL">
+																			<ScalarOperator>
+																				<Identifier>
+																					<ColumnReference Column="Expr1043">
+																					</ColumnReference>
+																				</Identifier>
+																			</ScalarOperator>
+																		</Logical>
+																	</ScalarOperator>
+																</Logical>
+															</ScalarOperator>
+														</Condition>
+														<Then>
+															<ScalarOperator>
+																<Const ConstValue="(1)">
+																</Const>
+															</ScalarOperator>
+														</Then>
+														<Else>
+															<ScalarOperator>
+																<IF>
+																	<Condition>
+																		<ScalarOperator>
+																			<Logical Operation="AND">
+																				<ScalarOperator>
+																					<Logical Operation="NOT">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Pass1046">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Logical Operation="IS NULL">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Column="Expr1045">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																			</Logical>
+																		</ScalarOperator>
+																	</Condition>
+																	<Then>
+																		<ScalarOperator>
+																			<Const ConstValue="(2)">
+																			</Const>
+																		</ScalarOperator>
+																	</Then>
+																	<Else>
+																		<ScalarOperator>
+																			<Const ConstValue="NULL">
+																			</Const>
+																		</ScalarOperator>
+																	</Else>
+																</IF>
+															</ScalarOperator>
+														</Else>
+													</IF>
+												</ScalarOperator>
+											</Else>
+										</IF>
+									</ScalarOperator>
+								</Predicate>
+							</Assert>
+						</RelOp>
+					</QueryPlan>
+				</StmtSimple>
+			</Statements>
+		</Batch>
+	</BatchSequence>
+</ShowPlanXML>
