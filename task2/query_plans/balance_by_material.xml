@@ -1,0 +1,2318 @@
+<ShowPlanXML xmlns="http://schemas.microsoft.com/sqlserver/2004/07/showplan" Version="1.557" Build="15.0.2000.1562">
+	<BatchSequence>
+		<Batch>
+			<Statements>
+				<StmtSimple StatementText="DECLARE @ProjectId UNIQUEIDENTIFIER;&#xd;&#xa;DECLARE @Result int;&#xd;&#xa;SET @ProjectId = CAST(&apos;40004eda-e3d6-49ab-85f4-d44ac783c5e6&apos; AS UNIQUEIDENTIFIER);&#xd;&#xa;" StatementId="1" StatementCompId="1" StatementType="ASSIGN" RetrievedFromCache="false">
+				</StmtSimple>
+				<StmtSimple StatementText="SET @Result = dbo.F_CalculateBalanceByMaterial(@ProjectId)" StatementId="2" StatementCompId="2" StatementType="ASSIGN WITH QUERY" RetrievedFromCache="false">
+					<UDF ProcName="[PaymentData].[dbo].[F_CalculateBalanceByMaterial]">
+						<Statements>
+							<StmtSimple StatementText="CREATE   Function dbo.F_CalculateBalanceByMaterial&#xd;&#xa;(@Project uniqueidentifier)&#xd;&#xa;Returns int&#xd;&#xa;as&#xd;&#xa;Begin&#xd;&#xa;&#xd;&#xa;Declare @Profit int&#xd;&#xa;Declare @Cost int&#xd;&#xa;&#xd;&#xa;SELECT   @Profit = SUM(Payment.Amount)&#xd;&#xa;FROM         Payment INNER JOIN&#xd;&#xa;                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN&#xd;&#xa;                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid &#xd;&#xa;                      left join Cashbox On Payee.Oid = Cashbox.Oid&#xd;&#xa;                      left join AccountType CashboxAccountType on Cashbox.AccountType = CashboxAccountType.Oid&#xd;&#xa;                      left join Bank On Payee.Oid = Bank.Oid&#xd;&#xa;                      left join AccountType BankAccountType on Bank.AccountType = BankAccountType.Oid&#xd;&#xa;                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid&#xd;&#xa;                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid&#xd;&#xa;                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid&#xd;&#xa;                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN dbo.Supplier SupplierPayer ON SupplierPayer.Oid = Payer.Oid&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN dbo.Supplier SupplierPayee ON SupplierPayee.Oid = Payee.Oid&#xd;&#xa;                      LEFT JOIN PaymentCategory ON Payment.Category = PaymentCategory.Oid &#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN Project ON Payment.Project = Project.Oid &#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN Client ON Project.Client = Client.Oid&#xd;&#xa;where &#xd;&#xa;Project.Oid = @Project&#xd;&#xa;and&#xd;&#xa;Payment.GCRecord is null &#xd;&#xa;and&#xd;&#xa;(&#xd;&#xa;&#x9;(&#xd;&#xa;&#x9;&#x9;(Payment.Payer = Project.Client OR&#xd;&#xa;        SupplierPayer.ProfitByMaterialAsPayer = 1&#xd;&#xa;&#x9;&#x9;)&#xd;&#xa;&#x9;&#x9;and&#xd;&#xa;&#x9;&#x9;(&#xd;&#xa;&#x9;&#x9;CashboxAccountType.Name = &apos;Материальный&apos; or&#xd;&#xa;&#x9;&#x9;BankAccountType.Name = &apos;Материальный&apos; or&#xd;&#xa;&#x9;&#x9;SupplierPayee.ProfitByMaterialAsPayee = 1&#xd;&#xa;&#x9;&#x9;)&#xd;&#xa;&#x9;&#x9;and&#xd;&#xa;&#x9;&#x9;(PaymentCategory.ProfitByMaterial = 1&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;) &#xd;&#xa;&#x9;)&#xd;&#xa;&#x9;or&#xd;&#xa;&#x9;(&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;(&#xd;&#xa;&#x9;&#x9;&#x9;PayerCashboxAccountType.Name = &apos;Текущий&apos; or&#xd;&#xa;&#x9;&#x9;&#x9;PayerBankAccountType.Name = &apos;Текущий&apos;&#xd;&#xa;&#x9;&#x9;&#x9;)&#xd;&#xa;&#x9;&#x9;&#x9;and&#xd;&#xa;&#x9;&#x9;&#x9;(&#xd;&#xa;&#x9;&#x9;&#x9;CashboxAccountType.Name = &apos;Материальный&apos; or&#xd;&#xa;&#x9;&#x9;&#x9;BankAccountType.Name = &apos;Материальный&apos;&#xd;&#xa;&#x9;&#x9;&#x9;)&#xd;&#xa;&#x9;&#x9;&#x9;and&#xd;&#xa;&#x9;&#x9;&#x9;PaymentCategory.Name = &apos;Списание убытков&apos;&#xd;&#xa;&#x9;)&#xd;&#xa;)" StatementId="3" StatementCompId="4" StatementType="SELECT" RetrievedFromCache="false" StatementSubTreeCost="0.0700908" StatementEstRows="1" SecurityPolicyApplied="false" StatementOptmLevel="FULL" QueryHash="0xB4B0B9E4B45973B9" QueryPlanHash="0xBDD72A5A8685E45B" StatementOptmEarlyAbortReason="GoodEnoughPlanFound" CardinalityEstimationModelVersion="150">
+								<StatementSetOptions QUOTED_IDENTIFIER="true" ARITHABORT="true" CONCAT_NULL_YIELDS_NULL="true" ANSI_NULLS="true" ANSI_PADDING="true" ANSI_WARNINGS="true" NUMERIC_ROUNDABORT="false">
+								</StatementSetOptions>
+								<QueryPlan CachedPlanSize="112" CompileTime="31" CompileCPU="29" CompileMemory="1824">
+									<MemoryGrantInfo SerialRequiredMemory="0" SerialDesiredMemory="0" GrantedMemory="0" MaxUsedMemory="0">
+									</MemoryGrantInfo>
+									<OptimizerHardwareDependentProperties EstimatedAvailableMemoryGrant="160793" EstimatedPagesCached="40198" EstimatedAvailableDegreeOfParallelism="2" MaxCompileMemory="4182936">
+									</OptimizerHardwareDependentProperties>
+									<OptimizerStatsUsage>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iProject_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.27" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Supplier]" Table="[Supplier]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.13" ModificationCount="0" SamplingPercent="100" Statistics="[PK_PaymentCategory]" Table="[PaymentCategory]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.73" ModificationCount="500" SamplingPercent="100" Statistics="[iGCRecord_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.11" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Bank]" Table="[Bank]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iPayee_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.10" ModificationCount="1" SamplingPercent="100" Statistics="[iAccountType_Bank]" Table="[Bank]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.10" ModificationCount="85" SamplingPercent="100" Statistics="[PK_PaymentParticipant]" Table="[PaymentParticipant]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.73" ModificationCount="500" SamplingPercent="100" Statistics="[iCategory_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.27" ModificationCount="0" SamplingPercent="100" Statistics="[_WA_Sys_00000005_37A5467C]" Table="[PaymentCategory]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.11" ModificationCount="0" SamplingPercent="100" Statistics="[PK_AccountType]" Table="[AccountType]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.12" ModificationCount="0" SamplingPercent="100" Statistics="[_WA_Sys_00000002_37A5467C]" Table="[PaymentCategory]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iPayer_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.22" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+									</OptimizerStatsUsage>
+									<TraceFlags IsCompileTime="1">
+										<TraceFlag Value="822" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="833" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="835" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="851" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="3425" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="5504" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8052" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8076" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8904" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="9038" Scope="Global">
+										</TraceFlag>
+									</TraceFlags>
+									<RelOp NodeId="0" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1" EstimateIO="0" EstimateCPU="0" AvgRowSize="11" EstimatedTotalSubtreeCost="0.0700908" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+										<OutputList>
+											<ColumnReference Column="Expr1022">
+											</ColumnReference>
+										</OutputList>
+										<ComputeScalar>
+											<DefinedValues>
+												<DefinedValue>
+													<ColumnReference Column="Expr1022">
+													</ColumnReference>
+													<ScalarOperator ScalarString="CASE WHEN [Expr1023]=(0) THEN NULL ELSE [Expr1024] END">
+														<IF>
+															<Condition>
+																<ScalarOperator>
+																	<Compare CompareOp="EQ">
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Column="Expr1023">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																		<ScalarOperator>
+																			<Const ConstValue="(0)">
+																			</Const>
+																		</ScalarOperator>
+																	</Compare>
+																</ScalarOperator>
+															</Condition>
+															<Then>
+																<ScalarOperator>
+																	<Const ConstValue="NULL">
+																	</Const>
+																</ScalarOperator>
+															</Then>
+															<Else>
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Expr1024">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Else>
+														</IF>
+													</ScalarOperator>
+												</DefinedValue>
+											</DefinedValues>
+											<RelOp NodeId="1" PhysicalOp="Stream Aggregate" LogicalOp="Aggregate" EstimateRows="1" EstimateIO="0" EstimateCPU="1.1e-06" AvgRowSize="11" EstimatedTotalSubtreeCost="0.0700908" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+												<OutputList>
+													<ColumnReference Column="Expr1023">
+													</ColumnReference>
+													<ColumnReference Column="Expr1024">
+													</ColumnReference>
+												</OutputList>
+												<StreamAggregate>
+													<DefinedValues>
+														<DefinedValue>
+															<ColumnReference Column="Expr1023">
+															</ColumnReference>
+															<ScalarOperator ScalarString="COUNT_BIG([PaymentData].[dbo].[Payment].[Amount])">
+																<Aggregate Distinct="0" AggType="COUNT_BIG">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Aggregate>
+															</ScalarOperator>
+														</DefinedValue>
+														<DefinedValue>
+															<ColumnReference Column="Expr1024">
+															</ColumnReference>
+															<ScalarOperator ScalarString="SUM([PaymentData].[dbo].[Payment].[Amount])">
+																<Aggregate Distinct="0" AggType="SUM">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Aggregate>
+															</ScalarOperator>
+														</DefinedValue>
+													</DefinedValues>
+													<RelOp NodeId="2" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1" EstimateIO="0" EstimateCPU="8.93815e-06" AvgRowSize="11" EstimatedTotalSubtreeCost="0.0700897" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+														<OutputList>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+															</ColumnReference>
+														</OutputList>
+														<NestedLoops Optimized="0">
+															<Predicate>
+																<ScalarOperator ScalarString="([PaymentData].[dbo].[Payment].[Payer]=[PaymentData].[dbo].[Project].[Client] OR [PaymentData].[dbo].[Supplier].[ProfitByMaterialAsPayer] as [SupplierPayer].[ProfitByMaterialAsPayer]=(1)) AND ([PaymentData].[dbo].[AccountType].[Name] as [CashboxAccountType].[Name]=N&apos;????????????&apos; OR [PaymentData].[dbo].[AccountType].[Name] as [BankAccountType].[Name]=N&apos;????????????&apos; OR [PaymentData].[dbo].[Supplier].[ProfitByMaterialAsPayee] as [SupplierPayee].[ProfitByMaterialAsPayee]=(1)) AND [PaymentData].[dbo].[PaymentCategory].[ProfitByMaterial]=(1) OR ([PaymentData].[dbo].[AccountType].[Name] as [PayerCashboxAccountType].[Name]=N&apos;???????&apos; OR [PaymentData].[dbo].[AccountType].[Name] as [PayerBankAccountType].[Name]=N&apos;???????&apos;) AND ([PaymentData].[dbo].[AccountType].[Name] as [CashboxAccountType].[Name]=N&apos;????????????&apos; OR [PaymentData].[dbo].[AccountType].[Name] as [BankAccountType].[Name]=N&apos;????????????&apos;) AND [PaymentData].[dbo].[PaymentCategory].[Name]=N&apos;???????? ???????&apos;">
+																	<Logical Operation="OR">
+																		<ScalarOperator>
+																			<Logical Operation="AND">
+																				<ScalarOperator>
+																					<Logical Operation="OR">
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="(1)">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Logical Operation="OR">
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;????????????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;????????????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="(1)">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Compare CompareOp="EQ">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Const ConstValue="(1)">
+																							</Const>
+																						</ScalarOperator>
+																					</Compare>
+																				</ScalarOperator>
+																			</Logical>
+																		</ScalarOperator>
+																		<ScalarOperator>
+																			<Logical Operation="AND">
+																				<ScalarOperator>
+																					<Logical Operation="OR">
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;???????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;???????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Logical Operation="OR">
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;????????????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="N&apos;????????????&apos;">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																					</Logical>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Compare CompareOp="EQ">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Const ConstValue="N&apos;???????? ???????&apos;">
+																							</Const>
+																						</ScalarOperator>
+																					</Compare>
+																				</ScalarOperator>
+																			</Logical>
+																		</ScalarOperator>
+																	</Logical>
+																</ScalarOperator>
+															</Predicate>
+															<RelOp NodeId="3" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																<OutputList>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																	</ColumnReference>
+																</OutputList>
+																<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																	<DefinedValues>
+																		<DefinedValue>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																			</ColumnReference>
+																		</DefinedValue>
+																	</DefinedValues>
+																	<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+																	</Object>
+																	<SeekPredicates>
+																		<SeekPredicateNew>
+																			<SeekKeys>
+																				<Prefix ScanType="EQ">
+																					<RangeColumns>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																						</ColumnReference>
+																					</RangeColumns>
+																					<RangeExpressions>
+																						<ScalarOperator ScalarString="[@Project]">
+																							<Identifier>
+																								<ColumnReference Column="@Project">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</RangeExpressions>
+																				</Prefix>
+																			</SeekKeys>
+																		</SeekPredicateNew>
+																	</SeekPredicates>
+																</IndexScan>
+															</RelOp>
+															<RelOp NodeId="4" PhysicalOp="Filter" LogicalOp="Filter" EstimateRows="2.13831" EstimateIO="0" EstimateCPU="4.23386e-05" AvgRowSize="478" EstimatedTotalSubtreeCost="0.0667891" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																<OutputList>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																	</ColumnReference>
+																</OutputList>
+																<Filter StartupExpression="0">
+																	<RelOp NodeId="5" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="48.112" EstimateIO="0" EstimateCPU="0.000201108" AvgRowSize="478" EstimatedTotalSubtreeCost="0.0667467" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																		<OutputList>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																			</ColumnReference>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																			</ColumnReference>
+																		</OutputList>
+																		<NestedLoops Optimized="0">
+																			<OuterReferences>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																				</ColumnReference>
+																			</OuterReferences>
+																			<RelOp NodeId="6" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="48.112" EstimateIO="0" EstimateCPU="0.000100554" AvgRowSize="455" EstimatedTotalSubtreeCost="0.0558141" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																				<OutputList>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																					</ColumnReference>
+																				</OutputList>
+																				<NestedLoops Optimized="0">
+																					<OuterReferences>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																						</ColumnReference>
+																					</OuterReferences>
+																					<RelOp NodeId="7" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="24.056" EstimateIO="0" EstimateCPU="5.02771e-05" AvgRowSize="471" EstimatedTotalSubtreeCost="0.0487853" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																						<OutputList>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																							</ColumnReference>
+																						</OutputList>
+																						<NestedLoops Optimized="0">
+																							<OuterReferences>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																								</ColumnReference>
+																							</OuterReferences>
+																							<RelOp NodeId="8" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="12.028" EstimateIO="0" EstimateCPU="0.000201108" AvgRowSize="486" EstimatedTotalSubtreeCost="0.0437084" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																								<OutputList>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																									</ColumnReference>
+																								</OutputList>
+																								<NestedLoops Optimized="0">
+																									<Predicate>
+																										<ScalarOperator ScalarString="[PaymentData].[dbo].[Bank].[AccountType] as [PayerBank].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [PayerBankAccountType].[Oid]">
+																											<Compare CompareOp="EQ">
+																												<ScalarOperator>
+																													<Identifier>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Alias="[PayerBank]" Column="AccountType">
+																														</ColumnReference>
+																													</Identifier>
+																												</ScalarOperator>
+																												<ScalarOperator>
+																													<Identifier>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Oid">
+																														</ColumnReference>
+																													</Identifier>
+																												</ScalarOperator>
+																											</Compare>
+																										</ScalarOperator>
+																									</Predicate>
+																									<RelOp NodeId="9" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="12.028" EstimateIO="0" EstimateCPU="2.51385e-05" AvgRowSize="400" EstimatedTotalSubtreeCost="0.0392922" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																										<OutputList>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Alias="[PayerBank]" Column="AccountType">
+																											</ColumnReference>
+																										</OutputList>
+																										<NestedLoops Optimized="0">
+																											<OuterReferences>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																												</ColumnReference>
+																											</OuterReferences>
+																											<RelOp NodeId="10" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="6.014" EstimateIO="0" EstimateCPU="8.37171e-05" AvgRowSize="383" EstimatedTotalSubtreeCost="0.0351913" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																												<OutputList>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																													</ColumnReference>
+																												</OutputList>
+																												<NestedLoops Optimized="0">
+																													<Predicate>
+																														<ScalarOperator ScalarString="[PaymentData].[dbo].[Cashbox].[AccountType] as [PayerCashbox].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [PayerCashboxAccountType].[Oid]">
+																															<Compare CompareOp="EQ">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="AccountType">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Oid">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Compare>
+																														</ScalarOperator>
+																													</Predicate>
+																													<RelOp NodeId="11" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="5.007" EstimateIO="0" EstimateCPU="2.50967e-05" AvgRowSize="297" EstimatedTotalSubtreeCost="0.031483" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																														<OutputList>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="AccountType">
+																															</ColumnReference>
+																														</OutputList>
+																														<NestedLoops Optimized="0">
+																															<Predicate>
+																																<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]=[PaymentData].[dbo].[Cashbox].[Oid] as [PayerCashbox].[Oid]">
+																																	<Compare CompareOp="EQ">
+																																		<ScalarOperator>
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																		<ScalarOperator>
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																	</Compare>
+																																</ScalarOperator>
+																															</Predicate>
+																															<RelOp NodeId="12" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="6.004" EstimateIO="0" EstimateCPU="0.000100387" AvgRowSize="281" EstimatedTotalSubtreeCost="0.0277747" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																<OutputList>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																																	</ColumnReference>
+																																</OutputList>
+																																<NestedLoops Optimized="0">
+																																	<Predicate>
+																																		<ScalarOperator ScalarString="[PaymentData].[dbo].[Bank].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [BankAccountType].[Oid]">
+																																			<Compare CompareOp="EQ">
+																																				<ScalarOperator>
+																																					<Identifier>
+																																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																																						</ColumnReference>
+																																					</Identifier>
+																																				</ScalarOperator>
+																																				<ScalarOperator>
+																																					<Identifier>
+																																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																																						</ColumnReference>
+																																					</Identifier>
+																																				</ScalarOperator>
+																																			</Compare>
+																																		</ScalarOperator>
+																																	</Predicate>
+																																	<RelOp NodeId="13" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="6.004" EstimateIO="0" EstimateCPU="1.25484e-05" AvgRowSize="195" EstimatedTotalSubtreeCost="0.0239658" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																		<OutputList>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																																			</ColumnReference>
+																																		</OutputList>
+																																		<NestedLoops Optimized="0">
+																																			<OuterReferences>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																				</ColumnReference>
+																																			</OuterReferences>
+																																			<RelOp NodeId="14" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="3.002" EstimateIO="0" EstimateCPU="5.01934e-05" AvgRowSize="179" EstimatedTotalSubtreeCost="0.0203537" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																				<OutputList>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																					</ColumnReference>
+																																				</OutputList>
+																																				<NestedLoops Optimized="0">
+																																					<Predicate>
+																																						<ScalarOperator ScalarString="[PaymentData].[dbo].[Cashbox].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [CashboxAccountType].[Oid]">
+																																							<Compare CompareOp="EQ">
+																																								<ScalarOperator>
+																																									<Identifier>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																										</ColumnReference>
+																																									</Identifier>
+																																								</ScalarOperator>
+																																								<ScalarOperator>
+																																									<Identifier>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																																										</ColumnReference>
+																																									</Identifier>
+																																								</ScalarOperator>
+																																							</Compare>
+																																						</ScalarOperator>
+																																					</Predicate>
+																																					<RelOp NodeId="15" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="3.002" EstimateIO="0" EstimateCPU="1.672e-05" AvgRowSize="91" EstimatedTotalSubtreeCost="0.0168475" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																						<OutputList>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																							</ColumnReference>
+																																						</OutputList>
+																																						<NestedLoops Optimized="0">
+																																							<Predicate>
+																																								<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payee].[Oid]=[PaymentData].[dbo].[Cashbox].[Oid]">
+																																									<Compare CompareOp="EQ">
+																																										<ScalarOperator>
+																																											<Identifier>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																												</ColumnReference>
+																																											</Identifier>
+																																										</ScalarOperator>
+																																										<ScalarOperator>
+																																											<Identifier>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																												</ColumnReference>
+																																											</Identifier>
+																																										</ScalarOperator>
+																																									</Compare>
+																																								</ScalarOperator>
+																																							</Predicate>
+																																							<RelOp NodeId="16" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="4" EstimateIO="0" EstimateCPU="8.36e-06" AvgRowSize="75" EstimatedTotalSubtreeCost="0.0133077" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																								<OutputList>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																									</ColumnReference>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																									</ColumnReference>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																									</ColumnReference>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																									</ColumnReference>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																									</ColumnReference>
+																																								</OutputList>
+																																								<NestedLoops Optimized="0">
+																																									<OuterReferences>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																										</ColumnReference>
+																																									</OuterReferences>
+																																									<RelOp NodeId="17" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="2" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="59" EstimatedTotalSubtreeCost="0.00985814" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																										<OutputList>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																											</ColumnReference>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																											</ColumnReference>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																											</ColumnReference>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																											</ColumnReference>
+																																										</OutputList>
+																																										<NestedLoops Optimized="0">
+																																											<OuterReferences>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																												</ColumnReference>
+																																											</OuterReferences>
+																																											<RelOp NodeId="18" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="63" EstimatedTotalSubtreeCost="0.00657038" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																												<OutputList>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																													</ColumnReference>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																													</ColumnReference>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																													</ColumnReference>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																													</ColumnReference>
+																																												</OutputList>
+																																												<NestedLoops Optimized="0">
+																																													<OuterReferences>
+																																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																														</ColumnReference>
+																																													</OuterReferences>
+																																													<RelOp NodeId="19" PhysicalOp="Index Seek" LogicalOp="Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																														<OutputList>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																															</ColumnReference>
+																																														</OutputList>
+																																														<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																															<DefinedValues>
+																																																<DefinedValue>
+																																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																																	</ColumnReference>
+																																																</DefinedValue>
+																																															</DefinedValues>
+																																															<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iProject_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																																															</Object>
+																																															<SeekPredicates>
+																																																<SeekPredicateNew>
+																																																	<SeekKeys>
+																																																		<Prefix ScanType="EQ">
+																																																			<RangeColumns>
+																																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																																																				</ColumnReference>
+																																																			</RangeColumns>
+																																																			<RangeExpressions>
+																																																				<ScalarOperator ScalarString="[@Project]">
+																																																					<Identifier>
+																																																						<ColumnReference Column="@Project">
+																																																						</ColumnReference>
+																																																					</Identifier>
+																																																				</ScalarOperator>
+																																																			</RangeExpressions>
+																																																		</Prefix>
+																																																	</SeekKeys>
+																																																</SeekPredicateNew>
+																																															</SeekPredicates>
+																																														</IndexScan>
+																																													</RelOp>
+																																													<RelOp NodeId="21" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="63" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																														<OutputList>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																															</ColumnReference>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																															</ColumnReference>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																															</ColumnReference>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																															</ColumnReference>
+																																														</OutputList>
+																																														<IndexScan Lookup="1" Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																															<DefinedValues>
+																																																<DefinedValue>
+																																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																																	</ColumnReference>
+																																																</DefinedValue>
+																																																<DefinedValue>
+																																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																																	</ColumnReference>
+																																																</DefinedValue>
+																																																<DefinedValue>
+																																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																																	</ColumnReference>
+																																																</DefinedValue>
+																																																<DefinedValue>
+																																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																																	</ColumnReference>
+																																																</DefinedValue>
+																																															</DefinedValues>
+																																															<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[PK_Payment]" TableReferenceId="-1" IndexKind="Clustered" Storage="RowStore">
+																																															</Object>
+																																															<SeekPredicates>
+																																																<SeekPredicateNew>
+																																																	<SeekKeys>
+																																																		<Prefix ScanType="EQ">
+																																																			<RangeColumns>
+																																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																																				</ColumnReference>
+																																																			</RangeColumns>
+																																																			<RangeExpressions>
+																																																				<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Oid]">
+																																																					<Identifier>
+																																																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																																						</ColumnReference>
+																																																					</Identifier>
+																																																				</ScalarOperator>
+																																																			</RangeExpressions>
+																																																		</Prefix>
+																																																	</SeekKeys>
+																																																</SeekPredicateNew>
+																																															</SeekPredicates>
+																																															<Predicate>
+																																																<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[GCRecord] IS NULL">
+																																																	<Compare CompareOp="IS">
+																																																		<ScalarOperator>
+																																																			<Identifier>
+																																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="GCRecord">
+																																																				</ColumnReference>
+																																																			</Identifier>
+																																																		</ScalarOperator>
+																																																		<ScalarOperator>
+																																																			<Const ConstValue="NULL">
+																																																			</Const>
+																																																		</ScalarOperator>
+																																																	</Compare>
+																																																</ScalarOperator>
+																																															</Predicate>
+																																														</IndexScan>
+																																													</RelOp>
+																																												</NestedLoops>
+																																											</RelOp>
+																																											<RelOp NodeId="22" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="2000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																												<OutputList>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																													</ColumnReference>
+																																												</OutputList>
+																																												<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																													<DefinedValues>
+																																														<DefinedValue>
+																																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																															</ColumnReference>
+																																														</DefinedValue>
+																																													</DefinedValues>
+																																													<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" Alias="[Payee]" IndexKind="Clustered" Storage="RowStore">
+																																													</Object>
+																																													<SeekPredicates>
+																																														<SeekPredicateNew>
+																																															<SeekKeys>
+																																																<Prefix ScanType="EQ">
+																																																	<RangeColumns>
+																																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																																		</ColumnReference>
+																																																	</RangeColumns>
+																																																	<RangeExpressions>
+																																																		<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payee]">
+																																																			<Identifier>
+																																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																																				</ColumnReference>
+																																																			</Identifier>
+																																																		</ScalarOperator>
+																																																	</RangeExpressions>
+																																																</Prefix>
+																																															</SeekKeys>
+																																														</SeekPredicateNew>
+																																													</SeekPredicates>
+																																												</IndexScan>
+																																											</RelOp>
+																																										</NestedLoops>
+																																									</RelOp>
+																																									<RelOp NodeId="23" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0034412" TableCardinality="2000" Parallel="0" EstimateRebinds="0" EstimateRewinds="1" EstimatedExecutionMode="Row">
+																																										<OutputList>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																											</ColumnReference>
+																																										</OutputList>
+																																										<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																											<DefinedValues>
+																																												<DefinedValue>
+																																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																													</ColumnReference>
+																																												</DefinedValue>
+																																											</DefinedValues>
+																																											<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" Alias="[Payer]" IndexKind="Clustered" Storage="RowStore">
+																																											</Object>
+																																											<SeekPredicates>
+																																												<SeekPredicateNew>
+																																													<SeekKeys>
+																																														<Prefix ScanType="EQ">
+																																															<RangeColumns>
+																																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																																</ColumnReference>
+																																															</RangeColumns>
+																																															<RangeExpressions>
+																																																<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payer]">
+																																																	<Identifier>
+																																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																																		</ColumnReference>
+																																																	</Identifier>
+																																																</ScalarOperator>
+																																															</RangeExpressions>
+																																														</Prefix>
+																																													</SeekKeys>
+																																												</SeekPredicateNew>
+																																											</SeekPredicates>
+																																										</IndexScan>
+																																									</RelOp>
+																																								</NestedLoops>
+																																							</RelOp>
+																																							<RelOp NodeId="24" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.0032035" EstimateCPU="7.96e-05" AvgRowSize="39" EstimatedTotalSubtreeCost="0.0035219" TableCardinality="0" Parallel="0" EstimateRebinds="0" EstimateRewinds="3" EstimatedExecutionMode="Row">
+																																								<OutputList>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																									</ColumnReference>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																									</ColumnReference>
+																																								</OutputList>
+																																								<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																									<DefinedValues>
+																																										<DefinedValue>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																											</ColumnReference>
+																																										</DefinedValue>
+																																										<DefinedValue>
+																																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																											</ColumnReference>
+																																										</DefinedValue>
+																																									</DefinedValues>
+																																									<Object Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Index="[PK_Cashbox]" IndexKind="Clustered" Storage="RowStore">
+																																									</Object>
+																																								</IndexScan>
+																																							</RelOp>
+																																						</NestedLoops>
+																																					</RelOp>
+																																					<RelOp NodeId="25" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="127" EstimatedTotalSubtreeCost="0.00345237" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="2.002" EstimatedExecutionMode="Row">
+																																						<OutputList>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																							</ColumnReference>
+																																						</OutputList>
+																																						<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																							<DefinedValues>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																							</DefinedValues>
+																																							<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[CashboxAccountType]" IndexKind="Clustered" Storage="RowStore">
+																																							</Object>
+																																						</IndexScan>
+																																					</RelOp>
+																																				</NestedLoops>
+																																			</RelOp>
+																																			<RelOp NodeId="26" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.00359962" TableCardinality="195" Parallel="0" EstimateRebinds="0" EstimateRewinds="2.002" EstimatedExecutionMode="Row">
+																																				<OutputList>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																																					</ColumnReference>
+																																				</OutputList>
+																																				<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																					<DefinedValues>
+																																						<DefinedValue>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																																							</ColumnReference>
+																																						</DefinedValue>
+																																					</DefinedValues>
+																																					<Object Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Index="[PK_Bank]" IndexKind="Clustered" Storage="RowStore">
+																																					</Object>
+																																					<SeekPredicates>
+																																						<SeekPredicateNew>
+																																							<SeekKeys>
+																																								<Prefix ScanType="EQ">
+																																									<RangeColumns>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="Oid">
+																																										</ColumnReference>
+																																									</RangeColumns>
+																																									<RangeExpressions>
+																																										<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payee].[Oid]">
+																																											<Identifier>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																												</ColumnReference>
+																																											</Identifier>
+																																										</ScalarOperator>
+																																									</RangeExpressions>
+																																								</Prefix>
+																																							</SeekKeys>
+																																						</SeekPredicateNew>
+																																					</SeekPredicates>
+																																				</IndexScan>
+																																			</RelOp>
+																																		</NestedLoops>
+																																	</RelOp>
+																																	<RelOp NodeId="27" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="127" EstimatedTotalSubtreeCost="0.00370123" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="5.004" EstimatedExecutionMode="Row">
+																																		<OutputList>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																																			</ColumnReference>
+																																		</OutputList>
+																																		<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																			<DefinedValues>
+																																				<DefinedValue>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																																					</ColumnReference>
+																																				</DefinedValue>
+																																				<DefinedValue>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																																					</ColumnReference>
+																																				</DefinedValue>
+																																			</DefinedValues>
+																																			<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[BankAccountType]" IndexKind="Clustered" Storage="RowStore">
+																																			</Object>
+																																		</IndexScan>
+																																	</RelOp>
+																																</NestedLoops>
+																															</RelOp>
+																															<RelOp NodeId="28" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.0032035" EstimateCPU="7.96e-05" AvgRowSize="39" EstimatedTotalSubtreeCost="0.00368142" TableCardinality="0" Parallel="0" EstimateRebinds="0" EstimateRewinds="5.004" EstimatedExecutionMode="Row">
+																																<OutputList>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="Oid">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="AccountType">
+																																	</ColumnReference>
+																																</OutputList>
+																																<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																	<DefinedValues>
+																																		<DefinedValue>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="Oid">
+																																			</ColumnReference>
+																																		</DefinedValue>
+																																		<DefinedValue>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Alias="[PayerCashbox]" Column="AccountType">
+																																			</ColumnReference>
+																																		</DefinedValue>
+																																	</DefinedValues>
+																																	<Object Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Index="[PK_Cashbox]" Alias="[PayerCashbox]" IndexKind="Clustered" Storage="RowStore">
+																																	</Object>
+																																</IndexScan>
+																															</RelOp>
+																														</NestedLoops>
+																													</RelOp>
+																													<RelOp NodeId="29" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="127" EstimatedTotalSubtreeCost="0.00361858" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="4.007" EstimatedExecutionMode="Row">
+																														<OutputList>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Oid">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																															</ColumnReference>
+																														</OutputList>
+																														<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																															<DefinedValues>
+																																<DefinedValue>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Oid">
+																																	</ColumnReference>
+																																</DefinedValue>
+																																<DefinedValue>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerCashboxAccountType]" Column="Name">
+																																	</ColumnReference>
+																																</DefinedValue>
+																															</DefinedValues>
+																															<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[PayerCashboxAccountType]" IndexKind="Clustered" Storage="RowStore">
+																															</Object>
+																														</IndexScan>
+																													</RelOp>
+																												</NestedLoops>
+																											</RelOp>
+																											<RelOp NodeId="30" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.00407581" TableCardinality="195" Parallel="0" EstimateRebinds="0" EstimateRewinds="5.014" EstimatedExecutionMode="Row">
+																												<OutputList>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Alias="[PayerBank]" Column="AccountType">
+																													</ColumnReference>
+																												</OutputList>
+																												<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																													<DefinedValues>
+																														<DefinedValue>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Alias="[PayerBank]" Column="AccountType">
+																															</ColumnReference>
+																														</DefinedValue>
+																													</DefinedValues>
+																													<Object Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Index="[PK_Bank]" Alias="[PayerBank]" IndexKind="Clustered" Storage="RowStore">
+																													</Object>
+																													<SeekPredicates>
+																														<SeekPredicateNew>
+																															<SeekKeys>
+																																<Prefix ScanType="EQ">
+																																	<RangeColumns>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Alias="[PayerBank]" Column="Oid">
+																																		</ColumnReference>
+																																	</RangeColumns>
+																																	<RangeExpressions>
+																																		<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]">
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																	</RangeExpressions>
+																																</Prefix>
+																															</SeekKeys>
+																														</SeekPredicateNew>
+																													</SeekPredicates>
+																												</IndexScan>
+																											</RelOp>
+																										</NestedLoops>
+																									</RelOp>
+																									<RelOp NodeId="31" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="127" EstimatedTotalSubtreeCost="0.00420062" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="11.028" EstimatedExecutionMode="Row">
+																										<OutputList>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Oid">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																											</ColumnReference>
+																										</OutputList>
+																										<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																											<DefinedValues>
+																												<DefinedValue>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Oid">
+																													</ColumnReference>
+																												</DefinedValue>
+																												<DefinedValue>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[PayerBankAccountType]" Column="Name">
+																													</ColumnReference>
+																												</DefinedValue>
+																											</DefinedValues>
+																											<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[PayerBankAccountType]" IndexKind="Clustered" Storage="RowStore">
+																											</Object>
+																										</IndexScan>
+																									</RelOp>
+																								</NestedLoops>
+																							</RelOp>
+																							<RelOp NodeId="32" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00502663" TableCardinality="197" Parallel="0" EstimateRebinds="0" EstimateRewinds="11.028" EstimatedExecutionMode="Row">
+																								<OutputList>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																									</ColumnReference>
+																								</OutputList>
+																								<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																									<DefinedValues>
+																										<DefinedValue>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="ProfitByMaterialAsPayer">
+																											</ColumnReference>
+																										</DefinedValue>
+																									</DefinedValues>
+																									<Object Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Index="[PK_Supplier]" Alias="[SupplierPayer]" IndexKind="Clustered" Storage="RowStore">
+																									</Object>
+																									<SeekPredicates>
+																										<SeekPredicateNew>
+																											<SeekKeys>
+																												<Prefix ScanType="EQ">
+																													<RangeColumns>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="Oid">
+																														</ColumnReference>
+																													</RangeColumns>
+																													<RangeExpressions>
+																														<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]">
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</RangeExpressions>
+																												</Prefix>
+																											</SeekKeys>
+																										</SeekPredicateNew>
+																									</SeekPredicates>
+																								</IndexScan>
+																							</RelOp>
+																						</NestedLoops>
+																					</RelOp>
+																					<RelOp NodeId="33" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00692826" TableCardinality="197" Parallel="0" EstimateRebinds="0" EstimateRewinds="23.056" EstimatedExecutionMode="Row">
+																						<OutputList>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																							</ColumnReference>
+																						</OutputList>
+																						<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																							<DefinedValues>
+																								<DefinedValue>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="ProfitByMaterialAsPayee">
+																									</ColumnReference>
+																								</DefinedValue>
+																							</DefinedValues>
+																							<Object Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Index="[PK_Supplier]" Alias="[SupplierPayee]" IndexKind="Clustered" Storage="RowStore">
+																							</Object>
+																							<SeekPredicates>
+																								<SeekPredicateNew>
+																									<SeekKeys>
+																										<Prefix ScanType="EQ">
+																											<RangeColumns>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayee]" Column="Oid">
+																												</ColumnReference>
+																											</RangeColumns>
+																											<RangeExpressions>
+																												<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payee].[Oid]">
+																													<Identifier>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																														</ColumnReference>
+																													</Identifier>
+																												</ScalarOperator>
+																											</RangeExpressions>
+																										</Prefix>
+																									</SeekKeys>
+																								</SeekPredicateNew>
+																							</SeekPredicates>
+																						</IndexScan>
+																					</RelOp>
+																				</NestedLoops>
+																			</RelOp>
+																			<RelOp NodeId="34" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="49" EstimatedTotalSubtreeCost="0.0107315" TableCardinality="45" Parallel="0" EstimateRebinds="0" EstimateRewinds="47.112" EstimatedExecutionMode="Row">
+																				<OutputList>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																					</ColumnReference>
+																				</OutputList>
+																				<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																					<DefinedValues>
+																						<DefinedValue>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																							</ColumnReference>
+																						</DefinedValue>
+																						<DefinedValue>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																							</ColumnReference>
+																						</DefinedValue>
+																					</DefinedValues>
+																					<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Index="[PK_PaymentCategory]" IndexKind="Clustered" Storage="RowStore">
+																					</Object>
+																					<SeekPredicates>
+																						<SeekPredicateNew>
+																							<SeekKeys>
+																								<Prefix ScanType="EQ">
+																									<RangeColumns>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Oid">
+																										</ColumnReference>
+																									</RangeColumns>
+																									<RangeExpressions>
+																										<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Category]">
+																											<Identifier>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																												</ColumnReference>
+																											</Identifier>
+																										</ScalarOperator>
+																									</RangeExpressions>
+																								</Prefix>
+																							</SeekKeys>
+																						</SeekPredicateNew>
+																					</SeekPredicates>
+																				</IndexScan>
+																			</RelOp>
+																		</NestedLoops>
+																	</RelOp>
+																	<Predicate>
+																		<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentCategory].[ProfitByMaterial]=(1) OR [PaymentData].[dbo].[PaymentCategory].[Name]=N&apos;???????? ???????&apos;">
+																			<Logical Operation="OR">
+																				<ScalarOperator>
+																					<Compare CompareOp="EQ">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="ProfitByMaterial">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Const ConstValue="(1)">
+																							</Const>
+																						</ScalarOperator>
+																					</Compare>
+																				</ScalarOperator>
+																				<ScalarOperator>
+																					<Compare CompareOp="EQ">
+																						<ScalarOperator>
+																							<Identifier>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Name">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																						<ScalarOperator>
+																							<Const ConstValue="N&apos;???????? ???????&apos;">
+																							</Const>
+																						</ScalarOperator>
+																					</Compare>
+																				</ScalarOperator>
+																			</Logical>
+																		</ScalarOperator>
+																	</Predicate>
+																</Filter>
+															</RelOp>
+														</NestedLoops>
+													</RelOp>
+												</StreamAggregate>
+											</RelOp>
+										</ComputeScalar>
+									</RelOp>
+									<ParameterList>
+										<ColumnReference Column="@Project" ParameterDataType="uniqueidentifier" ParameterCompiledValue="NULL">
+										</ColumnReference>
+									</ParameterList>
+								</QueryPlan>
+							</StmtSimple>
+							<StmtSimple StatementText="&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;SELECT     @Cost = SUM(Payment.Amount)&#xd;&#xa;FROM         Payment INNER JOIN&#xd;&#xa;                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN&#xd;&#xa;                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid &#xd;&#xa;                      left join Cashbox On Payer.Oid = Cashbox.Oid&#xd;&#xa;                      left join AccountType CashboxAccountType on Cashbox.AccountType = CashboxAccountType.Oid&#xd;&#xa;                      left join Bank On Payer.Oid = Bank.Oid&#xd;&#xa;                      left join AccountType BankAccountType on Bank.AccountType = BankAccountType.Oid&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN dbo.Supplier SupplierPayer ON SupplierPayer.Oid = Payer.Oid&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  LEFT JOIN dbo.Supplier SupplierPayee ON SupplierPayee.Oid = Payee.Oid&#xd;&#xa;                      INNER JOIN&#xd;&#xa;                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN&#xd;&#xa;                      Project ON Payment.Project = Project.Oid INNER JOIN&#xd;&#xa;                      Client ON Project.Client = Client.Oid&#xd;&#xa;where &#xd;&#xa;Payment.GCRecord is null and&#xd;&#xa;(&#xd;&#xa;CashboxAccountType.Name = &apos;Материальный&apos; or&#xd;&#xa;BankAccountType.Name = &apos;Материальный&apos; or&#xd;&#xa;SupplierPayer.CostByMaterialAsPayer = 1 or&#xd;&#xa;Payer.Oid in (Select Oid from Employee))&#xd;&#xa;and&#xd;&#xa;(PaymentCategory.CostByMaterial = 1&#xd;&#xa;)&#xd;&#xa;and&#xd;&#xa;Project.Oid = @Project" StatementId="4" StatementCompId="5" StatementType="SELECT" RetrievedFromCache="false" StatementSubTreeCost="0.043618" StatementEstRows="1" SecurityPolicyApplied="false" StatementOptmLevel="FULL" QueryHash="0x3A71B688444B1F23" QueryPlanHash="0x6CA22367A615FBA5" StatementOptmEarlyAbortReason="GoodEnoughPlanFound" CardinalityEstimationModelVersion="150">
+								<StatementSetOptions QUOTED_IDENTIFIER="true" ARITHABORT="true" CONCAT_NULL_YIELDS_NULL="true" ANSI_NULLS="true" ANSI_PADDING="true" ANSI_WARNINGS="true" NUMERIC_ROUNDABORT="false">
+								</StatementSetOptions>
+								<QueryPlan CachedPlanSize="96" CompileTime="14" CompileCPU="14" CompileMemory="1928">
+									<MemoryGrantInfo SerialRequiredMemory="0" SerialDesiredMemory="0" GrantedMemory="0" MaxUsedMemory="0">
+									</MemoryGrantInfo>
+									<OptimizerHardwareDependentProperties EstimatedAvailableMemoryGrant="160793" EstimatedPagesCached="40198" EstimatedAvailableDegreeOfParallelism="2" MaxCompileMemory="4182936">
+									</OptimizerHardwareDependentProperties>
+									<OptimizerStatsUsage>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.30" ModificationCount="1" SamplingPercent="100" Statistics="[_WA_Sys_00000005_398D8EEE]" Table="[Supplier]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.29" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Client]" Table="[Client]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iProject_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.27" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Supplier]" Table="[Supplier]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.13" ModificationCount="0" SamplingPercent="100" Statistics="[PK_PaymentCategory]" Table="[PaymentCategory]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.30" ModificationCount="0" SamplingPercent="100" Statistics="[iGCRecord_AccountType]" Table="[AccountType]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.73" ModificationCount="500" SamplingPercent="100" Statistics="[iGCRecord_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.11" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Bank]" Table="[Bank]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iPayee_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.28" ModificationCount="0" SamplingPercent="100" Statistics="[_WA_Sys_00000006_37A5467C]" Table="[PaymentCategory]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-14T13:01:35.49" ModificationCount="0" SamplingPercent="100" Statistics="[iManager_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.10" ModificationCount="1" SamplingPercent="100" Statistics="[iAccountType_Bank]" Table="[Bank]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.10" ModificationCount="85" SamplingPercent="100" Statistics="[PK_PaymentParticipant]" Table="[PaymentParticipant]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.73" ModificationCount="500" SamplingPercent="100" Statistics="[iCategory_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-14T13:01:35.48" ModificationCount="0" SamplingPercent="100" Statistics="[iClient_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.14" ModificationCount="0" SamplingPercent="100" Statistics="[_WA_Sys_00000002_47DBAE45]" Table="[AccountType]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.11" ModificationCount="0" SamplingPercent="100" Statistics="[PK_AccountType]" Table="[AccountType]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:57.74" ModificationCount="500" SamplingPercent="100" Statistics="[iPayer_Payment]" Table="[Payment]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-14T13:01:35.49" ModificationCount="0" SamplingPercent="100" Statistics="[iGCRecord_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.24" ModificationCount="2" SamplingPercent="100" Statistics="[PK_Employee]" Table="[Employee]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-13T15:14:55.22" ModificationCount="1" SamplingPercent="100" Statistics="[PK_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+										<StatisticsInfo LastUpdate="2022-06-14T13:01:35.49" ModificationCount="0" SamplingPercent="100" Statistics="[iForeman_Project]" Table="[Project]" Schema="[dbo]" Database="[PaymentData]">
+										</StatisticsInfo>
+									</OptimizerStatsUsage>
+									<TraceFlags IsCompileTime="1">
+										<TraceFlag Value="822" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="833" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="835" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="851" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="3425" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="5504" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8052" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8076" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="8904" Scope="Global">
+										</TraceFlag>
+										<TraceFlag Value="9038" Scope="Global">
+										</TraceFlag>
+									</TraceFlags>
+									<RelOp NodeId="0" PhysicalOp="Compute Scalar" LogicalOp="Compute Scalar" EstimateRows="1" EstimateIO="0" EstimateCPU="0" AvgRowSize="11" EstimatedTotalSubtreeCost="0.043618" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+										<OutputList>
+											<ColumnReference Column="Expr1020">
+											</ColumnReference>
+										</OutputList>
+										<ComputeScalar>
+											<DefinedValues>
+												<DefinedValue>
+													<ColumnReference Column="Expr1020">
+													</ColumnReference>
+													<ScalarOperator ScalarString="CASE WHEN [Expr1023]=(0) THEN NULL ELSE [Expr1024] END">
+														<IF>
+															<Condition>
+																<ScalarOperator>
+																	<Compare CompareOp="EQ">
+																		<ScalarOperator>
+																			<Identifier>
+																				<ColumnReference Column="Expr1023">
+																				</ColumnReference>
+																			</Identifier>
+																		</ScalarOperator>
+																		<ScalarOperator>
+																			<Const ConstValue="(0)">
+																			</Const>
+																		</ScalarOperator>
+																	</Compare>
+																</ScalarOperator>
+															</Condition>
+															<Then>
+																<ScalarOperator>
+																	<Const ConstValue="NULL">
+																	</Const>
+																</ScalarOperator>
+															</Then>
+															<Else>
+																<ScalarOperator>
+																	<Identifier>
+																		<ColumnReference Column="Expr1024">
+																		</ColumnReference>
+																	</Identifier>
+																</ScalarOperator>
+															</Else>
+														</IF>
+													</ScalarOperator>
+												</DefinedValue>
+											</DefinedValues>
+											<RelOp NodeId="1" PhysicalOp="Stream Aggregate" LogicalOp="Aggregate" EstimateRows="1" EstimateIO="0" EstimateCPU="1.14043e-06" AvgRowSize="11" EstimatedTotalSubtreeCost="0.043618" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+												<OutputList>
+													<ColumnReference Column="Expr1023">
+													</ColumnReference>
+													<ColumnReference Column="Expr1024">
+													</ColumnReference>
+												</OutputList>
+												<StreamAggregate>
+													<DefinedValues>
+														<DefinedValue>
+															<ColumnReference Column="Expr1023">
+															</ColumnReference>
+															<ScalarOperator ScalarString="COUNT_BIG([PaymentData].[dbo].[Payment].[Amount])">
+																<Aggregate Distinct="0" AggType="COUNT_BIG">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Aggregate>
+															</ScalarOperator>
+														</DefinedValue>
+														<DefinedValue>
+															<ColumnReference Column="Expr1024">
+															</ColumnReference>
+															<ScalarOperator ScalarString="SUM([PaymentData].[dbo].[Payment].[Amount])">
+																<Aggregate Distinct="0" AggType="SUM">
+																	<ScalarOperator>
+																		<Identifier>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																		</Identifier>
+																	</ScalarOperator>
+																</Aggregate>
+															</ScalarOperator>
+														</DefinedValue>
+													</DefinedValues>
+													<RelOp NodeId="2" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1.06738" EstimateIO="0" EstimateCPU="4.46164e-06" AvgRowSize="11" EstimatedTotalSubtreeCost="0.0436168" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+														<OutputList>
+															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+															</ColumnReference>
+														</OutputList>
+														<NestedLoops Optimized="0">
+															<OuterReferences>
+																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																</ColumnReference>
+															</OuterReferences>
+															<RelOp NodeId="3" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1.06738" EstimateIO="0" EstimateCPU="4.46164e-06" AvgRowSize="27" EstimatedTotalSubtreeCost="0.0403186" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																<OutputList>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																	</ColumnReference>
+																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																	</ColumnReference>
+																</OutputList>
+																<NestedLoops Optimized="0">
+																	<RelOp NodeId="4" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																		<OutputList>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																			</ColumnReference>
+																		</OutputList>
+																		<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																			<DefinedValues>
+																				<DefinedValue>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																					</ColumnReference>
+																				</DefinedValue>
+																			</DefinedValues>
+																			<Object Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Index="[PK_Project]" IndexKind="Clustered" Storage="RowStore">
+																			</Object>
+																			<SeekPredicates>
+																				<SeekPredicateNew>
+																					<SeekKeys>
+																						<Prefix ScanType="EQ">
+																							<RangeColumns>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Oid">
+																								</ColumnReference>
+																							</RangeColumns>
+																							<RangeExpressions>
+																								<ScalarOperator ScalarString="[@Project]">
+																									<Identifier>
+																										<ColumnReference Column="@Project">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																							</RangeExpressions>
+																						</Prefix>
+																					</SeekKeys>
+																				</SeekPredicateNew>
+																			</SeekPredicates>
+																		</IndexScan>
+																	</RelOp>
+																	<RelOp NodeId="5" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1.06738" EstimateIO="0" EstimateCPU="5.01934e-05" AvgRowSize="11" EstimatedTotalSubtreeCost="0.037031" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																		<OutputList>
+																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																			</ColumnReference>
+																		</OutputList>
+																		<NestedLoops Optimized="0">
+																			<OuterReferences>
+																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																				</ColumnReference>
+																			</OuterReferences>
+																			<RelOp NodeId="6" PhysicalOp="Nested Loops" LogicalOp="Left Semi Join" EstimateRows="12.008" EstimateIO="0" EstimateCPU="5.01934e-05" AvgRowSize="27" EstimatedTotalSubtreeCost="0.0319516" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																				<OutputList>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																					</ColumnReference>
+																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																					</ColumnReference>
+																				</OutputList>
+																				<NestedLoops Optimized="0">
+																					<OuterReferences>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																						</ColumnReference>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																						</ColumnReference>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																						</ColumnReference>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="CostByMaterialAsPayer">
+																						</ColumnReference>
+																					</OuterReferences>
+																					<RelOp NodeId="7" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="12.008" EstimateIO="0" EstimateCPU="2.50967e-05" AvgRowSize="176" EstimatedTotalSubtreeCost="0.031874" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																						<OutputList>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																							</ColumnReference>
+																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="CostByMaterialAsPayer">
+																							</ColumnReference>
+																						</OutputList>
+																						<NestedLoops Optimized="0">
+																							<OuterReferences>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																								</ColumnReference>
+																							</OuterReferences>
+																							<RelOp NodeId="8" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="6.004" EstimateIO="0" EstimateCPU="0.000100387" AvgRowSize="175" EstimatedTotalSubtreeCost="0.0277747" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																								<OutputList>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																									</ColumnReference>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																									</ColumnReference>
+																								</OutputList>
+																								<NestedLoops Optimized="0">
+																									<Predicate>
+																										<ScalarOperator ScalarString="[PaymentData].[dbo].[Bank].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [BankAccountType].[Oid]">
+																											<Compare CompareOp="EQ">
+																												<ScalarOperator>
+																													<Identifier>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																														</ColumnReference>
+																													</Identifier>
+																												</ScalarOperator>
+																												<ScalarOperator>
+																													<Identifier>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																														</ColumnReference>
+																													</Identifier>
+																												</ScalarOperator>
+																											</Compare>
+																										</ScalarOperator>
+																									</Predicate>
+																									<RelOp NodeId="9" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="6.004" EstimateIO="0" EstimateCPU="1.25484e-05" AvgRowSize="163" EstimatedTotalSubtreeCost="0.0239658" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																										<OutputList>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																											</ColumnReference>
+																										</OutputList>
+																										<NestedLoops Optimized="0">
+																											<OuterReferences>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																												</ColumnReference>
+																											</OuterReferences>
+																											<RelOp NodeId="10" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="3.002" EstimateIO="0" EstimateCPU="5.01934e-05" AvgRowSize="147" EstimatedTotalSubtreeCost="0.0203537" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																												<OutputList>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																													</ColumnReference>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																													</ColumnReference>
+																												</OutputList>
+																												<NestedLoops Optimized="0">
+																													<Predicate>
+																														<ScalarOperator ScalarString="[PaymentData].[dbo].[Cashbox].[AccountType]=[PaymentData].[dbo].[AccountType].[Oid] as [CashboxAccountType].[Oid]">
+																															<Compare CompareOp="EQ">
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																																<ScalarOperator>
+																																	<Identifier>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																																		</ColumnReference>
+																																	</Identifier>
+																																</ScalarOperator>
+																															</Compare>
+																														</ScalarOperator>
+																													</Predicate>
+																													<RelOp NodeId="11" PhysicalOp="Nested Loops" LogicalOp="Left Outer Join" EstimateRows="3.002" EstimateIO="0" EstimateCPU="1.672e-05" AvgRowSize="59" EstimatedTotalSubtreeCost="0.0168475" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																														<OutputList>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																															</ColumnReference>
+																														</OutputList>
+																														<NestedLoops Optimized="0">
+																															<Predicate>
+																																<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]=[PaymentData].[dbo].[Cashbox].[Oid]">
+																																	<Compare CompareOp="EQ">
+																																		<ScalarOperator>
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																		<ScalarOperator>
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																	</Compare>
+																																</ScalarOperator>
+																															</Predicate>
+																															<RelOp NodeId="12" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="4" EstimateIO="0" EstimateCPU="8.36e-06" AvgRowSize="43" EstimatedTotalSubtreeCost="0.0133077" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																<OutputList>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																	</ColumnReference>
+																																</OutputList>
+																																<NestedLoops Optimized="0">
+																																	<OuterReferences>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																		</ColumnReference>
+																																	</OuterReferences>
+																																	<RelOp NodeId="13" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="2" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="43" EstimatedTotalSubtreeCost="0.00985814" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																		<OutputList>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																			</ColumnReference>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																			</ColumnReference>
+																																		</OutputList>
+																																		<NestedLoops Optimized="0">
+																																			<OuterReferences>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																				</ColumnReference>
+																																			</OuterReferences>
+																																			<RelOp NodeId="14" PhysicalOp="Nested Loops" LogicalOp="Inner Join" EstimateRows="1" EstimateIO="0" EstimateCPU="4.18e-06" AvgRowSize="63" EstimatedTotalSubtreeCost="0.00657038" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																				<OutputList>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																					</ColumnReference>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																					</ColumnReference>
+																																				</OutputList>
+																																				<NestedLoops Optimized="0">
+																																					<OuterReferences>
+																																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																						</ColumnReference>
+																																					</OuterReferences>
+																																					<RelOp NodeId="15" PhysicalOp="Index Seek" LogicalOp="Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																						<OutputList>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																							</ColumnReference>
+																																						</OutputList>
+																																						<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																							<DefinedValues>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																							</DefinedValues>
+																																							<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[iProject_Payment]" IndexKind="NonClustered" Storage="RowStore">
+																																							</Object>
+																																							<SeekPredicates>
+																																								<SeekPredicateNew>
+																																									<SeekKeys>
+																																										<Prefix ScanType="EQ">
+																																											<RangeColumns>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Project">
+																																												</ColumnReference>
+																																											</RangeColumns>
+																																											<RangeExpressions>
+																																												<ScalarOperator ScalarString="[@Project]">
+																																													<Identifier>
+																																														<ColumnReference Column="@Project">
+																																														</ColumnReference>
+																																													</Identifier>
+																																												</ScalarOperator>
+																																											</RangeExpressions>
+																																										</Prefix>
+																																									</SeekKeys>
+																																								</SeekPredicateNew>
+																																							</SeekPredicates>
+																																						</IndexScan>
+																																					</RelOp>
+																																					<RelOp NodeId="17" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="63" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="1000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																						<OutputList>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																							</ColumnReference>
+																																							<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																							</ColumnReference>
+																																						</OutputList>
+																																						<IndexScan Lookup="1" Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																							<DefinedValues>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Amount">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																								<DefinedValue>
+																																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																									</ColumnReference>
+																																								</DefinedValue>
+																																							</DefinedValues>
+																																							<Object Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Index="[PK_Payment]" TableReferenceId="-1" IndexKind="Clustered" Storage="RowStore">
+																																							</Object>
+																																							<SeekPredicates>
+																																								<SeekPredicateNew>
+																																									<SeekKeys>
+																																										<Prefix ScanType="EQ">
+																																											<RangeColumns>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																												</ColumnReference>
+																																											</RangeColumns>
+																																											<RangeExpressions>
+																																												<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Oid]">
+																																													<Identifier>
+																																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Oid">
+																																														</ColumnReference>
+																																													</Identifier>
+																																												</ScalarOperator>
+																																											</RangeExpressions>
+																																										</Prefix>
+																																									</SeekKeys>
+																																								</SeekPredicateNew>
+																																							</SeekPredicates>
+																																							<Predicate>
+																																								<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[GCRecord] IS NULL">
+																																									<Compare CompareOp="IS">
+																																										<ScalarOperator>
+																																											<Identifier>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="GCRecord">
+																																												</ColumnReference>
+																																											</Identifier>
+																																										</ScalarOperator>
+																																										<ScalarOperator>
+																																											<Const ConstValue="NULL">
+																																											</Const>
+																																										</ScalarOperator>
+																																									</Compare>
+																																								</ScalarOperator>
+																																							</Predicate>
+																																						</IndexScan>
+																																					</RelOp>
+																																				</NestedLoops>
+																																			</RelOp>
+																																			<RelOp NodeId="18" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.0032831" TableCardinality="2000" Parallel="0" EstimateRebinds="0" EstimateRewinds="0" EstimatedExecutionMode="Row">
+																																				<OutputList>
+																																				</OutputList>
+																																				<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																					<DefinedValues>
+																																					</DefinedValues>
+																																					<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" Alias="[Payee]" IndexKind="Clustered" Storage="RowStore">
+																																					</Object>
+																																					<SeekPredicates>
+																																						<SeekPredicateNew>
+																																							<SeekKeys>
+																																								<Prefix ScanType="EQ">
+																																									<RangeColumns>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payee]" Column="Oid">
+																																										</ColumnReference>
+																																									</RangeColumns>
+																																									<RangeExpressions>
+																																										<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payee]">
+																																											<Identifier>
+																																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payee">
+																																												</ColumnReference>
+																																											</Identifier>
+																																										</ScalarOperator>
+																																									</RangeExpressions>
+																																								</Prefix>
+																																							</SeekKeys>
+																																						</SeekPredicateNew>
+																																					</SeekPredicates>
+																																				</IndexScan>
+																																			</RelOp>
+																																		</NestedLoops>
+																																	</RelOp>
+																																	<RelOp NodeId="19" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.0034412" TableCardinality="2000" Parallel="0" EstimateRebinds="0" EstimateRewinds="1" EstimatedExecutionMode="Row">
+																																		<OutputList>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																			</ColumnReference>
+																																		</OutputList>
+																																		<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																			<DefinedValues>
+																																				<DefinedValue>
+																																					<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																					</ColumnReference>
+																																				</DefinedValue>
+																																			</DefinedValues>
+																																			<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Index="[PK_PaymentParticipant]" Alias="[Payer]" IndexKind="Clustered" Storage="RowStore">
+																																			</Object>
+																																			<SeekPredicates>
+																																				<SeekPredicateNew>
+																																					<SeekKeys>
+																																						<Prefix ScanType="EQ">
+																																							<RangeColumns>
+																																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																								</ColumnReference>
+																																							</RangeColumns>
+																																							<RangeExpressions>
+																																								<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Payer]">
+																																									<Identifier>
+																																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Payer">
+																																										</ColumnReference>
+																																									</Identifier>
+																																								</ScalarOperator>
+																																							</RangeExpressions>
+																																						</Prefix>
+																																					</SeekKeys>
+																																				</SeekPredicateNew>
+																																			</SeekPredicates>
+																																		</IndexScan>
+																																	</RelOp>
+																																</NestedLoops>
+																															</RelOp>
+																															<RelOp NodeId="20" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.0032035" EstimateCPU="7.96e-05" AvgRowSize="39" EstimatedTotalSubtreeCost="0.0035219" TableCardinality="0" Parallel="0" EstimateRebinds="0" EstimateRewinds="3" EstimatedExecutionMode="Row">
+																																<OutputList>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																	</ColumnReference>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																	</ColumnReference>
+																																</OutputList>
+																																<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																																	<DefinedValues>
+																																		<DefinedValue>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="Oid">
+																																			</ColumnReference>
+																																		</DefinedValue>
+																																		<DefinedValue>
+																																			<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Column="AccountType">
+																																			</ColumnReference>
+																																		</DefinedValue>
+																																	</DefinedValues>
+																																	<Object Database="[PaymentData]" Schema="[dbo]" Table="[Cashbox]" Index="[PK_Cashbox]" IndexKind="Clustered" Storage="RowStore">
+																																	</Object>
+																																</IndexScan>
+																															</RelOp>
+																														</NestedLoops>
+																													</RelOp>
+																													<RelOp NodeId="21" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="127" EstimatedTotalSubtreeCost="0.00345237" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="2.002" EstimatedExecutionMode="Row">
+																														<OutputList>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																															</ColumnReference>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																															</ColumnReference>
+																														</OutputList>
+																														<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																															<DefinedValues>
+																																<DefinedValue>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Oid">
+																																	</ColumnReference>
+																																</DefinedValue>
+																																<DefinedValue>
+																																	<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																	</ColumnReference>
+																																</DefinedValue>
+																															</DefinedValues>
+																															<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[CashboxAccountType]" IndexKind="Clustered" Storage="RowStore">
+																															</Object>
+																														</IndexScan>
+																													</RelOp>
+																												</NestedLoops>
+																											</RelOp>
+																											<RelOp NodeId="22" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="23" EstimatedTotalSubtreeCost="0.00359962" TableCardinality="195" Parallel="0" EstimateRebinds="0" EstimateRewinds="2.002" EstimatedExecutionMode="Row">
+																												<OutputList>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																													</ColumnReference>
+																												</OutputList>
+																												<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																													<DefinedValues>
+																														<DefinedValue>
+																															<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="AccountType">
+																															</ColumnReference>
+																														</DefinedValue>
+																													</DefinedValues>
+																													<Object Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Index="[PK_Bank]" IndexKind="Clustered" Storage="RowStore">
+																													</Object>
+																													<SeekPredicates>
+																														<SeekPredicateNew>
+																															<SeekKeys>
+																																<Prefix ScanType="EQ">
+																																	<RangeColumns>
+																																		<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Bank]" Column="Oid">
+																																		</ColumnReference>
+																																	</RangeColumns>
+																																	<RangeExpressions>
+																																		<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]">
+																																			<Identifier>
+																																				<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																				</ColumnReference>
+																																			</Identifier>
+																																		</ScalarOperator>
+																																	</RangeExpressions>
+																																</Prefix>
+																															</SeekKeys>
+																														</SeekPredicateNew>
+																													</SeekPredicates>
+																												</IndexScan>
+																											</RelOp>
+																										</NestedLoops>
+																									</RelOp>
+																									<RelOp NodeId="23" PhysicalOp="Clustered Index Scan" LogicalOp="Clustered Index Scan" EstimateRows="4" EstimatedRowsRead="4" EstimateIO="0.0032035" EstimateCPU="8.29e-05" AvgRowSize="53" EstimatedTotalSubtreeCost="0.00370123" TableCardinality="4" Parallel="0" EstimateRebinds="0" EstimateRewinds="5.004" EstimatedExecutionMode="Row">
+																										<OutputList>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																											</ColumnReference>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																											</ColumnReference>
+																										</OutputList>
+																										<IndexScan Ordered="0" ForcedIndex="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																											<DefinedValues>
+																												<DefinedValue>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Oid">
+																													</ColumnReference>
+																												</DefinedValue>
+																												<DefinedValue>
+																													<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																													</ColumnReference>
+																												</DefinedValue>
+																											</DefinedValues>
+																											<Object Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Index="[PK_AccountType]" Alias="[BankAccountType]" IndexKind="Clustered" Storage="RowStore">
+																											</Object>
+																										</IndexScan>
+																									</RelOp>
+																								</NestedLoops>
+																							</RelOp>
+																							<RelOp NodeId="24" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00407423" TableCardinality="197" Parallel="0" EstimateRebinds="0" EstimateRewinds="5.004" EstimatedExecutionMode="Row">
+																								<OutputList>
+																									<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="CostByMaterialAsPayer">
+																									</ColumnReference>
+																								</OutputList>
+																								<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																									<DefinedValues>
+																										<DefinedValue>
+																											<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="CostByMaterialAsPayer">
+																											</ColumnReference>
+																										</DefinedValue>
+																									</DefinedValues>
+																									<Object Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Index="[PK_Supplier]" Alias="[SupplierPayer]" IndexKind="Clustered" Storage="RowStore">
+																									</Object>
+																									<SeekPredicates>
+																										<SeekPredicateNew>
+																											<SeekKeys>
+																												<Prefix ScanType="EQ">
+																													<RangeColumns>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="Oid">
+																														</ColumnReference>
+																													</RangeColumns>
+																													<RangeExpressions>
+																														<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]">
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</RangeExpressions>
+																												</Prefix>
+																											</SeekKeys>
+																										</SeekPredicateNew>
+																									</SeekPredicates>
+																								</IndexScan>
+																							</RelOp>
+																						</NestedLoops>
+																					</RelOp>
+																					<RelOp NodeId="25" PhysicalOp="Concatenation" LogicalOp="Concatenation" EstimateRows="1" EstimateRowsWithoutRowGoal="2" EstimateIO="0" EstimateCPU="2e-07" AvgRowSize="9" EstimatedTotalSubtreeCost="2.74352e-05" Parallel="0" EstimateRebinds="0.132971" EstimateRewinds="10.875" EstimatedExecutionMode="Row">
+																						<OutputList>
+																						</OutputList>
+																						<Concat>
+																							<DefinedValues>
+																							</DefinedValues>
+																							<RelOp NodeId="26" PhysicalOp="Filter" LogicalOp="Filter" EstimateRows="1" EstimateIO="0" EstimateCPU="1.18e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="2.63344e-05" Parallel="0" EstimateRebinds="0.132971" EstimateRewinds="10.875" EstimatedExecutionMode="Row">
+																								<OutputList>
+																								</OutputList>
+																								<Filter StartupExpression="1">
+																									<RelOp NodeId="27" PhysicalOp="Constant Scan" LogicalOp="Constant Scan" EstimateRows="1" EstimateIO="0" EstimateCPU="1.157e-06" AvgRowSize="9" EstimatedTotalSubtreeCost="1.2165e-05" Parallel="0" EstimateRebinds="0" EstimateRewinds="11.008" EstimatedExecutionMode="Row">
+																										<OutputList>
+																										</OutputList>
+																										<ConstantScan>
+																										</ConstantScan>
+																									</RelOp>
+																									<Predicate>
+																										<ScalarOperator ScalarString="[PaymentData].[dbo].[AccountType].[Name] as [CashboxAccountType].[Name]=N&apos;????????????&apos; OR [PaymentData].[dbo].[AccountType].[Name] as [BankAccountType].[Name]=N&apos;????????????&apos; OR [PaymentData].[dbo].[Supplier].[CostByMaterialAsPayer] as [SupplierPayer].[CostByMaterialAsPayer]=(1)">
+																											<Logical Operation="OR">
+																												<ScalarOperator>
+																													<Compare CompareOp="EQ">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[CashboxAccountType]" Column="Name">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																														<ScalarOperator>
+																															<Const ConstValue="N&apos;????????????&apos;">
+																															</Const>
+																														</ScalarOperator>
+																													</Compare>
+																												</ScalarOperator>
+																												<ScalarOperator>
+																													<Compare CompareOp="EQ">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[AccountType]" Alias="[BankAccountType]" Column="Name">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																														<ScalarOperator>
+																															<Const ConstValue="N&apos;????????????&apos;">
+																															</Const>
+																														</ScalarOperator>
+																													</Compare>
+																												</ScalarOperator>
+																												<ScalarOperator>
+																													<Compare CompareOp="EQ">
+																														<ScalarOperator>
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Supplier]" Alias="[SupplierPayer]" Column="CostByMaterialAsPayer">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																														<ScalarOperator>
+																															<Const ConstValue="(1)">
+																															</Const>
+																														</ScalarOperator>
+																													</Compare>
+																												</ScalarOperator>
+																											</Logical>
+																										</ScalarOperator>
+																									</Predicate>
+																								</Filter>
+																							</RelOp>
+																							<RelOp NodeId="28" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00503869" TableCardinality="206" Parallel="0" EstimateRebinds="0.132971" EstimateRewinds="10.875" EstimatedExecutionMode="Row">
+																								<OutputList>
+																								</OutputList>
+																								<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																									<DefinedValues>
+																									</DefinedValues>
+																									<Object Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Index="[PK_Employee]" IndexKind="Clustered" Storage="RowStore">
+																									</Object>
+																									<SeekPredicates>
+																										<SeekPredicateNew>
+																											<SeekKeys>
+																												<Prefix ScanType="EQ">
+																													<RangeColumns>
+																														<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Employee]" Column="Oid">
+																														</ColumnReference>
+																													</RangeColumns>
+																													<RangeExpressions>
+																														<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentParticipant].[Oid] as [Payer].[Oid]">
+																															<Identifier>
+																																<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentParticipant]" Alias="[Payer]" Column="Oid">
+																																</ColumnReference>
+																															</Identifier>
+																														</ScalarOperator>
+																													</RangeExpressions>
+																												</Prefix>
+																											</SeekKeys>
+																										</SeekPredicateNew>
+																									</SeekPredicates>
+																								</IndexScan>
+																							</RelOp>
+																						</Concat>
+																					</RelOp>
+																				</NestedLoops>
+																			</RelOp>
+																			<RelOp NodeId="29" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00502346" TableCardinality="45" Parallel="0" EstimateRebinds="0" EstimateRewinds="11.008" EstimatedExecutionMode="Row">
+																				<OutputList>
+																				</OutputList>
+																				<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																					<DefinedValues>
+																					</DefinedValues>
+																					<Object Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Index="[PK_PaymentCategory]" IndexKind="Clustered" Storage="RowStore">
+																					</Object>
+																					<SeekPredicates>
+																						<SeekPredicateNew>
+																							<SeekKeys>
+																								<Prefix ScanType="EQ">
+																									<RangeColumns>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="Oid">
+																										</ColumnReference>
+																									</RangeColumns>
+																									<RangeExpressions>
+																										<ScalarOperator ScalarString="[PaymentData].[dbo].[Payment].[Category]">
+																											<Identifier>
+																												<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Payment]" Column="Category">
+																												</ColumnReference>
+																											</Identifier>
+																										</ScalarOperator>
+																									</RangeExpressions>
+																								</Prefix>
+																							</SeekKeys>
+																						</SeekPredicateNew>
+																					</SeekPredicates>
+																					<Predicate>
+																						<ScalarOperator ScalarString="[PaymentData].[dbo].[PaymentCategory].[CostByMaterial]=(1)">
+																							<Compare CompareOp="EQ">
+																								<ScalarOperator>
+																									<Identifier>
+																										<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[PaymentCategory]" Column="CostByMaterial">
+																										</ColumnReference>
+																									</Identifier>
+																								</ScalarOperator>
+																								<ScalarOperator>
+																									<Const ConstValue="(1)">
+																									</Const>
+																								</ScalarOperator>
+																							</Compare>
+																						</ScalarOperator>
+																					</Predicate>
+																				</IndexScan>
+																			</RelOp>
+																		</NestedLoops>
+																	</RelOp>
+																</NestedLoops>
+															</RelOp>
+															<RelOp NodeId="30" PhysicalOp="Clustered Index Seek" LogicalOp="Clustered Index Seek" EstimateRows="1" EstimatedRowsRead="1" EstimateIO="0.003125" EstimateCPU="0.0001581" AvgRowSize="9" EstimatedTotalSubtreeCost="0.00329375" TableCardinality="225" Parallel="0" EstimateRebinds="0.00106374" EstimateRewinds="0.066314" EstimatedExecutionMode="Row">
+																<OutputList>
+																</OutputList>
+																<IndexScan Ordered="1" ScanDirection="FORWARD" ForcedIndex="0" ForceSeek="0" ForceScan="0" NoExpandHint="0" Storage="RowStore">
+																	<DefinedValues>
+																	</DefinedValues>
+																	<Object Database="[PaymentData]" Schema="[dbo]" Table="[Client]" Index="[PK_Client]" IndexKind="Clustered" Storage="RowStore">
+																	</Object>
+																	<SeekPredicates>
+																		<SeekPredicateNew>
+																			<SeekKeys>
+																				<Prefix ScanType="EQ">
+																					<RangeColumns>
+																						<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Client]" Column="Oid">
+																						</ColumnReference>
+																					</RangeColumns>
+																					<RangeExpressions>
+																						<ScalarOperator ScalarString="[PaymentData].[dbo].[Project].[Client]">
+																							<Identifier>
+																								<ColumnReference Database="[PaymentData]" Schema="[dbo]" Table="[Project]" Column="Client">
+																								</ColumnReference>
+																							</Identifier>
+																						</ScalarOperator>
+																					</RangeExpressions>
+																				</Prefix>
+																			</SeekKeys>
+																		</SeekPredicateNew>
+																	</SeekPredicates>
+																</IndexScan>
+															</RelOp>
+														</NestedLoops>
+													</RelOp>
+												</StreamAggregate>
+											</RelOp>
+										</ComputeScalar>
+									</RelOp>
+									<ParameterList>
+										<ColumnReference Column="@Project" ParameterDataType="uniqueidentifier" ParameterCompiledValue="NULL">
+										</ColumnReference>
+									</ParameterList>
+								</QueryPlan>
+							</StmtSimple>
+							<StmtSimple StatementText="&#xd;&#xa;&#xd;&#xa;Return(coalesce(@Profit,0) - coalesce(@Cost,0))" StatementId="5" StatementCompId="6" StatementType="RETURN" RetrievedFromCache="false">
+							</StmtSimple>
+						</Statements>
+					</UDF>
+				</StmtSimple>
+			</Statements>
+		</Batch>
+	</BatchSequence>
+</ShowPlanXML>
