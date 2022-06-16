@@ -1,36 +1,36 @@
-USE PaymentData
+ï»¿USE PaymentData_v2
 GO
 
-PRINT (N'Ñîçäàòü òàáëèöó [dbo].[PaymentDelayed]')
+PRINT (N'Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ [dbo].[PaymentDelayed]')
 GO
 IF OBJECT_ID(N'dbo.PaymentDelayed', 'U') IS NULL
 CREATE TABLE dbo.PaymentDelayed (
-  Oid uniqueidentifier NOT NULL ROWGUIDCOL,
-  Amount int NULL,
-  Category uniqueidentifier NULL,
-  Project uniqueidentifier NULL,
-  Justification nvarchar(100) NULL,
-  Comment nvarchar(100) NULL,
-  Date datetime NULL,
-  Payer uniqueidentifier NULL,
-  Payee uniqueidentifier NULL,
-  OptimisticLockField int NULL,
-  GCRecord int NULL,
-  CreateDate datetime NULL,  
-  CheckNumber nvarchar(100) NULL,  
-  IsAuthorized bit NULL,
-  Number nvarchar(100) NULL,  
+  Oid UNIQUEIDENTIFIER NOT NULL ROWGUIDCOL,
+  Amount INT NULL,
+  Category UNIQUEIDENTIFIER NULL,
+  Project UNIQUEIDENTIFIER NULL,
+  Justification NVARCHAR(100) NULL,
+  Comment NVARCHAR(100) NULL,
+  Date DATETIME NULL,
+  Payer UNIQUEIDENTIFIER NULL,
+  Payee UNIQUEIDENTIFIER NULL,
+  OptimisticLockField INT NULL,
+  GCRecord INT NULL,
+  CreateDate DATETIME NULL,  
+  CheckNumber NVARCHAR(100) NULL,  
+  IsAuthorized BIT NULL,
+  Number NVARCHAR(100) NULL,  
   CONSTRAINT PK_PaymentDelayed PRIMARY KEY CLUSTERED (Oid)
 )
 ON [PRIMARY]
 GO
 
 --
--- Ñîçäàòü òðèããåð [T_PaymentDelayed_AI] íà òàáëèöó [dbo].[PaymentDelayed]
--- Òðèããåð, ñðàáàòûâàþùèé ïîñëå âñòàâêè èëè èçìåíåíèÿ ïëàòåæà 
+-- Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ‚Ñ€Ð¸Ð³Ð³ÐµÑ€ [T_PaymentDelayed_AI] Ð½Ð° Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ [dbo].[PaymentDelayed]
+-- Ð¢Ñ€Ð¸Ð³Ð³ÐµÑ€, ÑÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ð¹ Ð¿Ð¾ÑÐ»Ðµ Ð²ÑÑ‚Ð°Ð²ÐºÐ¸ Ð¸Ð»Ð¸ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ Ð¿Ð»Ð°Ñ‚ÐµÐ¶Ð°
 --
 GO
-PRINT (N'Ñîçäàòü òðèããåð [T_PaymentDelayed_AI] íà òàáëèöó [dbo].[PaymentDelayed]')
+PRINT (N'Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ‚Ñ€Ð¸Ð³Ð³ÐµÑ€ [T_PaymentDelayed_AI] Ð½Ð° Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ [dbo].[PaymentDelayed]')
 GO
 
 IF EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'dbo.T_PaymentDelayed_AI'))
@@ -42,9 +42,9 @@ EXEC sp_executesql N'CREATE OR ALTER TRIGGER T_PaymentDelayed_AI
 ON dbo.PaymentDelayed
 AFTER INSERT, UPDATE 
 AS
-
+DECLARE @MAX_PAYMENT_DELAYED_SIZE INT = 100;
 IF (SELECT COUNT(*)
-	FROM PaymentDelayed) > 100
+	FROM PaymentDelayed) >= @MAX_PAYMENT_DELAYED_SIZE
 	BEGIN
 	INSERT Payment(Oid, Amount, Category, Project, Justification, Comment, Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number)
 	SELECT Oid, Amount, Category, Project, Justification, Comment, Date, Payer, Payee, OptimisticLockField, GCRecord, CreateDate, CheckNumber, IsAuthorized, Number
