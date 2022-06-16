@@ -61,7 +61,8 @@ class SQLClient:
 
     def generate_payments_records(self, n):
         for _ in range(n):
-            self.execute(PaymentsQueryBuilderService().generate_query(self.category_ids(), self.participant_ids(), self.project_ids()))
+            # self.execute(PaymentsQueryBuilderService().generate_query(self.category_ids(), self.participant_ids(), self.project_ids()))
+            print(PaymentsQueryBuilderService().generate_query(self.category_ids(), self.participant_ids(), self.project_ids()))
         self.commit()
 
     def generate_banks_records(self):
