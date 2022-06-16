@@ -34,11 +34,11 @@ BEGIN TRAN tr
  FROM Project
  WHERE Client = @client_id
 
- PRINT N'Selected bank: ' + CONVERT(varchar(36), @bank_id)
- PRINT N'Selected supplier: ' + CONVERT(varchar(36), @supplier_id)
- PRINT N'Selected client: ' + CONVERT(varchar(36), @client_id)
- PRINT N'Selected cashbox: ' + CONVERT(varchar(36), @cashbox_id)
- PRINT N'Selected project: ' + CONVERT(varchar(36), @project_id)
+ PRINT N'Selected bank: ' + CONVERT(VARCHAR(36), @bank_id)
+ PRINT N'Selected supplier: ' + CONVERT(VARCHAR(36), @supplier_id)
+ PRINT N'Selected client: ' + CONVERT(VARCHAR(36), @client_id)
+ PRINT N'Selected cashbox: ' + CONVERT(VARCHAR(36), @cashbox_id)
+ PRINT N'Selected project: ' + CONVERT(VARCHAR(36), @project_id)
 
 
  DECLARE @bank_balance INT
