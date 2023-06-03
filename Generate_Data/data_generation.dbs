@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="SqlServer" id="Project-20a9" database="SqlServer" >
+	<schema name="dbo" catalogname="PaymentData" >
+		<table name="AccountType" generator_rows="0" generator_order="1" row_count="4" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" />
+			<column name="Name" type="nvarchar" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="OptimisticLockField" type="int" jt="4" />
+			<column name="GCRecord" type="int" jt="4" />
+			<index name="PK_AccountType" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iGCRecord_AccountType" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="GCRecord" options=" asc" />
+			</index>
+		</table>
+		<table name="Bank" generator_rows="300" generator_order="7" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" seed="53" />
+			<column name="AccountType" type="uniqueidentifier" jt="1" seed="901" regexp_nulls="0" />
+			<index name="PK_Bank" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iAccountType_Bank" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="AccountType" options=" asc" />
+			</index>
+			<fk name="FK_Bank_AccountType" to_schema="PaymentData.dbo" to_table="AccountType" options="NOT FOR REPLICATION" >
+				<fk_column name="AccountType" pk="Oid" />
+			</fk>
+			<fk name="FK_Bank_Oid" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Oid" pk="Oid" />
+			</fk>
+		</table>
+		<table name="Cashbox" generator_rows="300" generator_order="4" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" seed="6546" />
+			<column name="AccountType" type="uniqueidentifier" jt="1" seed="9045" regexp_nulls="0" />
+			<index name="PK_Cashbox" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iAccountType_Cashbox" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="AccountType" options=" asc" />
+			</index>
+			<fk name="FK_Cashbox_AccountType" to_schema="PaymentData.dbo" to_table="AccountType" options="NOT FOR REPLICATION" >
+				<fk_column name="AccountType" pk="Oid" />
+			</fk>
+			<fk name="FK_Cashbox_Oid" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Oid" pk="Oid" />
+			</fk>
+		</table>
+		<table name="Client" generator_rows="300" generator_order="5" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" seed="3456" />
+			<column name="FirstName" type="nvarchar" length="100" jt="12" regexp="[a-z]{10}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="SecondName" type="nvarchar" length="100" jt="12" regexp="[a-z]{10}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Phone" type="nvarchar" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<index name="PK_Client" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<fk name="FK_Client_Oid" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Oid" pk="Oid" />
+			</fk>
+		</table>
+		<table name="Employee" generator_rows="100" generator_order="3" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" seed="345" />
+			<column name="BusyUntil" type="datetime" jt="92" regexp="date:from=&#039;01.11.2019&#039;;to=&#039;01.05.2023&#039;;" regexp_nulls="100" />
+			<column name="SecondName" type="nvarchar" length="100" jt="12" regexp="[a-z]{10}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Stuff" type="int" jt="4" regexp="int:from=100;to=300;" />
+			<column name="HourPrice" type="int" jt="4" regexp="int:from=100;to=300;" />
+			<column name="Patronymic" type="nvarchar" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="PlanfixId" type="int" jt="4" />
+			<column name="Head" type="uniqueidentifier" jt="1" regexp="load_values_from_pk" regexp_nulls="100" />
+			<column name="PlanfixMoneyRequestTask" type="nvarchar" length="255" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<index name="PK_Employee" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iHead_Employee" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Head" options=" asc" />
+			</index>
+			<fk name="FK_Employee_Head" to_schema="PaymentData.dbo" to_table="Employee" options="NOT FOR REPLICATION" >
+				<fk_column name="Head" pk="Oid" />
+			</fk>
+			<fk name="FK_Employee_Oid" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Oid" pk="Oid" />
+			</fk>
+		</table>
+		<table name="Payment" generator_rows="10000" generator_order="9" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" regexp="uuid:" seed="654" />
+			<column name="Amount" type="int" jt="4" regexp="int:from=1;to=10000;" />
+			<column name="Category" type="uniqueidentifier" jt="1" regexp_nulls="0" />
+			<column name="Project" type="uniqueidentifier" jt="1" regexp_nulls="0" />
+			<column name="Justification" type="nvarchar" length="100" jt="12" regexp="[a-z]{10}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Comment" type="nvarchar" length="100" jt="12" regexp="[a-z]{10}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Payer" type="uniqueidentifier" jt="1" />
+			<column name="Payee" type="uniqueidentifier" jt="1" regexp_nulls="0" />
+			<column name="OptimisticLockField" type="int" jt="4" />
+			<column name="Date" type="datetime" jt="92" regexp_nulls="100" />
+			<column name="GCRecord" type="int" jt="4" regexp_nulls="100" />
+			<column name="CreateDate" type="datetime" jt="92" regexp_nulls="100" />
+			<column name="CheckNumber" type="nvarchar" length="100" jt="12" regexp="[0-9]{20}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="IsAuthorized" type="bit" jt="-7" />
+			<column name="Number" type="nvarchar" length="100" jt="12" regexp="[0-9]{20}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<index name="PK_Payment" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iCategory_Payment" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Category" options=" asc" />
+			</index>
+			<index name="iGCRecord_Payment" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="GCRecord" options=" asc" />
+			</index>
+			<index name="iPayee_Payment" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Payee" options=" asc" />
+			</index>
+			<index name="iPayer_Payment" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Payer" options=" asc" />
+			</index>
+			<index name="iProject_Payment" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Project" options=" asc" />
+			</index>
+			<fk name="FK_Payment_Category" to_schema="PaymentData.dbo" to_table="PaymentCategory" options="NOT FOR REPLICATION" >
+				<fk_column name="Category" pk="Oid" />
+			</fk>
+			<fk name="FK_Payment_Payee" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Payee" pk="Oid" />
+			</fk>
+			<fk name="FK_Payment_Payer" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Payer" pk="Oid" />
+			</fk>
+			<fk name="FK_Payment_Project" to_schema="PaymentData.dbo" to_table="Project" options="NOT FOR REPLICATION" >
+				<fk_column name="Project" pk="Oid" />
+			</fk>
+		</table>
+		<table name="PaymentCategory" generator_rows="0" generator_order="0" row_count="45" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" />
+			<column name="Name" type="nvarchar" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="OptimisticLockField" type="int" jt="4" />
+			<column name="GCRecord" type="int" jt="4" />
+			<column name="ProfitByMaterial" type="bit" jt="-7" />
+			<column name="CostByMaterial" type="bit" jt="-7" />
+			<column name="NotInPaymentParticipantProfit" type="bit" jt="-7" />
+			<index name="PK_PaymentCategory" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iGCRecord_PaymentCategory" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="GCRecord" options=" asc" />
+			</index>
+		</table>
+		<table name="PaymentParticipant" generator_rows="500" generator_order="2" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" regexp="uuid:" />
+			<column name="Balance" type="int" jt="4" regexp="int:from=0;to=0;" regexp_nulls="0" />
+			<column name="Name" type="nvarchar" length="100" jt="12" regexp="[a-z]{20}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="OptimisticLockField" type="int" jt="4" regexp="int:from=0;to=2147;" />
+			<column name="GCRecord" type="int" jt="4" regexp="int:from=1;to=2;" regexp_nulls="100" />
+			<column name="ObjectType" type="int" jt="4" regexp="int:from=0;to=5;" />
+			<column name="ActiveFrom" type="datetime" jt="92" regexp="date:from=&#039;01.01.2015&#039;;to=&#039;31.01.2015&#039;;" regexp_nulls="100" />
+			<column name="InactiveFrom" type="datetime" jt="92" regexp="groovy:import java.sql.*; if (ActiveFrom) if (Math.random() &gt; 0.7) {long r = Math.random()*7000000000 + 140000000000; return new Date(ActiveFrom.getTime() + r)}; else return null; else return null;" regexp_nulls="100" />
+			<column name="BankDetails" type="nvarchar" length="399" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Balance2" type="int" jt="4" regexp="int:from=0;to=0;" />
+			<column name="Balance3" type="int" jt="4" regexp="int:from=0;to=0;" />
+			<index name="PK_PaymentParticipant" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iGCRecord_PaymentParticipant" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="GCRecord" options=" asc" />
+			</index>
+			<index name="iObjectType_PaymentParticipant" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="ObjectType" options=" asc" />
+			</index>
+		</table>
+		<table name="Project" generator_rows="500" generator_order="8" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" regexp="uuid:" seed="3470" />
+			<column name="Name" type="nvarchar" length="100" jt="12" regexp="[a-z]{5}" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Address" type="nvarchar" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="Client" type="uniqueidentifier" jt="1" seed="109" regexp_nulls="0" />
+			<column name="Manager" type="uniqueidentifier" jt="1" seed="207" regexp_nulls="0" />
+			<column name="Foreman" type="uniqueidentifier" jt="1" seed="6078" regexp_nulls="0" />
+			<column name="OptimisticLockField" type="int" jt="4" regexp="int:from=0;to=2147;" />
+			<column name="GCRecord" type="int" jt="4" regexp="int:from=1;to=2;" regexp_nulls="100" />
+			<column name="Balance" type="int" jt="4" regexp="int:from=0;to=0;" regexp_nulls="0" />
+			<column name="BalanceByMaterial" type="int" jt="4" regexp="int:from=0;to=0;" regexp_nulls="0" />
+			<column name="BalanceByWork" type="int" jt="4" regexp="int:from=0;to=0;" regexp_nulls="0" />
+			<column name="PlaningStartDate" type="datetime" jt="92" regexp="date:from=&#039;01.02.2015&#039;;to=&#039;30.04.2015&#039;;" regexp_nulls="100" />
+			<column name="Status" type="int" jt="4" />
+			<column name="FinishDate" type="datetime" jt="92" regexp="groovy:import java.sql.*; if (PlaningStartDate) if (Math.random() &gt; 0.7) {long r = Math.random()*700000000 + 100000000000; return new Date(PlaningStartDate.getTime() + r)}; else return null; else return null;" regexp_nulls="100" />
+			<column name="Area" type="int" jt="4" />
+			<column name="WorkPriceRate" type="float" jt="8" regexp="double:from=1;to=9999;format=#.##" />
+			<column name="WorkersPriceRate" type="float" jt="8" regexp="double:from=1;to=9999;format=#.##" />
+			<column name="RemainderTheAdvance" type="int" jt="4" regexp="int:from=0;to=0;" regexp_nulls="0" />
+			<column name="PlanfixWorkTask" type="nvarchar" length="512" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="PlanfixChangeRequestTask" type="nvarchar" length="512" jt="12" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="UseAnalytics" type="bit" jt="-7" seed="999" />
+			<index name="PK_Project" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<index name="iClient_Project" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Client" options=" asc" />
+			</index>
+			<index name="iForeman_Project" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Foreman" options=" asc" />
+			</index>
+			<index name="iGCRecord_Project" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="GCRecord" options=" asc" />
+			</index>
+			<index name="iManager_Project" unique="NORMAL" spec=" NONCLUSTERED" >
+				<column name="Manager" options=" asc" />
+			</index>
+			<fk name="FK_Project_Client" to_schema="PaymentData.dbo" to_table="Client" options="NOT FOR REPLICATION" >
+				<fk_column name="Client" pk="Oid" />
+			</fk>
+			<fk name="FK_Project_Foreman" to_schema="PaymentData.dbo" to_table="Employee" options="NOT FOR REPLICATION" >
+				<fk_column name="Foreman" pk="Oid" />
+			</fk>
+			<fk name="FK_Project_Manager" to_schema="PaymentData.dbo" to_table="Employee" options="NOT FOR REPLICATION" >
+				<fk_column name="Manager" pk="Oid" />
+			</fk>
+		</table>
+		<table name="Supplier" generator_rows="300" generator_order="6" row_count="0" spec="" >
+			<column name="Oid" type="uniqueidentifier" jt="1" mandatory="y" seed="89" />
+			<column name="Contact" type="nvarchar" length="100" jt="12" regexp="[a-z]{4,8}([0-9]{0,3}|.[a-z]{4,10})@([a-z]{4,9}.)?([a-z-]{6}).(org|com|net)" >
+				<column_options><![CDATA[COLLATE Cyrillic_General_CI_AS]]></column_options>
+			</column>
+			<column name="ProfitByMaterialAsPayer" type="bit" jt="-7" seed="456" regexp_nulls="0" />
+			<column name="ProfitByMaterialAsPayee" type="bit" jt="-7" seed="12" regexp_nulls="0" />
+			<column name="CostByMaterialAsPayer" type="bit" jt="-7" seed="9" regexp_nulls="0" />
+			<index name="PK_Supplier" unique="PRIMARY_KEY" spec=" CLUSTERED" >
+				<column name="Oid" options=" asc" />
+			</index>
+			<fk name="FK_Supplier_Oid" to_schema="PaymentData.dbo" to_table="PaymentParticipant" options="NOT FOR REPLICATION" >
+				<fk_column name="Oid" pk="Oid" />
+			</fk>
+		</table>
+		<trigger name="T_PaymentParticipant_BU" table="PaymentParticipant" id="Trigger-64a" isSystem="false" >
+			<string><![CDATA[CREATE   TRIGGER T_PaymentParticipant_BU ON dbo.PaymentParticipant
+INSTEAD OF UPDATE
+AS
+BEGIN
+UPDATE [dbo].[PaymentParticipant]
+   SET 
+      [Balance] = dbo.F_CalculatePaymentParticipantBalance(inserted.oid)
+      ,[Name] = inserted.Name
+      ,[OptimisticLockField] = inserted.OptimisticLockField
+      ,[GCRecord] = inserted.GCRecord
+      ,[ObjectType] = inserted.ObjectType      
+      ,[ActiveFrom] = inserted.ActiveFrom
+      ,[InactiveFrom] = inserted.InactiveFrom
+      ,[BankDetails] = inserted.BankDetails
+	  ,[Balance2] = inserted.Balance2
+ FROM [PaymentParticipant] join Inserted on [PaymentParticipant].Oid = Inserted.Oid
+END
+]]></string>
+		</trigger>
+		<trigger name="T_Payment_AI" table="Payment" id="Trigger-988" isSystem="false" >
+			<string><![CDATA[CREATE   TRIGGER T_Payment_AI
+ON dbo.Payment
+AFTER INSERT, UPDATE 
+AS
+-- Обновляем баланс у новых участников
+	-- У плательщика
+	update PaymentParticipant
+	set Balance = dbo.F_CalculatePaymentParticipantBalance(inserted.Payer)
+	from PaymentParticipant
+	join Inserted on PaymentParticipant.Oid = inserted.Payer
+	-- У получателя
+	update PaymentParticipant
+	set Balance = dbo.F_CalculatePaymentParticipantBalance(inserted.Payee)
+	from PaymentParticipant
+	join Inserted on PaymentParticipant.Oid = inserted.Payee
+	
+-- Обновляем баланс у старых участников
+	-- У плательщика
+	update PaymentParticipant
+	set Balance = dbo.F_CalculatePaymentParticipantBalance(deleted.Payer)
+	from PaymentParticipant
+	join deleted on PaymentParticipant.Oid = deleted.Payer
+	-- У получателя
+	update PaymentParticipant
+	set Balance = dbo.F_CalculatePaymentParticipantBalance(deleted.Payee)
+	from PaymentParticipant
+	join deleted on PaymentParticipant.Oid = deleted.Payee	
+	
+-- Обновляем баланс у новых оъектов	
+	update Project
+	set BalanceByMaterial = dbo.F_CalculateBalanceByMaterial(inserted.Project),
+	BalanceByWork = dbo.F_CalculateBalanceByWork(inserted.Project),	
+	Balance = dbo.F_CalculateProjectBalance(inserted.Project)	
+	from Project
+	join Inserted on Project.Oid = inserted.Project
+	
+-- Обновляем баланс у старых оъектов	
+	update Project
+	set BalanceByMaterial = dbo.F_CalculateBalanceByMaterial(deleted.Project),
+	BalanceByWork = dbo.F_CalculateBalanceByWork(deleted.Project),	
+	Balance = dbo.F_CalculateProjectBalance(deleted.Project)	
+	from Project
+	join deleted on Project.Oid = deleted.Project	
+	
+]]></string>
+		</trigger>
+		<trigger name="T_Project_BU" table="Project" id="Trigger-20a0" isSystem="false" >
+			<string><![CDATA[CREATE   TRIGGER T_Project_BU ON dbo.Project
+INSTEAD OF UPDATE
+AS
+BEGIN
+UPDATE [Project]
+   SET [Name] = inserted.Name
+      ,[Address] = Inserted.Address
+      ,[Client] = Inserted.Client
+      ,[Manager] = Inserted.Manager
+      ,[Foreman] = Inserted.Foreman
+      ,[OptimisticLockField] = Inserted.OptimisticLockField
+      ,[GCRecord] = Inserted.GCRecord
+      ,[Balance] = dbo.F_CalculateProjectBalance(Project.Oid)
+      ,[BalanceByMaterial] = dbo.F_CalculateBalanceByMaterial(Project.Oid)
+      ,[BalanceByWork] = dbo.F_CalculateBalanceByWork(Project.Oid)
+      ,[RemainderTheAdvance] = dbo.F_CalculateRemainderTheAdvance(Project.Oid)
+      ,[PlaningStartDate] = Inserted.PlaningStartDate
+      ,[Status] = Inserted.Status
+      ,[FinishDate] = Inserted.FinishDate
+      ,[Area] = Inserted.Area 
+      ,[WorkPriceRate] = Inserted.WorkPriceRate
+      ,[WorkersPriceRate] = Inserted.WorkersPriceRate
+      ,[PlanfixWorkTask] = Inserted.PlanfixWorkTask
+      ,[PlanfixChangeRequestTask] = Inserted.PlanfixChangeRequestTask
+      ,[UseAnalytics] = inserted.UseAnalytics
+FROM Project join Inserted on Project.Oid = Inserted.Oid
+      
+END
+]]></string>
+		</trigger>
+		<function name="F_CalculateBalanceByMaterial" id="Function-1d8a" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE   Function dbo.F_CalculateBalanceByMaterial
+(@Project uniqueidentifier)
+Returns int
+as
+Begin
+Declare @Profit int
+Declare @Cost int
+SELECT   @Profit = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox On Payee.Oid = Cashbox.Oid
+                      left join AccountType CashboxAccountType on Cashbox.AccountType = CashboxAccountType.Oid
+                      left join Bank On Payee.Oid = Bank.Oid
+                      left join AccountType BankAccountType on Bank.AccountType = BankAccountType.Oid
+                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid
+                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid
+                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid
+                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid
+					  LEFT JOIN dbo.Supplier SupplierPayer ON SupplierPayer.Oid = Payer.Oid
+					  LEFT JOIN dbo.Supplier SupplierPayee ON SupplierPayee.Oid = Payee.Oid
+                      LEFT JOIN PaymentCategory ON Payment.Category = PaymentCategory.Oid 
+					  LEFT JOIN Project ON Payment.Project = Project.Oid 
+					  LEFT JOIN Client ON Project.Client = Client.Oid
+where 
+Project.Oid = @Project
+and
+Payment.GCRecord is null 
+and
+(
+	(
+		(Payment.Payer = Project.Client OR
+        SupplierPayer.ProfitByMaterialAsPayer = 1
+		)
+		and
+		(
+		CashboxAccountType.Name = 'Материальный' or
+		BankAccountType.Name = 'Материальный' or
+		SupplierPayee.ProfitByMaterialAsPayee = 1
+		)
+		and
+		(PaymentCategory.ProfitByMaterial = 1		
+		) 
+	)
+	or
+	(			
+			(
+			PayerCashboxAccountType.Name = 'Текущий' or
+			PayerBankAccountType.Name = 'Текущий'
+			)
+			and
+			(
+			CashboxAccountType.Name = 'Материальный' or
+			BankAccountType.Name = 'Материальный'
+			)
+			and
+			PaymentCategory.Name = 'Списание убытков'
+	)
+)
+
+SELECT     @Cost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox On Payer.Oid = Cashbox.Oid
+                      left join AccountType CashboxAccountType on Cashbox.AccountType = CashboxAccountType.Oid
+                      left join Bank On Payer.Oid = Bank.Oid
+                      left join AccountType BankAccountType on Bank.AccountType = BankAccountType.Oid
+					  LEFT JOIN dbo.Supplier SupplierPayer ON SupplierPayer.Oid = Payer.Oid
+					  LEFT JOIN dbo.Supplier SupplierPayee ON SupplierPayee.Oid = Payee.Oid
+                      INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+(
+CashboxAccountType.Name = 'Материальный' or
+BankAccountType.Name = 'Материальный' or
+SupplierPayer.CostByMaterialAsPayer = 1 or
+Payer.Oid in (Select Oid from Employee))
+and
+(PaymentCategory.CostByMaterial = 1
+)
+and
+Project.Oid = @Project
+Return(coalesce(@Profit,0) - coalesce(@Cost,0))
+End]]></string>
+			<input_param name="@Project" jt="1" type="uniqueidentifier" inOut="1" />
+			<result_param name="@RETURN_VALUE" jt="4" type="int" />
+		</function>
+		<function name="F_CalculateBalanceByWork" id="Function-2539" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE   Function dbo.F_CalculateBalanceByWork
+(@Project uniqueidentifier)
+Returns int
+as
+Begin
+Declare @Profit int
+Declare @Cost int
+SELECT   @Profit = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox PayeeCashbox On Payee.Oid = PayeeCashbox.Oid
+                      left join AccountType PayeeCashboxAccountType on PayeeCashbox.AccountType = PayeeCashboxAccountType.Oid
+                      left join Bank PayeeBank On Payee.Oid = PayeeBank.Oid
+                      left join AccountType PayeeBankAccountType on PayeeBank.AccountType = PayeeBankAccountType.Oid
+                      
+                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid
+                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid
+                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid
+                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid
+                      
+                      INNER JOIN                      
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+Project.Oid = @Project
+and
+(
+	(
+		(Payment.Payer = Project.Client)
+		and
+		(
+		PayeeCashboxAccountType.Name = 'Текущий' or
+		PayeeBankAccountType.Name = 'Текущий'
+		)
+		and
+		PaymentCategory.Name = 'Оплата работ'
+	)
+	or
+	(
+		(PayerCashboxAccountType.Name = 'Авансовый' or
+		PayerBankAccountType.Name = 'Авансовый')
+		and
+		(
+		PayeeCashboxAccountType.Name = 'Текущий' or
+		PayeeBankAccountType.Name = 'Текущий'
+		)	
+	)
+)
+
+SELECT     @Cost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+(PaymentCategory.Name = 'Оплата работ сдельщиков' or
+PaymentCategory.Name = 'Оплата работ зарплатников'
+)
+and
+Project.Oid = @Project
+Return(coalesce(@Profit,0) - coalesce(@Cost,0))
+End
+]]></string>
+			<input_param name="@Project" jt="1" type="uniqueidentifier" inOut="1" />
+			<result_param name="@RETURN_VALUE" jt="4" type="int" />
+		</function>
+		<function name="F_CalculatePaymentParticipantBalance" id="Function-1d77" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE   Function dbo.F_CalculatePaymentParticipantBalance
+(@PaymentParticipant uniqueidentifier)
+Returns int
+as
+Begin
+Declare @Profit int
+Declare @Cost int
+Declare @EmployeeCost int
+SELECT   @Profit = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox PayeeCashbox On Payee.Oid = PayeeCashbox.Oid
+                      left join AccountType PayeeCashboxAccountType on PayeeCashbox.AccountType = PayeeCashboxAccountType.Oid
+                      left join Bank PayeeBank On Payee.Oid = PayeeBank.Oid
+                      left join AccountType PayeeBankAccountType on PayeeBank.AccountType = PayeeBankAccountType.Oid
+                      
+                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid
+                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid
+                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid
+                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid
+                      
+                      INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid                      
+where
+Payment.GCRecord is null and 
+Payee.Oid = @PaymentParticipant and
+(
+	(		
+		dbo.PaymentCategory.NotInPaymentParticipantProfit <> 1 or NotInPaymentParticipantProfit IS NULL
+	)
+	or
+	(		
+		
+		(
+		PayerCashboxAccountType.Name = 'Текущий' or
+		PayerBankAccountType.Name = 'Текущий'
+		)
+		and
+		(
+		PayeeCashboxAccountType.Name = 'Материальный' or
+		PayeeBankAccountType.Name = 'Материальный'
+		)
+		and
+		PaymentCategory.Name =  'Списание убытков'				
+	)
+)
+
+SELECT     @Cost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid                      
+where 
+(Payment.GCRecord is null and
+Payer.Oid = @PaymentParticipant)
+and
+(
+(Payer.Oid not in (Select Oid from Employee))
+or
+(
+Payer.Oid in (Select Oid from Employee) and
+PaymentCategory.Name <>  'Возврат долга')
+)
+SELECT     @EmployeeCost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid
+where 
+Payment.GCRecord is null and
+Payee.Oid = @PaymentParticipant and
+Payee.Oid in (Select Oid from Employee) and
+PaymentCategory.Name =  'Закупка материалов' and
+PaymentCategory.Name <>  'Возврат долга'
+Return(coalesce(@Profit,0) - coalesce(@Cost,0) - coalesce(@EmployeeCost,0))
+End
+]]></string>
+			<input_param name="@PaymentParticipant" jt="1" type="uniqueidentifier" inOut="1" />
+			<result_param name="@RETURN_VALUE" jt="4" type="int" />
+		</function>
+		<function name="F_CalculateProjectBalance" id="Function-2012" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE   Function dbo.F_CalculateProjectBalance
+(@Project uniqueidentifier)
+Returns int
+as
+Begin
+Declare @Cost int
+SELECT     @Cost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+(PaymentCategory.Name = 'Накладные расходы' or
+PaymentCategory.Name = 'Административные расходы' or
+PaymentCategory.Name = 'Списание убытков' or
+PaymentCategory.Name = 'Бонусные вознаграждения'
+)
+and
+Project.Oid = @Project
+Return(dbo.F_CalculateBalanceByMaterial(@Project) + dbo.F_CalculateBalanceByWork(@Project) - coalesce(@Cost,0))
+End
+]]></string>
+			<input_param name="@Project" jt="1" type="uniqueidentifier" inOut="1" />
+			<result_param name="@RETURN_VALUE" jt="4" type="int" />
+		</function>
+		<function name="F_CalculateRemainderTheAdvance" id="Function-f5e" isSystem="false" params_known="y" >
+			<string><![CDATA[CREATE   Function dbo.F_CalculateRemainderTheAdvance
+(@Project uniqueidentifier)
+Returns int
+as
+Begin
+Declare @Profit int
+Declare @Cost int
+SELECT   @Profit = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox PayeeCashbox On Payee.Oid = PayeeCashbox.Oid
+                      left join AccountType PayeeCashboxAccountType on PayeeCashbox.AccountType = PayeeCashboxAccountType.Oid
+                      left join Bank PayeeBank On Payee.Oid = PayeeBank.Oid
+                      left join AccountType PayeeBankAccountType on PayeeBank.AccountType = PayeeBankAccountType.Oid
+                      
+                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid
+                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid
+                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid
+                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid
+                      
+                      INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+(
+Payment.Payer = Project.Client
+or
+PayerCashboxAccountType.Name = 'Текущий' or
+PayerBankAccountType.Name = 'Текущий'
+)
+and
+(
+PayeeCashboxAccountType.Name = 'Авансовый' or
+PayeeBankAccountType.Name = 'Авансовый'
+)
+and
+(
+PaymentCategory.Name = 'Аванс на работы'
+)
+and
+Project.Oid = @Project
+
+SELECT     @Cost = SUM(Payment.Amount)
+FROM         Payment INNER JOIN
+                      PaymentParticipant Payer ON Payment.Payer = Payer.Oid INNER JOIN
+                      PaymentParticipant Payee ON Payment.Payee = Payee.Oid 
+                      left join Cashbox PayeeCashbox On Payee.Oid = PayeeCashbox.Oid
+                      left join AccountType PayeeCashboxAccountType on PayeeCashbox.AccountType = PayeeCashboxAccountType.Oid
+                      left join Bank PayeeBank On Payee.Oid = PayeeBank.Oid
+                      left join AccountType PayeeBankAccountType on PayeeBank.AccountType = PayeeBankAccountType.Oid
+                      
+                      left join Cashbox PayerCashbox On Payer.Oid = PayerCashbox.Oid
+                      left join AccountType PayerCashboxAccountType on PayerCashbox.AccountType = PayerCashboxAccountType.Oid
+                      left join Bank PayerBank On Payer.Oid = PayerBank.Oid
+                      left join AccountType PayerBankAccountType on PayerBank.AccountType = PayerBankAccountType.Oid
+                      
+                      INNER JOIN
+                      PaymentCategory ON Payment.Category = PaymentCategory.Oid INNER JOIN
+                      Project ON Payment.Project = Project.Oid INNER JOIN
+                      Client ON Project.Client = Client.Oid
+where 
+Payment.GCRecord is null and
+PaymentCategory.Name = 'Оплата работ'
+and
+(
+PayerCashboxAccountType.Name = 'Авансовый' or
+PayerBankAccountType.Name = 'Авансовый'
+)
+and
+(PayeeCashboxAccountType.Name = 'Текущий' or
+PayeeBankAccountType.Name = 'Текущий' or
+Payment.Payee = Project.Client
+)
+and
+Project.Oid = @Project
+Return(coalesce(@Profit,0) - coalesce(@Cost,0))
+End
+]]></string>
+			<input_param name="@Project" jt="1" type="uniqueidentifier" inOut="1" />
+			<result_param name="@RETURN_VALUE" jt="4" type="int" />
+		</function>
+	</schema>
+	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-12.2.0.jre11.jar" driver_desc="Windows Authentication, Current User" host="localhost" port="1433" instance="PaymentData" useSystemProxy="false" />
+	<layout name="Main Layout" id="Layout-9b4" show_relation="columns" >
+		<entity schema="PaymentData.dbo" name="AccountType" color="C7F4BE" x="1216" y="224" />
+		<entity schema="PaymentData.dbo" name="Bank" color="C7F4BE" x="1456" y="224" />
+		<entity schema="PaymentData.dbo" name="Cashbox" color="C7F4BE" x="1456" y="432" />
+		<entity schema="PaymentData.dbo" name="Client" color="BED3F4" x="352" y="672" />
+		<entity schema="PaymentData.dbo" name="Employee" color="BED3F4" x="624" y="320" />
+		<entity schema="PaymentData.dbo" name="Payment" color="BED3F4" x="624" y="672" />
+		<entity schema="PaymentData.dbo" name="PaymentCategory" color="BED3F4" x="896" y="1088" />
+		<entity schema="PaymentData.dbo" name="PaymentParticipant" color="BED3F4" x="240" y="304" />
+		<entity schema="PaymentData.dbo" name="Project" color="BED3F4" x="928" y="320" />
+		<entity schema="PaymentData.dbo" name="Supplier" color="BED3F4" x="48" y="672" />
+		<callout x="336" y="80" pointer="Round" >
+			<comment><![CDATA[This is a layout. 
+- Double-click table headers, columns, or foreign keys to edit 
+- Drag tables to the layout from the structure tree, or 
+   add them by pressing the arrow icon near columns 
+- Create multiple layouts with the same or different tables 
+- Right-click the layout to create new tables]]></comment>
+		</callout>
+		<group name="AccountType" color="EEF7EC" >
+			<entity schema="PaymentData.dbo" name="Cashbox" />
+			<entity schema="PaymentData.dbo" name="Bank" />
+			<entity schema="PaymentData.dbo" name="AccountType" />
+		</group>
+		<group name="PaymentParticipant" color="ECF0F7" >
+			<entity schema="PaymentData.dbo" name="Client" />
+			<entity schema="PaymentData.dbo" name="PaymentCategory" />
+			<entity schema="PaymentData.dbo" name="Project" />
+			<entity schema="PaymentData.dbo" name="Employee" />
+			<entity schema="PaymentData.dbo" name="Payment" />
+			<entity schema="PaymentData.dbo" name="Supplier" />
+			<entity schema="PaymentData.dbo" name="PaymentParticipant" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-69b" show_column_type="y" show_relation="columns" >
+		<entity schema="PaymentData.dbo" name="AccountType" color="C7F4BE" x="1424" y="48" />
+		<entity schema="PaymentData.dbo" name="Bank" color="C7F4BE" x="1680" y="48" />
+		<entity schema="PaymentData.dbo" name="Cashbox" color="C7F4BE" x="1680" y="256" />
+		<entity schema="PaymentData.dbo" name="Client" color="BED3F4" x="352" y="400" />
+		<entity schema="PaymentData.dbo" name="Employee" color="BED3F4" x="656" y="48" />
+		<entity schema="PaymentData.dbo" name="Payment" color="BED3F4" x="656" y="400" />
+		<entity schema="PaymentData.dbo" name="PaymentCategory" color="BED3F4" x="976" y="816" />
+		<entity schema="PaymentData.dbo" name="PaymentParticipant" color="BED3F4" x="352" y="48" />
+		<entity schema="PaymentData.dbo" name="Project" color="BED3F4" x="1040" y="48" />
+		<entity schema="PaymentData.dbo" name="Supplier" color="BED3F4" x="48" y="400" />
+		<script name="SQL Editor" id="Editor-e66" language="SQL" >
+			<string><![CDATA[SELECT
+	Oid, Balance, Name, OptimisticLockField, GCRecord, ObjectType, ActiveFrom, InactiveFrom, BankDetails, Balance2, Balance3
+FROM
+	PaymentData.dbo.PaymentParticipant t;
+GO]]></string>
+		</script>
+		<browser id="Browse-10c2" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="PaymentData.dbo" entity="PaymentParticipant" x="20" y="20" width="400" height="300" >
+				<browse_table schema="PaymentData.dbo" entity="Supplier" fk="FK_Supplier_Oid" x="440" y="20" width="500" height="350" />
+			</browse_table>
+		</browser>
+		<query id="Query-15b4" name="Query Builder" >
+			<query_table schema="PaymentData.dbo" name="PaymentParticipant" alias="p" x="48" y="48" >
+				<column name="Oid" />
+				<column name="Balance" />
+				<column name="Name" />
+				<column name="OptimisticLockField" />
+				<column name="GCRecord" />
+				<column name="ObjectType" />
+				<column name="ActiveFrom" />
+				<column name="InactiveFrom" />
+				<column name="BankDetails" />
+				<column name="Balance2" />
+				<column name="Balance3" />
+				<query_table schema="PaymentData.dbo" name="Supplier" alias="s" x="288" y="48" fk="FK_Supplier_Oid" type="Inner Join" >
+					<column name="Oid" />
+					<column name="Contact" />
+					<column name="ProfitByMaterialAsPayer" />
+					<column name="ProfitByMaterialAsPayee" />
+					<column name="CostByMaterialAsPayer" />
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Report" id="Report-25d6" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" scroll="n" html="n" >
+				<cell type="label" name="Paymentparticipant Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="Oid" type="1" />
+						<var name="Balance" type="4" />
+						<var name="Name" type="-1" />
+						<var name="OptimisticLockField" type="4" />
+						<var name="GCRecord" type="4" />
+						<var name="ObjectType" type="4" />
+						<var name="ActiveFrom" type="92" />
+						<var name="InactiveFrom" type="92" />
+						<var name="BankDetails" type="-1" />
+						<var name="Balance2" type="4" />
+						<var name="Balance3" type="4" />
+						<script ><![CDATA[SELECT * FROM PaymentData.dbo.PaymentParticipant]]></script>
+					</form_script>
+					<param name="i0" value="Oid" />
+					<param name="width" value="100%" />
+					<param name="v0" value="Balance" />
+					<param name="title" value="Sample Chart" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" css="table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2,-2},{-2,-2}}" scroll="n" html="n" header_rows="1" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="Oid" type="1" />
+						<var name="Balance" type="4" />
+						<var name="Name" type="-1" />
+						<var name="OptimisticLockField" type="4" />
+						<var name="GCRecord" type="4" />
+						<var name="ObjectType" type="4" />
+						<var name="ActiveFrom" type="92" />
+						<var name="InactiveFrom" type="92" />
+						<var name="BankDetails" type="-1" />
+						<var name="Balance2" type="4" />
+						<var name="Balance3" type="4" />
+						<script ><![CDATA[SELECT * FROM PaymentData.dbo.PaymentParticipant]]></script>
+					</form_script>
+					<cell type="label" name="Oid" pos="0,0,0,0,c,c" />
+					<cell type="label" name="Balance" pos="1,0,1,0,c,c" />
+					<cell type="label" name="Name" pos="2,0,2,0,c,c" />
+					<cell type="label" name="OptimisticLockField" pos="3,0,3,0,c,c" />
+					<cell type="label" name="GCRecord" pos="4,0,4,0,c,c" />
+					<cell type="label" name="ObjectType" pos="5,0,5,0,c,c" />
+					<cell type="label" name="Button can open other pages." pos="6,0,6,0,c,c" />
+					<cell type="label" name="${Oid}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${Balance}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${Name}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${OptimisticLockField}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${GCRecord}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="label" name="${ObjectType}" template="Plain" pos="5,1,5,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="6,1,6,1,c,c" ref_id="Report-25d6" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="bi-chevron_double_left" ref_id="Report-25d6" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="bi-chevron_left" ref_id="Report-25d6" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="bi-chevron_right" ref_id="Report-25d6" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>
