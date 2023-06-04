@@ -1,0 +1,11 @@
+USE [PaymentData]
+GO
+
+BEGIN TRAN tr
+	UPDATE [dbo].[Payment]
+	SET Amount = 10000
+	WHERE Oid = '5C0D58E1-0C62-65F6-7508-BB3227AF101F'
+ROLLBACK TRAN tr
+GO
+
+
