@@ -1,0 +1,53 @@
+0. Генерация данных:
+
+Параметры: 40 проектов, 500 участников, 10000 оплат
+
+Тестирование баланса:
+
+Initial balances
+bank balance: -4157400
+cashbox balance: -1267500
+manager balance: -1299200
+foreman balance: -1366200
+client balance: -1033000
+supplier balance: 262000
+
+Payment #1
+bank: Old balance: -4157400; New balance: -4557400; Diff: -400000
+cashbox: Old balance: -1267500; New balance: -1267500; Diff: 0
+manager: Old balance: -1299200; New balance: -1299200; Diff: 0
+foreman: Old balance: -1366200; New balance: -1366200; Diff: 0
+client: Old balance: -1033000; New balance: -1033000; Diff: 0
+supplier: Old balance: 262000; New balance: 662000; Diff: 400000
+
+Payment #2
+bank: Old balance: -4157400; New balance: -4557400; Diff: -400000
+cashbox: Old balance: -1267500; New balance: -1267500; Diff: 0
+manager: Old balance: -1299200; New balance: -1299200; Diff: 0
+foreman: Old balance: -1366200; New balance: -1366200; Diff: 0
+client: Old balance: -1033000; New balance: -933000; Diff: 100000
+supplier: Old balance: 262000; New balance: 562000; Diff: 300000
+
+Payment #3
+bank: Old balance: -4157400; New balance: -4557400; Diff: -400000
+cashbox: Old balance: -1267500; New balance: -1117500; Diff: 150000
+manager: Old balance: -1299200; New balance: -1299200; Diff: 0
+foreman: Old balance: -1366200; New balance: -1366200; Diff: 0
+client: Old balance: -1033000; New balance: -1083000; Diff: -50000
+supplier: Old balance: 262000; New balance: 562000; Diff: 300000
+
+Payment #4
+bank: Old balance: -4157400; New balance: -4457400; Diff: -300000
+cashbox: Old balance: -1267500; New balance: -1217500; Diff: 50000
+manager: Old balance: -1299200; New balance: -1299200; Diff: 0
+foreman: Old balance: -1366200; New balance: -1366200; Diff: 0
+client: Old balance: -1033000; New balance: -1083000; Diff: -50000
+supplier: Old balance: 262000; New balance: 562000; Diff: 300000
+
+
+1. Оптимизация с помощью индексов
+CREATE UNIQUE INDEX i1 ON [dbo].[Payment] (Oid, Payer, Amount);
+CREATE UNIQUE INDEX i2 ON [dbo].[Payment] (Oid, Payee, Amount);
+CREATE UNIQUE INDEX i3 ON [dbo].[PaymentParticipant] (Oid);
+
+Среднее время вставки без индексов - 2.03-2.42 секунды, с индексами - 1.59-1.84 секунд
