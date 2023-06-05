@@ -62,7 +62,6 @@ BEGIN TRY
     DECLARE @supplier_balance_new INT
 
     EXEC set_balances @bank_id_new, @cashbox_id_new, @client_id_new, @supplier_id_new,
-                      N'Аванс на материалы',
                       @bank_balance_new OUTPUT, @cashbox_balance_new OUTPUT,
                       @client_balance_new OUTPUT, @supplier_balance_new OUTPUT,
                       @category_id_new OUTPUT
@@ -83,7 +82,7 @@ BEGIN TRY
     )
     VALUES (
         NEWID(), 400000, @category_id_new, @project_id_new, NULL,
-        N'备注', GETDATE(), @bank_id_new, @supplier_id_new, NULL, NULL,
+               , GETDATE(), @bank_id_new, @supplier_id_new, NULL, NULL,
         GETDATE(), '111111', 0, '222222'
     )
 
@@ -94,7 +93,6 @@ BEGIN TRY
     )
 
     EXEC set_balances @bank_id_new, @cashbox_id_new, @client_id_new, @supplier_id_new,
-                      N'Списание материалов',
                       @bank_balance_new OUTPUT, @cashbox_balance_new OUTPUT,
                       @client_balance_new OUTPUT, @supplier_balance_new OUTPUT,
                       @category_id_new OUTPUT
@@ -106,7 +104,6 @@ BEGIN TRY
     )
     VALUES (
         NEWID(), 100000, @category_id_new, @project_id_new, NULL,
-        N'Для клиента приобрели материал. Поставщик нам должен меньше, а клиент должен за материалы',
         GETDATE(), @supplier_id_new, @client_id_new, NULL, NULL,
         GETDATE(), '111111', 0, '222222'
     )
@@ -118,7 +115,6 @@ BEGIN TRY
     )
 
     EXEC set_balances @bank_id_new, @cashbox_id_new, @client_id_new, @supplier_id_new,
-                      N'Списание материалов',
                       @bank_balance_new OUTPUT, @cashbox_balance_new OUTPUT,
                       @client_balance_new OUTPUT, @supplier_balance_new OUTPUT,
                       @category_id_new
@@ -130,7 +126,7 @@ BEGIN TRY
     )
     VALUES (
         NEWID(), 150000, @category_id_new, @project_id_new, NULL,
-        N'备注', GETDATE(), @client_id_new, @cashbox_id_new, NULL, NULL,
+                 GETDATE(), @client_id_new, @cashbox_id_new, NULL, NULL,
         GETDATE(), '111111', 0, '222222'
     )
 
@@ -141,7 +137,6 @@ BEGIN TRY
     )
 
     EXEC set_balances @bank_id_new, @cashbox_id_new, @client_id_new, @supplier_id_new,
-                      N'Возврат кредита',
                       @bank_balance_new OUTPUT, @cashbox_balance_new OUTPUT,
                       @client_balance_new OUTPUT, @supplier_balance_new OUTPUT,
                       @category_id_new
@@ -153,7 +148,7 @@ BEGIN TRY
     )
     VALUES (
         NEWID(), 100000, @category_id_new, @project_id_new, NULL,
-        N'Частично гасим кредит', GETDATE(), @cashbox_id_new, @bank_id_new, NULL, NULL,
+        GETDATE(), @cashbox_id_new, @bank_id_new, NULL, NULL,
         GETDATE(), '111111', 0, '222222'
     )
 
